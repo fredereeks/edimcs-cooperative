@@ -15,7 +15,7 @@ export default function Home() {
             <p className="text-base sm:text-lg opacity-80 font-medium max-w-lg leading-loose text-justify py-2">We are a smart saving cooperative company that helps you set your money apart for future use. We provide guaranteed withdrawal, real-time tracking and incredible potential for your financial life.</p>
             <div className="py-3 flex gap-2 sm:gap-4 items-center">
               <Link href="/signup" className="bg-primary w-max rounded-full py-2 px-5 text-white shadow-blue-900">Get Started</Link>
-              <Link href="/scripts/82934626" className="w-max hover:bg-slate-700 bg-sky-50 text-sky-500 rounded-full hover:text-white text-sm font-bold flex items-center py-3 px-9">Learn More</Link>
+              <Link href="/about" className="w-max hover:bg-slate-700 bg-sky-50 text-sky-500 rounded-full hover:text-white text-sm font-bold flex items-center py-3 px-9">Learn More</Link>
             </div>
           </aside>
           <aside className="relative h-full hidden sm:flex">
