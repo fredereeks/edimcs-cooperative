@@ -7,6 +7,10 @@
   padding: 0;
 }
 
+html,body{
+  overflow-x: hidden;
+}
+
 @layer components {
   .overlay{
     @apply top-0 left-0 absolute w-full h-full;
