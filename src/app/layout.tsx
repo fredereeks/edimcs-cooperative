@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import './globals.css'
-import {  Footer, Header } from '@/components'
+import {  AosProvider, Footer, Header } from '@/components'
 import { Toaster } from 'react-hot-toast'
 
 const inter = Inter({ subsets: ['latin'] })
@@ -20,11 +20,13 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${inter.className} flex flex-col`}>
-        <Header />
         <Toaster />
-        {/* <AosProvider> */}
-          {children}
-        {/* </AosProvider> */}
+        <Header />
+        <AosProvider>
+          <>
+            {children}
+          </>
+        </AosProvider>
         <Footer />
       </body>
     </html>

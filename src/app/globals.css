@@ -18,4 +18,7 @@ html,body{
   .after-overlay{
     @apply after:top-0 after:left-0 after:absolute after:w-full after:h-full;
   }
+  .before-overlay{
+    @apply before:top-0 before:left-0 before:absolute before:w-full before:h-full;
+  }
 }

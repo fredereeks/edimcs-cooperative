@@ -1,8 +1,13 @@
 'use client'
 import Aos from 'aos'
-import React from 'react'
+import React, { ReactNode } from 'react'
 
-export default function AosProvider({children} : {children: React.ReactNode}) {
+// type LayoutProps = {children?: ReactNode}
+interface LayoutProps {
+  children: React.ReactNode
+}
+
+export default function AosProvider({children} : LayoutProps) {
     React.useEffect(() => {
         Aos.init({
             duration: 3000,
@@ -10,6 +15,8 @@ export default function AosProvider({children} : {children: React.ReactNode}) {
         })
     },[])
   return (
-    {children}
+    <>
+      {children}
+    </>
   )
 }
