@@ -51,8 +51,8 @@ export default function Header() {
                         <Link href="/login" className="relative flex gap-2 items-center self-center md:rounded-full w-full md:w-max md:ml-5 px-5 md:px-7 py-2 h-max bg-primary text-white text-sm">Login</Link>    
                     </ul>
                 </nav>
-                <aside className="relative z-50 ml-auto w-[4rem] sm:w-max md:w-max flex gap-2 items-center justify-center sm:pr-0">
-                  <div className="relative md:hidden flex gap-2 items-center pr-4 md:p-1">
+                <aside className="relative z-50 ml-auto w-[4rem] sm:w-max md:w-max flex gap-2 items-center justify-end sm:pr-0">
+                  <div className="relative md:hidden flex gap-2 items-center md:p-1">
                       <div className="relative py-2 px-1 cursor-pointer rounded-sm w-[35px] h-[20px] flex md:hidden items-center" onClick={() => setNavShow(prev => !prev)}>
                           <div className={`relative h-[2px] w-full ${navShow ? 'bg-transparent' : 'bg-gray-400 rounded-lg'} ${navShow ? 'before:rotate-[40deg] before:-translate-y-[400%]' : 'before:rotate-0 before:-translate-y-[400%]'} before:transition-all before:duration-300 before:origin-top-left before:h-full before:w-full before:left-0 before:bg-gray-400 rounded-lg before:absolute before:z-10 ${navShow ? 'after:rotate-[-40deg] after:translate-y-[400%]' : 'after:rotate-0 after:translate-y-[400%]'} after:transition-all after:duration-300 after:origin-bottom-left after:h-full after:w-full after:right-0  after:bg-gray-400 rounded-lg after:absolute after:z-10`}></div>
                       </div>

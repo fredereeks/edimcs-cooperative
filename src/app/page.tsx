@@ -1,4 +1,4 @@
-import { edimcs_coinstack, edimcs_piggyvest } from '@/assets/images'
+import { edimcs_calculator, edimcs_coinstack, edimcs_moneycount, edimcs_piggyvest } from '@/assets/images'
 import Image from 'next/image'
 import Link from 'next/link'
 import { IoAirplaneOutline, IoKeyOutline, IoMailUnreadSharp, IoPeopleOutline, IoScaleOutline, IoTelescopeOutline } from 'react-icons/io5'
@@ -14,19 +14,33 @@ export default function Home() {
             <h2 className="text-3xl sm:text-4xl font-semibold max-w-md sm:max-w-lg leading-tight">Saving you Money before you know it. Literally!</h2>
             <p className="text-base sm:text-lg opacity-80 font-medium max-w-lg leading-loose text-justify py-2">We are a smart saving cooperative company that helps you set your money apart for future use. We provide guaranteed withdrawal, real-time tracking and incredible potential for your financial life.</p>
             <div className="py-3 flex gap-2 sm:gap-4 items-center">
-              <Link href="/signup" className="bg-slate-800 w-max rounded-full py-2 px-5 text-white shadow-blue-900">Get Started</Link>
+              <Link href="/signup" className="bg-slate-800 w-max rounded-full py-3 px-5 md:px-8 text-white shadow-blue-900">Get Started</Link>
               <Link href="/about" className="w-max hover:bg-slate-700 bg-sky-50 text-slate-700 rounded-full hover:text-white text-sm font-bold flex items-center py-3 px-9">Learn More</Link>
             </div>
           </aside>
           <aside className="relative h-full hidden sm:flex">
-            <Image src={edimcs_piggyvest} alt='Edimcs Money Calculator Image' fill={true} className="overlay left-0 top-0 object-cover" />
+            <Image src={edimcs_moneycount} alt='Edimcs Money Calculator Image' fill={true} className="overlay left-0 top-0 object-cover" />
+          </aside>
+        </div>
+      </section>
+      <section className="py-20 px-4 bg-white relative">
+        <div className="container mx-auto flex flex-col gap-6 md:flex-row py-10 md:py-20">
+          <aside className="relative flex-1 flex justify-end">
+            <div className="relative min-h-[200px] sm:h-full p-10 w-full overflow-hidden">
+              <Image src={edimcs_calculator} alt='Money Saver Calculator' className='rounded-xl object-cover' fill={true} />
+            </div>
+          </aside>
+          <aside className="py-10 md:py-20 flex flex-col gap-2 md:justify-between text-justify">
+            <h3 className="text-slate-700 text-4xl sm:text-5xl md:text-6xl text-left leading-snug font-bold max-w-md sm:max-w-lg pb-4">A <span className="text-red-500">Cooperative</span> with a Pedigree.</h3>
+            <p style={{ lineHeight: 1.9 }} className="text-slate-400 text-xs sm:text-sm leading-loose font-light max-w-md sm:max-w-lg">Enlightenment Drive Initiative Co-operative Society (EDIMCS)  largest cooperative organization among cooperatives in Nigeria and in the world, with the goal of achieving a first-world Nigeria with empowerment and housing for low-income and small and medium enterprises as our primary goal.</p>
+            <p style={{ lineHeight: 1.9 }} className="text-slate-400 text-xs sm:text-sm leading-loose font-light max-w-md sm:max-w-lg">Our aim at EDIMCS is to level up the playing field in the cooperative industry through the power of team, cooperation, and networking.</p>
           </aside>
         </div>
       </section>
       <section className="relative py-20 px-4 bg-slate-50">
         <div className="relative z-20 container mx-auto flex flex-col gap-5 py-20">
           {/* <h2 className="text-2xl sm:text-3xl md:text-4xl font-medium sm:font-semibold max-w-lg mx-auto leading-tight text-slate-700">What we <span className="border-b-4 border-red-500">Stand</span> For</h2> */}
-          <h2 className="text-slate-700 text-4xl sm:text-5xl md:text-6xl leading-snug font-bold max-w-md sm:max-w-xl mx-auto">What we <span className="border-b-4 border-red-500">Stand</span> For<span className="text-red-500">.</span></h2>
+          <h2 className="text-slate-700 text-4xl sm:text-5xl md:text-6xl leading-snug font-bold max-w-md sm:max-w-xl mx-auto">What we <span className="text-primary">Stand</span> For<span className="text-red-500">.</span></h2>
           <div className="relative z-20 container mx-auto py-5 grid sm:grid-cols-2 md:grid-cols-3 text-white">
             {
               [
@@ -57,11 +71,11 @@ export default function Home() {
             <aside className="relative flex flex-col gap-6 py-5 sm:p-4">
               {
                 [
-                  {id: 28791, title: "Fairness",  text: "balancing the interest of members by bridging the gap in communications concerning our activities", icon: <AiOutlineBank className="text-inherit" />},
-                  {id: 28792, title: "Integrity",  text: "upholding professionalism to its highest standards", icon: <AiOutlineAccountBook className="text-inherit" />},
-                  {id: 28793, title: "Honesty",  text: "ensuring responsive communication and genuine service in all business delivery’", icon: <IoScaleOutline className="text-inherit" />},
-                  {id: 28794, title: "Hard work", text: "capitalizing on excellent work performance", icon: <IoMailUnreadSharp className="text-inherit" />},
-                  {id: 28795, title: "Teamwork",  text: "together, everybody, achieves miracles", icon: <IoPeopleOutline className="text-inherit" />},
+                  { id: 28791, title: "Fairness", text: "balancing the interest of members by bridging the gap in communications concerning our activities", icon: <AiOutlineBank className="text-inherit" /> },
+                  { id: 28792, title: "Integrity", text: "upholding professionalism to its highest standards", icon: <AiOutlineAccountBook className="text-inherit" /> },
+                  { id: 28793, title: "Honesty", text: "ensuring responsive communication and genuine service in all business delivery’", icon: <IoScaleOutline className="text-inherit" /> },
+                  { id: 28794, title: "Hard work", text: "capitalizing on excellent work performance", icon: <IoMailUnreadSharp className="text-inherit" /> },
+                  { id: 28795, title: "Teamwork", text: "together, everybody, achieves miracles", icon: <IoPeopleOutline className="text-inherit" /> },
                 ].map((value) => (
                   <aside key={value.id} className="flex items-center gap-2">
                     <div className="flex flex-col gap-1 items-center w-[5rem] text-center">
