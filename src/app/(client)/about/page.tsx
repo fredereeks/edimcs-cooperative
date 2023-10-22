@@ -2,10 +2,25 @@ import { edimcs_blackpeople } from '@/assets/images'
 import Image from 'next/image'
 import Link from 'next/link'
 import React from 'react'
+import parse from 'html-react-parser'
 import { AiFillCompass, AiOutlineIdcard, AiOutlineKey } from 'react-icons/ai'
 import { IoAirplaneOutline, IoArrowForward, IoScaleOutline, IoTelescopeOutline } from 'react-icons/io5'
+import { FaScaleBalanced } from 'react-icons/fa6'
 
 export default function page() {
+  const missions = ["To empower people and organizations toward optimum productivity and efficiency through cooperation and upholding and spreading a mindset and culture of abundance within the industry.",
+  "Establishing the cooperative in all 36 states and the Federal Capital Territory- Abuja in the first year through partnership with relevant organizations.",
+  "To target and register members with a membership fee of &#8358;5,000.00 per individual and &#8358;50,000 corporate or currency equivalence in each of the states/ FCT-Abuja of Nigeria and worldwide through inter-personal marketing and e-commerce marketing (social media, website etc). In the first year of operation our target is 200,000 members after the first year, 800,000 members in two years and 3,200,000 members in three.",
+  "All registered members must meet management membership recruit targets as periodically awarded by the State/National President or Vice-President at National management committee levels.",
+  "Marketing/ Networking models shall be either as employed ad-hoc staff or paid volunteerism with a commission of 20% of every registered member in all category based on registered fee and shall be paid through chaque or electronic transfer and must be reciepted and signed by the beneficiary. Maketers must be put on target not less than 100 members in a month and defulters will only be given 60 days grace to make up or will be sacked or replaced. Our focus is to generate funds through our thrift /savings of at least five hundred million naira (&#8358;500,000,000.00) within the first year of operation in each of the cooperative branches in the 36 states and Abuja through aggressive marketing using all possible media and strategies (for example, engaging voluntary and employed paid ad-hoc staff as marketers).",
+  "Will shall be focusing on establishing at least one EDIMCS Microfinance Bank(s) in all major cities/ recommended towns of all states and Abuja within 10 years of operations.",
+  "Establishing at least one agro-based farm(s) in all major cities/ recommended towns of all states and Abuja within 5 years of operation.",
+  "We will partner with insurance company to register our members under health insurance within two years of operation in the 36 states and Abuja.",
+  "Diversifying into other enterprises like oil and gas, educational institutions/ services, etc. within three years of operation in the 36 states and Abuja.",
+  "Establishing (a) national/ sub-national conference(s) that shall once annually bring together all branches of the Cooperative in Nigeria for cross-fertilization on principles and practices of our Cooperative system and a means to strengthen weaker branches and award achievers.",
+  "Establishing EDIMCS Nigeria Limited within the first year of operation to formally and corporativly package all our financial activities to enable international trajectory, with activities including financial consultancy, investments etc.As Edimcs grow, we shall diversify into business that will benefit our members.",
+  "All the above activities of the cooperative shall be conducted with the aim of assisting the government by supporting the SME and ultimately contributing to the Gross Domestic Product (GDP) in Nigeria."]
+
   return (
     <main className="flex flex-col relative">
       <section className="py-20 px-4 bg-white relative">
@@ -50,7 +65,7 @@ export default function page() {
               [
                 [8345830, 'Our Vision', "To be the largest cooperative organization among cooperatives in Nigeria and in the world; with the goal of achieving a first-world Nigeria with empowerment and housing for low-income and small and medium enterprises as our primary goal.", <IoTelescopeOutline key={8345800} className="text-inherit" />],
                 [8345831, 'Our Mission', "To empower people and organizations toward optimum productivity and efficiency through cooperation and upholding and spreading a mindset and culture of abundance within the industry", <IoAirplaneOutline key={8345801} className="text-inherit" />],
-                [8345832, 'Our Values', "To uphold the oriented cooperative value in business of fairness, integrity, Honesty, Hard Work and Teamwork, operating on processes involved around maintaining a balance between business and people’s and service above profile.", <IoScaleOutline key={8345802} className="text-inherit" />],
+                [8345832, 'Our Values', "To uphold the oriented cooperative value in business of fairness, integrity, Honesty, Hard Work and Teamwork, operating on processes involved around maintaining a balance between business and people’s and service above profile.", <FaScaleBalanced key={8345802} className="text-inherit" />],
               ].map((([id, title, text, icon], i) => (
                 <aside key={id.toString()} className={`${i === 0 ? 'bg-zinc-800 sm:col-span-2 md:col-span-1' : i === 1 ? 'bg-zinc-800/80' : 'bg-zinc-800/10'} p-7 flex flex-col gap-2`}>
                   <span className={`text-3xl sm:text-4xl flex-shrink-0 pt-5 ${i === 0 ? 'text-slate-100' : i === 1 ? 'text-slate-300' : 'text-slate-700'}`}>{icon}</span>
@@ -70,45 +85,30 @@ export default function page() {
             <p className="text-xs font-light max-w-xs text-slate-700">More on Mission</p>
             <h3 className="flex-1 sm:ml-11 text-slate-700 text-4xl sm:text-5xl leading-tight font-bold max-w-md sm:max-w-2xl">Here&apos;s more on our <span className="text-primary"> mission</span> towards our members.</h3>
           </div>
-          <div className="relative z-20 container mx-auto py-20 grid sm:grid-cols-2 md:grid-cols-3 text-white">
-            {/* 1. To empower people and organizations toward optimum productivity and efficiency through cooperation and upholding and spreading a mindset and culture of abundance
-            within the industry.
-            2. Establishing the cooperative in all 36 states and the Federal Capital Territory- Abuja in the first year through partnership with relevant organizations.
-            3. To target and register members with a membership fee of #5,000.00 per individual and &#8358;50,000 corporate or currency equivalence in each of the states/ FCT-Abuja of Nigeria
-            and worldwide through inter-personal marketing and e-commerce marketing (social media, website, etc. In the first year of operation our target is 200,000 members after the
-            first year, 800,000 members in two years and 3,200,000 members in three.
-            4. All registered members must meet management membership recruit targets as periodically awarded by the State/National President or Vice-President at National
-            management committee levels.
-            5. Marketing/ Networking models shall be either as employed ad-hoc staff or paid volunteerism with a commission of 20% of every registered member in all category
-            based on registered fee and shall be paid through chaque or electronic transfer and must be reciepted and signed by the beneficiary. Maketers must be put on target not less
-            than 100 members in a month and defulters will only be given 60 days grace to make up or will be sacked or replaced. Our focus is to generate funds through our thrift /savings of
-            at least five hundred million naira (N500,000,000.00) within the first year of operation in each of the cooperative branches in the 36 states and Abuja through aggressive
-            marketing using all possible media and strategies plfor example, engaging voluntary and employed paid ad-hoc staff as marketers).
-            6. Will shall be focusing on establishing at least one EDIMCS Microfinance Bank(s) in all
-            major cities/ recommended towns of all states and Abuja within 10 years of operations.
-            7. Establishing at least one agro-based farm(s) in all major cities/ recommended towns of
-            all states and Abuja within 5 years of operation.
-            8. We will partner with insurance company to register our members under health insurance
-            within two years of operation in the 36 states and Abuja.
-            9. Diversifying into other enterprises like oil and gas, educational institutions/ services, etc.
-            within three years of operation in the 36 states and Abuja.
-            10. Establishing (a) national/ sub-national conference(s) that shall once annually bring
-            together all branches of the Cooperative in Nigeria for cross-fertilization on principles
-            and practices of our Cooperative system and a means to strengthen weaker branches
-            and award achievers.
-            11. Establishing EDIMCS Nigeria Limited within the first year of operation to formally and
-            corporativly package all our financial activities to enable international trajectory, with
-            activities including financial consultancy, investments etc.As Edimcs grow, we shall
-            diversify into business that will benefit our members.
-            12. All the above activities of the cooperative shall be conducted with the aim of assisting the
-            government by supporting the SME and ultimately contributing to the Gross Domestic
-            Product (GDP) in Nigeria. */}
-
+          <div className="relative z-20 container mx-auto py-20 grid sm:grid-cols-2 text-slate-500 gap-4 md:gap-8 text-justify">
+            <div className="flex flex-col gap-2">
+              {
+                missions.slice(0,5).map((mission, i) => (
+                  <div key={i} className="flex items-start gap-4 text-sm sm:text-base">
+                    <span className="leading-loose mission_listing">{i+1}.</span>
+                    <p className="leading-loose">{parse(mission)}</p>
+                  </div>
+                ))
+              }
+            </div>
+            <div className="flex flex-col gap-2">
+              {
+                missions.slice(5).map((mission, i) => (
+                  <div key={i+6} className="flex items-start gap-4 text-sm sm:text-base">
+                    <span className="leading-loose mission_listing">{i+6}.</span>
+                    <p className="leading-loose">{parse(mission)}</p>
+                  </div>
+                ))
+              }
+            </div>
           </div>
         </div>
-
       </section>
-
     </main>
   )
 }

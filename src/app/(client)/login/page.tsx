@@ -28,7 +28,7 @@ export default function page() {
   return (
     <main className="flex flex-col relative">
       {/* <Image src={edimcs_cliff} alt='Edimcs Money Calculator Image' fill={true} className="overlay left-0 top-0 object-cover" /> */}
-      <section className="shadow-lg shadow-slate-950 flex flex-col relative before:hidden md:before:flex before-overlay before:bg-neutral-50 after-overlay  after:bg-white after:left-1/2 px-4 ">
+      <section className="shadow-lg shadow-slate-950 flex flex-col relative before:hidden md:before:flex before-overlay before:bg-neutral-50 after-overlay  after:bg-white after:left-1/2">
 
         <div className="container mx-auto flex flex-col-reverse md:flex-row relative z-10">
           <aside className="py-5 sm:py-20 flex flex-col justify-center flex-1 realtive overflow-hidden">
@@ -43,7 +43,7 @@ export default function page() {
               <Link download={'EDIMCS_APPLICATION_FORM-edimcs.com'} href={"/documents/EDIMCS-LOAN-APPLICATION-FORM.pdf"} className="text-center cursor-pointer mx-auto z-20 relative before:absolute before:w-1/6 before:top-1/2 before:-translate-y-1/2 before:right-full before:h-[1px] before:bg-slate-300 before:rounded-md before:z-10  after:absolute after:w-1/6 after:top-1/2 after:-translate-y-1/2 after:left-full after:h-[1px] after:bg-slate-300 after:rounded-md after:z-10 w-max bg-neutral-50 py-2 px-3 text-sm text-slate-400">Download the Member Account Form</Link>
             </div>
           </aside>
-          <aside className="py-20 md:pt-36 p-5 flex flex-col gap-4 flex-1 bg-primary/50">
+          <aside className="py-20 pt-36 p-5 flex flex-col gap-4 flex-1 bg-primary/50">
             <h3 className="text-slate-50 text-4xl sm:text-5xl md:text-6xl leading-tight font-bold max-w-md sm:max-w-xl">Welcome Back <span className="text-primary">Esteem</span> Member<span className="text-red-500">.</span></h3>
             <p className="text-slate-50 text-sm leading-loose max-w-lg">.</p>
           </aside>

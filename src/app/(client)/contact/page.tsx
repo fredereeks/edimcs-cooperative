@@ -5,7 +5,7 @@ import { IoGlobeOutline, IoHomeOutline, IoPhoneLandscape } from 'react-icons/io5
 export default function page() {
   return (
     <main className="flex flex-col relative">
-      <section className="flex flex-col relative before:hidden md:before:flex before-overlay before:bg-primary/20 after-overlay  after:bg-neutral-50 after:left-1/2 px-4">
+      <section className="flex flex-col relative before:hidden md:before:flex before-overlay before:bg-primary/20 after-overlay  after:bg-neutral-50 after:left-1/2">
         <div className="container mx-auto flex flex-col md:flex-row relative z-10">
           <aside className="py-20 flex flex-col justify-center flex-1">
             <h3 className="hidden md:flex text-slate-700 opacity-10 md:text-9xl leading-tight font-bold max-w-md sm:max-w-lg">ED<br />IM<br />CS.</h3>
