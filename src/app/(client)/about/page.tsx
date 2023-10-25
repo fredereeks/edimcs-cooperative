@@ -27,7 +27,7 @@ export default function page() {
         <div className="container mx-auto flex flex-col gap-6 md:flex-row">
           <aside className="flex-1 flex flex-col justify-center gap-4 py-10 md:py-20">
             <h3 className="text-slate-700 text-4xl sm:text-5xl md:text-6xl leading-tight font-bold max-w-md sm:max-w-lg"><span className="text-red-500">Spend</span> less, <span className="text-primary">save</span> more.</h3>
-            <p style={{ lineHeight: 1.9 }} className="text-slate-400 text-xs sm:text-sm leading-loose font-light max-w-md sm:max-w-lg">Put money away automatically while you live your life. Juse set a goal and watch your savings grow.</p>
+            <p style={{ lineHeight: 1.9 }} className="text-slate-500 dark:text-slate-400 text-xs sm:text-sm leading-loose font-light max-w-md sm:max-w-lg">Put money away automatically while you live your life. Juse set a goal and watch your savings grow.</p>
             <Link href={'/about'} className='text-sm text-slate-600 font-semibold flex'>Learn More <IoArrowForward className="text-inherit text-xs font-extrabold m-1" /></Link>
           </aside>
           <aside className="relative flex-1 flex justify-end">
@@ -85,7 +85,7 @@ export default function page() {
             <p className="text-xs font-light max-w-xs text-slate-700">More on Mission</p>
             <h3 className="flex-1 sm:ml-11 text-slate-700 text-4xl sm:text-5xl leading-tight font-bold max-w-md sm:max-w-2xl">Here&apos;s more on our <span className="text-primary"> mission</span> towards our members.</h3>
           </div>
-          <div className="relative z-20 container mx-auto py-20 grid sm:grid-cols-2 text-slate-500 gap-4 md:gap-8 text-justify">
+          <div className="relative z-20 container mx-auto py-20 grid sm:grid-cols-2 text-slate-500 dark:text-slate-400 gap-4 md:gap-8 text-justify">
             <div className="flex flex-col gap-2">
               {
                 missions.slice(0,5).map((mission, i) => (

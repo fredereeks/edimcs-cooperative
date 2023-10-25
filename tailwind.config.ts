@@ -12,7 +12,9 @@ const config: Config = {
         'xs': '512px'
       },
       colors: {
-        primary: '#3b82f6'
+        primary: '#3b82f6',
+        success: "#09dba0",
+        danger: "#f34f7c",
       }
     },
   },

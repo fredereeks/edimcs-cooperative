@@ -8,7 +8,7 @@ export default function Footer() {
   return (
     <footer className="py-10 px-4 flex flex-col relative after-overlay after:bg-slate-900/95">
       <Image src={edimcs_calculator} alt='Edimcs Money Calculator Image' fill={true} className="overlay left-0 top-0 object-cover" />
-      <div className="container mx-auto py-4 grid sm:grid-cols-3 md:grid-cols-3 justify-center gap-4 relative z-20">
+      <div className="container mx-auto py-4 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-3 justify-center gap-4 relative z-20">
         {footerLinks.slice(0,3).map((footer,i) => (
           <aside key={footer.id} className={`flex flex-col gap-3 ${i === 0 ? 'col-span-3 sm:col-span-1' : 'col-span-1 sm:pl-5 sm:ml-7'}`}>
             <h2 className="text-slate-300 font-bold text-base sm:text-xl md:text-2xl">{footer.title}</h2>

@@ -3,7 +3,7 @@
 import React, { DOMElement } from 'react'
 import { usePathname } from 'next/navigation'
 import Link from 'next/link'
-import { IoNotificationsOutline, IoLogOutOutline, IoMenuOutline, IoSunnyOutline } from "react-icons/io5";
+import { IoMailUnreadOutline, IoLogOutOutline, IoMenuOutline, IoSunnyOutline } from "react-icons/io5";
 import { IoMoonOutline } from "react-icons/io5";
 
 type handleClickProp = {
@@ -28,7 +28,7 @@ export default function DashHeader({handleClick, darkMode, toggleDarkMode}: hand
             <div className="flex items-center gap-1 w-max">
                 <Link href="/dashboard/messages" className="text-sm md:text-base text-slate-400 p-1 relative flex">
                     {/* <ToolTip text={'Check Notifications'} direction='bottom' /> */}
-                    <IoNotificationsOutline size={16} className='text-inherit' />
+                    <IoMailUnreadOutline size={16} className='text-inherit' />
                 </Link>
                 <Link href="/logout" className="text-sm md:text-base text-slate-400 p-1 relative flex">
                     {/* <ToolTip text={'Logout'} /> */}

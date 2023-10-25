@@ -34,7 +34,7 @@ export default function page() {
           </aside>
           <aside className="py-20 md:pt-36 p-5 flex flex-col gap-4 flex-1 bg-neutral-50">
             <h3 className="text-slate-700 text-4xl sm:text-5xl md:text-6xl leading-tight font-bold max-w-md sm:max-w-xl">A <span className="text-primary">Trusted</span> Household Name<span className="text-red-500">.</span></h3>
-            <p className="text-slate-400 text-sm leading-loose max-w-lg">We are committed to helping you achieve your financial goals through a secure, dedicated and consistent saving habit.</p>
+            <p className="text-slate-500 dark:text-slate-400 text-sm leading-loose max-w-lg">We are committed to helping you achieve your financial goals through a secure, dedicated and consistent saving habit.</p>
           </aside>
         </div>
       </section>

@@ -3,6 +3,7 @@ import { Inter } from 'next/font/google'
 import '../globals.css'
 import DashLayout from '@/app/(auth)/components/DashLayout'
 
+
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {

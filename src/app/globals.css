@@ -21,4 +21,63 @@ html,body{
   .before-overlay{
     @apply before:top-0 before:left-0 before:absolute before:w-full before:h-full;
   }
+  .bg-orange-grad{
+    @apply bg-gradient-to-br from-orange-600 to-orange-400;
+  }
+  .bg-primary-grad{
+    @apply bg-gradient-to-br from-primary to-blue-700;
+  }
+  .bg-purple-grad{
+    @apply bg-gradient-to-br from-indigo-600 to-indigo-400;
+  }
+  .bg-red-grad{
+    @apply bg-gradient-to-br from-danger to-rose-600;
+  }
+  .bg-green-grad{
+    @apply bg-gradient-to-br from-teal-500 to-teal-400;
+  }
+  .bg-dark-grad{
+    @apply bg-gradient-to-br from-slate-700 to-slate-600;
+  }
+}
+
+@layer utilities{
+  .scrollbar::-webkit-scrollbar{
+    width: 20px;
+    height: 20px;
+  }
+  .scrollbar::-webkit-scrollbar-track{
+    border-radius: 100vh;
+    background: #f7f4ed;
+  }
+  .scrollbar::-webkit-scrollbar-thumb{
+    border-radius: 100vh;
+    border: 3px solid #f7f4ed;
+    background: #e0cbcb;
+  }
+  .scrollbar::-webkit-scrollbar-thumb:hover{
+    background: #c0a0b9;
+  }
+  .x-scrollbar::-webkit-scrollbar{
+    width: 5px;
+    height: 2px;
+  }
+  .x-scrollbar::-webkit-scrollbar-track{
+    border-radius: 100vh;
+    background: transparent;
+  }
+  .x-scrollbar::-webkit-scrollbar-thumb{
+    border-radius: 100vh;
+    border: 3px solid transparent;
+    background: transparent;
+  }
+  .x-scrollbar::-webkit-scrollbar-thumb:hover{
+    background: #2f77eb;
+  }
+  td, th{
+    padding: 0.5rem .25rem;
+  }
+  tbody tr:not(:last-child){
+    border-bottom: 1px solid #e9eaee;
+  }
 }

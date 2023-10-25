@@ -1,3 +1,5 @@
+import { FaPiggyBank } from 'react-icons/fa'
+import { FaSackDollar } from 'react-icons/fa6'
 import {  IoClipboardOutline, IoMailUnreadOutline, IoNewspaperOutline, IoPeopleOutline, IoReceiptOutline } from 'react-icons/io5'
 
 interface NavLinkProps {
@@ -29,17 +31,18 @@ export const navLinks : NavLinkProps[] = [
         id: 282344,
         title: 'Savings',
         // background: 'bg-sky-100',
-        element: <span className='border border-slate-500 bg-sky-100 text-sky-500 text-sm sm:text-base h-6 w-6 rounded-full flex justify-center items-center'><IoReceiptOutline className='text-inherit ' /></span>,
+        element: <span className='border border-sky-500 bg-sky-100 text-sky-500 text-sm sm:text-base h-6 w-6 rounded-full flex justify-center items-center'><IoReceiptOutline className='text-inherit ' /></span>,
         link: '/dashboard/savings',
-        icon: <IoReceiptOutline className='text-inherit ' />
+        icon: <FaPiggyBank className='text-inherit ' />
+        // icon: <IoReceiptOutline className='text-inherit ' />
     },
     {
         id: 282346,
-        title: 'Messages',
+        title: 'Loans',
         // background: 'bg-slate-200',
         element: <span className='border border-slate-500 bg-slate-200 text-slate-500 text-sm sm:text-base h-6 w-6 rounded-full flex justify-center items-center'><IoMailUnreadOutline className='text-inherit ' /></span>,
-        link: '/dashboard/messages',
-        icon: <IoMailUnreadOutline className='text-inherit ' />
+        link: '/dashboard/loans',
+        icon: <FaSackDollar className='text-inherit ' />
     },
     {
         id: 282347,
