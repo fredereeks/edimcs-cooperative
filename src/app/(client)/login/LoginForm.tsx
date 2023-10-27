@@ -27,7 +27,7 @@ export default function LoginForm({ handleLogin }: { handleLogin: (formData: For
             console.log({ data })
             toast.success(`${data?.message}`, { id: "8206" })
             // useRouter
-            router.push('/auth/dashboard', { scroll: false })
+            router.push('/dashboard', { scroll: false })
         } catch (error) {
             toast.error(`Something went wrong. Due to ${error}`, { id: "8206" })
         } finally {

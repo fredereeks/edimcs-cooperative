@@ -3,8 +3,6 @@ import Image from 'next/image'
 import Link from 'next/link'
 import React from 'react'
 import { FaClock } from 'react-icons/fa'
-import { FaClockRotateLeft } from 'react-icons/fa6'
-import { IoIosClock } from 'react-icons/io'
 import { IoCaretDown } from 'react-icons/io5'
 
 export default function page() {

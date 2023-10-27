@@ -44,7 +44,7 @@ export default function DashSideBar({ navShow }: { navShow: boolean }) {
         },
     ] 
     return (
-        <nav className={`${navShow ? 'left-3 fixed md:relative' : '-left-full md:left-3 fixed md:relative'} z-[100] rounded-xl p-5 flex flex-col h-[calc(100vh-35px)] mt-[10px] mb-[20px] bg-transparent max-w-xs sm:min-w-[12rem] md:min-w-[14rem] transition-all duration-300`}>
+        <nav className={`${navShow ? 'dark left-3 fixed md:relative' : 'dark -left-full md:left-3 fixed md:relative'} z-[100] rounded-xl p-5 flex flex-col h-[calc(100vh-35px)] mt-[10px] mb-[20px] bg-transparent max-w-xs sm:min-w-[12rem] md:min-w-[14rem] transition-all duration-300`}>
             <section className={`${navShow ? 'left-3 fixed' : '-left-full md:left-3 fixed'} z-[100] rounded-xl p-5 flex flex-col h-[calc(100vh-35px)] top-[20px] mb-[20px] bg-white dark:bg-slate-700 shadow-md max-w-xs sm:min-w-[12rem] md:min-w-[14rem] transition-all duration-300`}>
                 <div className="flex items-center gap-2 py-5 px-2 relative after:absolute after:left-1/2 after:-translate-x-1/2 after:top-full after:w-full after:h-[1px] after:bg-gradient-to-r after:from-slate-50 after:to-slate-50 after:via-slate-200">
                     <div className="h-8 w-8 flex justify-center items-center rounded-full overflow-hidden relative bg-primary dark:bg-slate-600/50">

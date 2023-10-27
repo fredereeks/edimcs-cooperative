@@ -5,7 +5,7 @@ import { IoReceiptOutline, IoTrophyOutline } from 'react-icons/io5'
 
 export default function Savings() {
   return (
-    <main className="flex flex-col relative px-4 pb-10">
+    <main className="flex flex-col relative px-4 pb-10 dark">
       <section className="flex flex-col sm:flex-row justify-center sm:justify-between items-center gap-4 py-10">
         <div className="flex flex-col items-center">
           <p className="text-slate-400 text-xs sm:text-base">Total Savings</p>
