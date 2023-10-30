@@ -1,6 +1,6 @@
+import React from 'react'
 import { edimcs_cliff, edimcs_silhouette, edimcs_blackpeople, edimcs_calculator, edimcs_phonecalculator, edimcs_piggyvest } from '@/assets/images'
 import Image, { StaticImageData } from 'next/image'
-import React from 'react'
 import { FaCalendarAlt } from 'react-icons/fa'
 
 type MemberProps = {
@@ -18,7 +18,7 @@ type MemberProps = {
 
 export default function page() {
 
-  const memberData: MemberProps[] = [
+  const memberData: MemberProps[] | [] = [
     {
       id: 8921140,
       image: edimcs_blackpeople,
@@ -105,12 +105,12 @@ export default function page() {
                 </th>
               </tr>
               <tr className='text-slate-400'>
-                <th className='font-thin text-xs text-slate-400 text-left'>Member Details</th>
-                <th className='font-thin text-xs text-slate-400 text-center'>Date Registered</th>
-                <th className='font-thin text-xs text-slate-400 text-center'>Savings</th>
-                <th className='font-thin text-xs text-slate-400 text-center'>Investment</th>
-                <th className='font-thin text-xs text-slate-400 text-center'>Withdrawals</th>
-                <th className='font-thin text-xs text-slate-400 text-center'>Total Balance</th>
+                <th className='whitespace-nowrap px-4 font-thin text-xs text-slate-400 text-left'>Member Details</th>
+                <th className='whitespace-nowrap px-4 font-thin text-xs text-slate-400 text-center'>Date Registered</th>
+                <th className='whitespace-nowrap px-2 font-thin text-xs text-slate-400 text-center'>Total Savings</th>
+                <th className='whitespace-nowrap px-2 font-thin text-xs text-slate-400 text-center'>Total Investment</th>
+                <th className='whitespace-nowrap px-2 font-thin text-xs text-slate-400 text-center'>Total Withdrawals</th>
+                <th className='whitespace-nowrap px-2 font-thin text-xs text-slate-400 text-center'>Current Balance</th>
               </tr>
             </thead>
             <tbody className='w-full'>
@@ -145,7 +145,7 @@ export default function page() {
                     </td>
                     <td className="align-middle">
                       <div className="flex justify-center items-center align-middle mx-auto">
-                        <div className={`bg-red-100 text-red-600 text-[.6rem] py-[.1rem] sm:py-1 px-3 rounded-sm font-medium`}>-&#8358;{member.withdrawal}</div>
+                        <div className={`bg-red-100 text-red-600 text-[.6rem] py-[.1rem] sm:py-1 px-3 rounded-sm font-medium whitespace-nowrap`}>-&#8358;{member.withdrawal}</div>
                       </div>
                     </td>
                     <td className="align-middle">

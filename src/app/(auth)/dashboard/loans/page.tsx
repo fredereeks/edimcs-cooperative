@@ -65,22 +65,6 @@ export default function page() {
 
   return (
     <main className="flex flex-col gap-4 px-2 sm:px-0 pt-5 pb-10">
-      {/* <section className="relative grid md:flex flex-wrap gap-2">
-        <div className="bg-white rounded-lg p-3  shadow-slate-200 shadow-md flex-1 flex flex-wrap sm:flex-nowrap items-center gap-2">
-          <button className="transition-all text-xs text-primary border-b-2 border-b-primary hover:border-b-primary py-2 px-4 cursor-pointer">Transactions</button>
-          <button className="transition-all text-xs hover:text-primary text-slate-500 border-b-2 border-b-transparent hover:border-b-primary py-2 px-4 cursor-pointer">Savings</button>
-          <button className="transition-all text-xs hover:text-primary text-slate-500 border-b-2 border-b-transparent hover:border-b-primary py-2 px-4 cursor-pointer">Loans</button>
-          <button className="transition-all text-xs hover:text-primary text-slate-500 border-b-2 border-b-transparent hover:border-b-primary py-2 px-4 cursor-pointer">Withdrawals</button>
-          <button className="transition-all text-xs hover:text-primary text-slate-500 border-b-2 border-b-transparent hover:border-b-primary py-2 px-4 cursor-pointer">Reports</button>
-        </div>
-        <Link href="/dashboard/profile" className="bg-white rounded-lg p-3  shadow-slate-200 shadow-md max-w-sm w-max flex items-center gap-2 cursor-pointer">
-          <div className="h-8 w-8 flex justify-center items-center rounded-full overflow-hidden relative bg-primary dark:bg-slate-600/50">
-            <Image src={edimcs_coins} alt={`Abubakar Mutari`} fill={true} className="absolute left-0 top-0 object-cover w-full h-full" />
-          </div>
-          <h5 className="text-xs font-semibold text-slate-500">Abubakar Mutari</h5>
-          <IoCaretDown className="text-sm font-thin text-slate-300" />
-        </Link>
-      </section> */}
       <section className="relative flex flex-col gap-2 p-4 bg-white shadow-slate-200 shadow-md rounded-lg">
         <div className="w-full overflow-x-scroll pb-6 x-scrollbar">
           <table className="w-full text-slate-500 dark:text-slate-400 text-xs sm:text-sm min-w-[20rem]">
@@ -113,7 +97,7 @@ export default function page() {
                       </div>
                     </td>
                     <td className="align-middle">
-                      <div className="flex justify-center items-center align-middle mx-auto">
+                      <div className="flex justify-center items-center align-middle mx-auto whitespace-nowrap">
                         <div className={`${loan.type === "Pay Out" ? 'bg-red-100 text-red-500' : 'bg-sky-100 text-sky-500'} text-[.6rem] py-[.1rem] sm:py-1 px-3 rounded-sm font-medium`}>{loan.type === "Pay Out" ? '-' : ''}&#8358;{loan.amount.toLocaleString()}</div>
                       </div>
                     </td>

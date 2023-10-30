@@ -1,6 +1,6 @@
 'use client'
 
-import React, { DOMElement } from 'react'
+import React from 'react'
 import { usePathname } from 'next/navigation'
 import Link from 'next/link'
 import { IoMailUnreadOutline, IoLogOutOutline, IoMenuOutline, IoSunnyOutline } from "react-icons/io5";
@@ -10,9 +10,10 @@ type handleClickProp = {
   handleClick: () => boolean | void
   darkMode: boolean | string
   toggleDarkMode: () => boolean | void, 
+  handleLogOut: (data: FormData) => Promise<void>, 
 }
 
-export default function DashHeader({handleClick, darkMode, toggleDarkMode}: handleClickProp ) {
+export default function DashHeader({handleClick, darkMode, toggleDarkMode, handleLogOut}: handleClickProp ) {
     const location = usePathname();
     const pathname = location === "/dashboard" ? "Dashboard" : location.indexOf("/dashboard/user/") > -1 ? "User Details" : location.indexOf("/dashboard/admin/") > -1 ? "Admin Details" :  location.replace("/dashboard/", "");
     const page = pathname[0].toUpperCase() + pathname.slice(1);
@@ -30,10 +31,11 @@ export default function DashHeader({handleClick, darkMode, toggleDarkMode}: hand
                     {/* <ToolTip text={'Check Notifications'} direction='bottom' /> */}
                     <IoMailUnreadOutline size={16} className='text-inherit' />
                 </Link>
-                <Link href="/logout" className="text-sm md:text-base text-slate-400 p-1 relative flex">
-                    {/* <ToolTip text={'Logout'} /> */}
-                    <IoLogOutOutline size={16} className='text-inherit' />
-                </Link>
+                <form action={handleLogOut} className="text-sm md:text-base text-slate-400 p-1 relative flex">
+                    <button type="submit" className='bg-transparent inline'>
+                        <IoLogOutOutline size={16} className='text-inherit' />
+                    </button>
+                </form>
                 <button onClick={handleClick} className="cursor-pointer md:hidden text-base md:text-base text-slate-400 p-1"><IoMenuOutline size={22} className='text-inherit' /></button>
                 <button onClick={toggleDarkMode} className="cursor-pointer -scale-x-[1] text-sm text-slate-400 p-1">
                     {darkMode ?

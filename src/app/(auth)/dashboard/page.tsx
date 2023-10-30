@@ -18,7 +18,7 @@ export default function page() {
         </div>
         <Link href="/dashboard/profile" className="bg-white rounded-lg p-3  shadow-slate-200 shadow-md max-w-sm w-max flex items-center gap-2 cursor-pointer">
           <div className="h-8 w-8 flex justify-center items-center rounded-full overflow-hidden relative bg-primary dark:bg-slate-600/50">
-            <Image src={edimcs_coins} alt={`Abubakar Mutari`} fill={true} className="absolute left-0 top-0 object-cover w-full h-full" />
+            <Image src={edimcs_blackpeople} alt={`Abubakar Mutari`} fill={true} className="absolute left-0 top-0 object-cover w-full h-full" />
           </div>
           <h5 className="text-xs font-semibold text-slate-500">Abubakar Mutari</h5>
           <IoCaretDown className="text-sm font-thin text-slate-300" />
@@ -34,7 +34,7 @@ export default function page() {
                 </th>
               </tr>
               <tr className='text-slate-400'>
-                <th className='uppercase font-thin text-xs text-slate-400 text-left'>Transaction Details</th>
+                <th className='uppercase font-thin text-xs text-slate-400 text-left'>Member/Transaction Details</th>
                 <th className='font-thin text-xs text-slate-400 text-center'>Transaction Amount</th>
                 <th className='font-thin text-xs text-slate-400 text-center'>Transaction Date</th>
                 <th className='font-thin text-xs text-slate-400 text-center'>Balance at Date</th>
@@ -45,7 +45,7 @@ export default function page() {
                 <td>
                   <div className="max-w-sm w-max flex items-center gap-2 cursor-pointer">
                     <div className="h-7 sm:h-8 w-7 sm:w-8 flex justify-center items-center rounded-full overflow-hidden relative bg-primary dark:bg-slate-600/50">
-                      <Image src={edimcs_blackpeople} alt={`Amaka Orlando`} fill={true} className="absolute left-0 top-0 object-cover w-full h-full" />
+                      <Image src={edimcs_coins} alt={`Amaka Orlando`} fill={true} className="absolute left-0 top-0 object-cover w-full h-full" />
                     </div>
                     <div>
                       <h5 className="text-xs font-medium leading-tight whitespace-nowrap">Amaka Orlando</h5>
