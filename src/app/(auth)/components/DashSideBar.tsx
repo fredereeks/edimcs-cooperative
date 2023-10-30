@@ -73,12 +73,12 @@ export default function DashSideBar({ navShow }: { navShow: boolean }) {
                         {
                             navLinks?.map((navLink,i) => {
                                 const active = (navLink.title === page) ? 'bg-slate-200/30' : 'bg-white hover:bg-slate-200/30'
-                                return (<a href={navLink.link} key={navLink.id} className={`flex gap-2 p-2 transition-all duration-300 rounded-md ${active}`}>
+                                return (<Link href={navLink.link} key={navLink.id} className={`flex gap-2 p-2 transition-all duration-300 rounded-md ${active}`}>
                                     <div className={`${colorScheme[i].background} ${colorScheme[i].color} grid place-items-center w-7 h-7 rounded-full`}>{navLink.icon}</div>
                                     <div className="flex flex-col justify-center">
                                         <h4 className="text-slate-500 text-[.7rem] sm:text-xs dark:opacity-80">{navLink.title}</h4>
                                     </div>
-                                </a>)
+                                </Link>)
                             })
                         }
                     </div>

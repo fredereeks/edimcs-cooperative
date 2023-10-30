@@ -16,7 +16,7 @@ export default function Footer() {
             <div className="flex flex-col gap-2 py-2">
               {
                 footer?.sublinks?.map(sublink => (
-                  <a href={sublink.url} key={sublink.id} className="text-xs sm:text-sm flex gap-1 items-center text-slate-400 hover:text-slate-200">{sublink.icon} <span>{sublink.title}</span></a>
+                  <Link href={sublink.url} key={sublink.id} className="text-xs sm:text-sm flex gap-1 items-center text-slate-400 hover:text-slate-200">{sublink.icon} <span>{sublink.title}</span></Link>
                 ))
               }
             </div>
