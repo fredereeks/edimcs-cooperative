@@ -22,9 +22,9 @@ export default function DashHeader({handleClick, darkMode, toggleDarkMode, handl
             <div className="flex flex-col gap-1">
                 <div className="text-slate-500 text-sm flex gap-1 items-center">
                     <Link href={"/dashboard"} className="text-xs text-slate-400">Dashboard</Link> /
-                    <p className="dark-text text-sm font-semibold">{page}</p>
+                    <p className="text-slate-600 dark:text-slate-200 text-sm font-semibold">{page}</p>
                 </div>
-                <p className="text-slate-600 text-lg sm:text-2xl font-bold">{page}</p>
+                <p className="text-slate-600 dark:text-slate-200 text-lg sm:text-2xl font-bold">{page}</p>
             </div>
             <div className="flex items-center gap-1 w-max">
                 <Link href="/dashboard/messages" className="text-sm md:text-base text-slate-400 p-1 relative flex">

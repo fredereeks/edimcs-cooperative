@@ -1,5 +1,5 @@
 "use client"
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import { DashHeader, DashFooter, DashSideBar } from '@/app/(auth)/components';
 import { Toaster } from 'react-hot-toast'
 import axios, { AxiosError } from 'axios'
@@ -9,7 +9,12 @@ import { useRouter } from 'next/navigation';
 export default function DashLayout({ children }: { children: React.ReactNode }) {
     const [darkMode, setDarkMode] = useState<boolean>(false)
     const [navShow, setNavShow] = useState<boolean>(false)
+    const mode : string | null = localStorage.getItem("edimcs__theme") ?? 'light'
     const router = useRouter()
+
+    const modal = useMemo(() => mode, [mode])
+
+    console.log({modal})
 
     const handleClick = () => {
         setNavShow(prev => !prev)
@@ -17,8 +22,8 @@ export default function DashLayout({ children }: { children: React.ReactNode }) 
 
     const toggleDarkMode = () => {
         setDarkMode(prev => !prev)
-        const mode = darkMode ? 'dark' : 'light'
-        localStorage.setItem("edimcs__theme", mode)
+        const modal = darkMode ? 'dark' : 'light'
+        localStorage.setItem("edimcs__theme", modal)
     }
 
     async function handleLogOut(){
@@ -36,7 +41,8 @@ export default function DashLayout({ children }: { children: React.ReactNode }) 
     // },[darkMode])
 
     return (
-        <main className={`${darkMode === true ? 'dark' : 'light'}`}>
+        // <main className={`${darkMode === true ? 'dark' : 'light'}`}>
+        <main className={`${modal}`}>
             <Toaster />
             <section className={`bg-slate-50 dark:bg-slate-900 min-h-screen flex py-2 gap-3 w-full`}>
                 <DashSideBar navShow={navShow} />
