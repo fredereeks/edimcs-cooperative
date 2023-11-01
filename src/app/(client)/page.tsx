@@ -26,14 +26,14 @@ export default function Home() {
       <section className="py-20 px-4 bg-white relative">
         <div className="container mx-auto flex flex-col gap-6 md:flex-row py-10 md:py-20">
           <div className="relative flex-1 flex justify-end">
-            <div className="relative min-h-[200px] sm:h-full p-10 w-full overflow-hidden">
+            <div className="relative min-h-[250px] sm:h-[300px] md:h-full p-10 w-full overflow-hidden">
               <Image src={edimcs_calculator} alt='Money Saver Calculator' className='rounded-xl object-cover' fill={true} />
             </div>
           </div>
-          <div className="py-10 md:py-20 flex flex-col gap-2 md:justify-between text-justify">
-            <h3 className="text-slate-700 text-4xl sm:text-5xl md:text-6xl text-left leading-snug font-bold max-w-md sm:max-w-lg pb-4">A <span className="text-red-500">Cooperative</span> with a Pedigree.</h3>
-            <p style={{ lineHeight: 1.9 }} className="text-slate-400 text-xs sm:text-sm leading-loose font-light max-w-md sm:max-w-lg">Enlightenment Drive Initiative Co-operative Society (EDIMCS)  largest cooperative organization among cooperatives in Nigeria and in the world, with the goal of achieving a first-world Nigeria with empowerment and housing for low-income and small and medium enterprises as our primary goal.</p>
-            <p style={{ lineHeight: 1.9 }} className="text-slate-400 text-xs sm:text-sm leading-loose font-light max-w-md sm:max-w-lg">Our aim at EDIMCS is to level up the playing field in the cooperative industry through the power of team, cooperation, and networking.</p>
+          <div className="py-0 md:py-20 flex-1 flex flex-col gap-2 sm:justify-center text-justify">
+            <h3 className="text-slate-700 text-4xl sm:text-5xl lg:text-6xl text-left leading-snug font-bold max-w-md sm:max-w-lg w-full relative left-1/2 -translate-x-1/2 pb-4">A <span className="text-red-500">Cooperative</span> with a Pedigree.</h3>
+            <p style={{ lineHeight: 1.9 }} className="text-slate-500 text-xs sm:text-sm leading-loose font-light max-w-md sm:max-w-lg w-full relative left-1/2 -translate-x-1/2">Enlightenment Drive Initiative Co-operative Society (EDIMCS)  largest cooperative organization among cooperatives in Nigeria and in the world, with the goal of achieving a first-world Nigeria with empowerment and housing for low-income and small and medium enterprises as our primary goal.</p>
+            <p style={{ lineHeight: 1.9 }} className="text-slate-500 text-xs sm:text-sm leading-loose font-light max-w-md sm:max-w-lg w-full relative left-1/2 -translate-x-1/2">Our aim at EDIMCS is to level up the playing field in the cooperative industry through the power of team, cooperation, and networking.</p>
           </div>
         </div>
       </section>
@@ -85,7 +85,7 @@ export default function Home() {
                       <h5 className="text-slate-600 text-sm font-semibold">{value.title}</h5>
                     </div>
                     <div className="flex-1 flex flex-col justify-center h-full sm:p-2 border-b-2 border-b-slate-100">
-                      <p className="text-slate-400 text-sm leading-snug">{value.text}</p>
+                      <p className="text-slate-500 text-sm leading-snug">{value.text}</p>
                     </div>
                   </div>
                 ))

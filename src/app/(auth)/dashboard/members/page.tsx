@@ -2,6 +2,7 @@ import React from 'react'
 import { edimcs_cliff, edimcs_silhouette, edimcs_blackpeople, edimcs_calculator, edimcs_phonecalculator, edimcs_piggyvest } from '@/assets/images'
 import Image, { StaticImageData } from 'next/image'
 import { FaCalendarAlt } from 'react-icons/fa'
+import MemberList from './MemberList'
 
 type MemberProps = {
   id: number
@@ -95,69 +96,8 @@ export default function page() {
 
   return (
     <main className="flex flex-col gap-4 px-2 sm:px-0 pt-5 pb-10">
-      <section className="relative flex flex-col gap-2 p-4 bg-white shadow-slate-200 shadow-md rounded-lg">
-        <div className="w-full overflow-x-scroll pb-6 x-scrollbar">
-          <table className="w-full text-slate-500 dark:text-slate-400 text-xs sm:text-sm min-w-[20rem]">
-            <thead>
-              <tr>
-                <th colSpan={6}>
-                  <h4 className="uppercase font-semibold text-slate-400 text-left pb-2 mb-2 border-b border-b-slate-200">MEMBER LIST</h4>
-                </th>
-              </tr>
-              <tr className='text-slate-400'>
-                <th className='whitespace-nowrap px-4 font-thin text-xs text-slate-400 text-left'>Member Details</th>
-                <th className='whitespace-nowrap px-4 font-thin text-xs text-slate-400 text-center'>Date Registered</th>
-                <th className='whitespace-nowrap px-2 font-thin text-xs text-slate-400 text-center'>Total Savings</th>
-                <th className='whitespace-nowrap px-2 font-thin text-xs text-slate-400 text-center'>Total Investment</th>
-                <th className='whitespace-nowrap px-2 font-thin text-xs text-slate-400 text-center'>Total Withdrawals</th>
-                <th className='whitespace-nowrap px-2 font-thin text-xs text-slate-400 text-center'>Current Balance</th>
-              </tr>
-            </thead>
-            <tbody className='w-full'>
-              {
-                memberData.map(member => (
-                  <tr key={member.id}>
-                    <td>
-                      <div className="max-w-sm w-max flex items-center gap-2 cursor-pointer">
-                        <div className="h-7 sm:h-8 w-7 sm:w-8 flex justify-center items-center rounded-full overflow-hidden relative bg-primary dark:bg-slate-600">
-                          <Image src={member.image} alt={member.name} fill={true} className="absolute left-0 top-0 object-cover w-full h-full" />
-                        </div>
-                        <div>
-                          <h5 className="text-xs font-medium leading-tight whitespace-nowrap flex items-center">{member.name} <span className="text-[.4rem] bg-slate-200/50 p-[.2rem] px-[.3rem] rouded-md text-slate-600 uppercase ml-2">{member.type}</span></h5>
-                          <p className="text-[.6rem] font-thin opacity-70 leading-tight">EDIMCS-{member.memberId}</p>
-                        </div>
-                      </div>
-                    </td>
-                    <td className="align-middle">
-                      <div className="flex justify-center items-center gap-[.2rem] align-middle text-slate-500 text-[.6rem] py-[.1rem] sm:py-1">
-                        <FaCalendarAlt className="text-inherit mt-[.1rem]" /> <p className="">{member.date}</p>
-                      </div>
-                    </td>
-                    <td className="align-middle">
-                      <div className="flex justify-center items-center align-middle mx-auto">
-                        <div className={`bg-teal-100 text-teal-600 text-[.6rem] py-[.1rem] sm:py-1 px-3 rounded-sm font-medium`}>&#8358;{member.savings}</div>
-                      </div>
-                    </td>
-                    <td className="align-middle">
-                      <div className="flex justify-center items-center align-middle mx-auto">
-                        <div className={`bg-sky-100 text-sky-600 text-[.6rem] py-[.1rem] sm:py-1 px-3 rounded-sm font-medium`}>&#8358;{member.investment}</div>
-                      </div>
-                    </td>
-                    <td className="align-middle">
-                      <div className="flex justify-center items-center align-middle mx-auto">
-                        <div className={`bg-red-100 text-red-600 text-[.6rem] py-[.1rem] sm:py-1 px-3 rounded-sm font-medium whitespace-nowrap`}>-&#8358;{member.withdrawal}</div>
-                      </div>
-                    </td>
-                    <td className="align-middle">
-                      <h4 className="flex justify-center items-center gap-[.2rem] align-middle text-slate-400 text-[.6rem] py-[.1rem] sm:py-1">&#8358;{member.balance}</h4>
-                    </td>
-                  </tr>
-                ))
-              }
-            </tbody>
-          </table>
-        </div>
-      </section>
+      
+      <MemberList key={'171243'} memberData={memberData}/>
     </main>
   )
 }

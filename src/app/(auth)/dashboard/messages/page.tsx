@@ -76,7 +76,7 @@ export default function Messages() {
                   <tr key={message.id}>
                     <td colSpan={2} className={`${message.status === 'Read' ? 'opacity-50' : 'opacity-100'}`}>
                       <div className="w-full flex-1 flex items-center gap-2 cursor-pointer overflow-x-hidden">
-                        <div className="h-7 sm:h-8 w-7 sm:w-8 flex-shrink-0 flex justify-center items-center rounded-full overflow-hidden text-white dark:text-slate-100 relative bg-success dark:bg-slate-600">
+                        <div className={`h-7 sm:h-8 w-7 sm:w-8 flex-shrink-0 flex justify-center items-center rounded-full overflow-hidden text-white dark:text-slate-100 relative ${message.status === 'Read' ? 'bg-slate-500' : 'bg-success'} dark:bg-slate-600`}>
                           {
                             message.status === "Read" ? <FaEnvelopeOpen className='text-sm sm:text-base' /> : <FaEnvelope className='text-sm sm:text-base' />
                           }

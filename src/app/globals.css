@@ -39,6 +39,12 @@ html,body{
   .bg-dark-grad{
     @apply bg-gradient-to-br from-slate-700 to-slate-600;
   }
+  .modal-container{
+    @apply z-[60] fixed w-screen min-h-screen h-screen left-0 top-0 place-items-center py-10 bg-slate-500/50 pt-[calc(100vh-80vh)] scrollbar x-scrollbar overflow-y-scroll;
+  }
+  .modal{
+    @apply rounded-lg translate-y-10 sm:-translate-y-10 min-h-[calc(100vh-35px)] mb-[70px] sm:mb-[40px] relative w-11/12 md:w-max max-w-lg py-5 sm:px-4 mx-auto bg-white;
+  }
 }
 
 @layer utilities{

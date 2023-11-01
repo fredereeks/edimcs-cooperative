@@ -4,7 +4,7 @@ interface TextInputProps {
   containerClassName?: string  | undefined | boolean
   label?: string  | undefined | boolean
   required?: boolean
-  disabled?: string  | undefined | boolean
+  disabled?: boolean | undefined
   className?: string  | undefined
   placeholder?: string  | undefined
   type?: HTMLInputTypeAttribute | undefined
@@ -31,8 +31,8 @@ export default function TextInput({ containerClassName, label, required, disable
     <div className={`${containerClassName} flex flex-col gap-1`}>
       <label htmlFor={id} className="text-gray-500 text-sm">{label} {required === true || required === 'true' ? <span className='text-red-500 text-xs -translate-y-2'>*</span> : ''} </label>
       {required === true || required === 'true' ?
-        <input type={type} value={value} required={required} id={id} name={name} placeholder={placeholder} min={min} max={max} minLength={minLength} onChange={onChange} className={`outline-none py-2 px-4 border border-gray-300 rounded-md text-gray-600 text-sm bg-transparent focus-within:bg-transparent focus:bg-transparent placeholder-opacity-70 ${className}`} /> :
-        <input type={type} value={value} id={id} name={name} placeholder={placeholder} min={min} max={max} minLength={minLength} onChange={onChange} className={`outline-none py-2 px-4 border border-gray-300 rounded-md text-gray-600 text-sm bg-transparent focus-within:bg-transparent focus:bg-transparent placeholder-opacity-70 ${className}`} />}
+        <input type={type} value={value} disabled={disabled} required={required} id={id} name={name} placeholder={placeholder} min={min} max={max} minLength={minLength} onChange={onChange} className={`outline-none py-2 px-4 border border-gray-300 rounded-md text-gray-600 text-sm placeholder-opacity-70 ${disabled ? 'cursor-no-drop bg-slate-200 focus-within:bg-slate-200 focus:bg-slate-200' : 'bg-transparent focus-within:bg-transparent focus:bg-transparent'} ${className}`} /> :
+        <input type={type} value={value} disabled={disabled} id={id} name={name} placeholder={placeholder} min={min} max={max} minLength={minLength} onChange={onChange} className={`outline-none py-2 px-4 border border-gray-300 rounded-md text-gray-600 text-sm placeholder-opacity-70 ${disabled ? 'cursor-no-drop bg-slate-200 focus-within:bg-slate-200 focus:bg-slate-200' : 'bg-transparent focus-within:bg-transparent focus:bg-transparent'} ${className}`} />}
     </div>
   )
 }
