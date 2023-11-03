@@ -9,38 +9,38 @@ export default function page() {
   return (
     <main className="flex flex-col gap-4 px-2 sm:px-0 pt-5 pb-10">
       <section className="relative grid md:flex flex-wrap gap-2">
-        <div className="bg-white rounded-lg p-3  shadow-slate-200 shadow-md flex-1 flex flex-wrap sm:flex-nowrap items-center gap-2">
-          <button className="transition-all text-xs text-primary border-b-2 border-b-primary hover:border-b-primary py-2 px-4 cursor-pointer">Transactions</button>
-          <button className="transition-all text-xs hover:text-primary text-slate-500 border-b-2 border-b-transparent hover:border-b-primary py-2 px-4 cursor-pointer">Savings</button>
-          <button className="transition-all text-xs hover:text-primary text-slate-500 border-b-2 border-b-transparent hover:border-b-primary py-2 px-4 cursor-pointer">Loans</button>
-          <button className="transition-all text-xs hover:text-primary text-slate-500 border-b-2 border-b-transparent hover:border-b-primary py-2 px-4 cursor-pointer">Withdrawals</button>
-          <button className="transition-all text-xs hover:text-primary text-slate-500 border-b-2 border-b-transparent hover:border-b-primary py-2 px-4 cursor-pointer">Reports</button>
+        <div className="bg-white dark:bg-[#dbf0f724] dark:shadow-black rounded-lg p-3 dark:text-slate-200 shadow-slate-200 shadow-md flex-1 flex flex-wrap sm:flex-nowrap items-center gap-2">
+          <button className="transition-all text-xs text-primary dark:text-slate-200 border-b-2 border-b-primary hover:border-b-primary py-2 px-4 cursor-pointer">Transactions</button>
+          <button className="transition-all text-xs hover:text-primary dark:hover:text-slate-200 border-b-2 border-b-transparent hover:border-b-primary py-2 px-4 cursor-pointer">Savings</button>
+          <button className="transition-all text-xs hover:text-primary dark:hover:text-slate-200 border-b-2 border-b-transparent hover:border-b-primary py-2 px-4 cursor-pointer">Loans</button>
+          <button className="transition-all text-xs hover:text-primary dark:hover:text-slate-200 border-b-2 border-b-transparent hover:border-b-primary py-2 px-4 cursor-pointer">Withdrawals</button>
+          <button className="transition-all text-xs hover:text-primary dark:hover:text-slate-200 border-b-2 border-b-transparent hover:border-b-primary py-2 px-4 cursor-pointer">Reports</button>
         </div>
-        <Link href="/dashboard/profile" className="bg-white rounded-lg p-3  shadow-slate-200 shadow-md max-w-sm w-max flex items-center gap-2 cursor-pointer">
+        <Link href="/dashboard/profile" className="bg-white  dark:bg-[#dbf0f724] dark:shadow-black text-slate-700 dark:text-slate-200 rounded-lg p-3  shadow-slate-200 shadow-md max-w-sm w-max flex items-center gap-2 cursor-pointer">
           <div className="h-8 w-8 flex justify-center items-center rounded-full overflow-hidden relative bg-primary dark:bg-slate-600/50">
             <Image src={edimcs_blackpeople} alt={`Abubakar Mutari`} fill={true} className="absolute left-0 top-0 object-cover w-full h-full" />
           </div>
-          <h5 className="text-xs font-semibold text-slate-500">Abubakar Mutari</h5>
-          <IoCaretDown className="text-sm font-thin text-slate-300" />
+          <h5 className="text-xs font-semibold text-inherit">Abubakar Mutari</h5>
+          <IoCaretDown className="text-sm font-thin opacity-90 text-inherit" />
         </Link>
       </section>
-      <section className="relative flex flex-col gap-2 p-4 bg-white shadow-slate-200 shadow-md rounded-lg">
+      <section className="relative flex flex-col gap-2 p-4 bg-white dark:bg-[#dbf0f724] dark:shadow-black shadow-slate-200 shadow-md rounded-lg">
         <div className="w-full overflow-x-scroll pb-6 x-scrollbar">
-          <table className="w-full text-slate-500 dark:text-slate-400 text-xs sm:text-sm min-w-[20rem]">
+          <table className="w-full text-slate-600 dark:text-slate-50 text-xs sm:text-sm min-w-[20rem]">
             <thead>
               <tr>
                 <th colSpan={4}>
                   <h4 className="uppercase font-light text-slate-400 text-left pb-2 mb-2 border-b border-b-slate-200">TODAY</h4>
                 </th>
               </tr>
-              <tr className='text-slate-400'>
-                <th className='uppercase font-thin text-xs text-slate-400 text-left'>Member/Transaction Details</th>
-                <th className='font-thin text-xs text-slate-400 text-center'>Transaction Amount</th>
-                <th className='font-thin text-xs text-slate-400 text-center'>Transaction Date</th>
-                <th className='font-thin text-xs text-slate-400 text-center'>Balance at Date</th>
+              <tr className='text-slate-500 dark:text-slate-50'>
+                <th className='uppercase font-medium text-xs text-left'>Member/Transaction Details</th>
+                <th className='font-medium text-xs text-center'>Transaction Amount</th>
+                <th className='font-medium text-xs text-center'>Transaction Date</th>
+                <th className='font-medium text-xs text-center'>Balance at Date</th>
               </tr>
             </thead>
-            <tbody className='w-full'>
+            <tbody className='w-full text-slate-600 dark:text-slate-50'>
               <tr>
                 <td>
                   <div className="max-w-sm w-max flex items-center gap-2 cursor-pointer">
@@ -49,7 +49,7 @@ export default function page() {
                     </div>
                     <div>
                       <h5 className="text-xs font-medium leading-tight whitespace-nowrap">Amaka Orlando</h5>
-                      <p className="text-[.6rem] font-thin opacity-70 leading-tight">Savings</p>
+                      <p className="text-[.6rem] font-thin opacity-70 text-slate-600 dark:text-slate-50 dark:opacity-100 leading-tight">Savings</p>
                     </div>
                   </div>
                 </td>
@@ -59,12 +59,12 @@ export default function page() {
                   </div>
                 </td>
                 <td className="align-middle">
-                  <div className="flex justify-center items-center gap-[.2rem] align-middle text-slate-400 text-[.6rem] py-[.1rem] sm:py-1">
+                  <div className="flex justify-center items-center gap-[.2rem] align-middle text-[.6rem] py-[.1rem] sm:py-1">
                     <FaClock className="text-inherit mt-[.1rem]" /> <p className="">12:40pm</p>
                   </div>
                 </td>
                 <td className="align-middle">
-                  <h4 className="flex justify-center items-center gap-[.2rem] align-middle text-slate-400 text-[.6rem] py-[.1rem] sm:py-1">&#8358;80,000</h4>
+                  <h4 className="flex justify-center items-center gap-[.2rem] align-middle text-[.6rem] py-[.1rem] sm:py-1">&#8358;80,000</h4>
                 </td>
               </tr>
               <tr>
@@ -75,7 +75,7 @@ export default function page() {
                     </div>
                     <div>
                       <h5 className="text-xs font-medium leading-tight whitespace-nowrap">Abubakar Suleiman</h5>
-                      <p className="text-[.6rem] font-thin opacity-70 leading-tight">Withdrawal</p>
+                      <p className="text-[.6rem] font-thin opacity-70 text-slate-600 dark:text-slate-50 dark:opacity-100 leading-tight">Withdrawal</p>
                     </div>
                   </div>
                 </td>
@@ -101,7 +101,7 @@ export default function page() {
                     </div>
                     <div>
                       <h5 className="text-xs font-medium leading-tight whitespace-nowrap">Oloruntoba Samuel</h5>
-                      <p className="text-[.6rem] font-thin opacity-70 leading-tight">Withdrawal</p>
+                      <p className="text-[.6rem] font-thin opacity-70 text-slate-600 dark:text-slate-50 dark:opacity-100 leading-tight">Withdrawal</p>
                     </div>
                   </div>
                 </td>
@@ -127,7 +127,7 @@ export default function page() {
                     </div>
                     <div>
                       <h5 className="text-xs font-medium leading-tight whitespace-nowrap">Benjamin Bright</h5>
-                      <p className="text-[.6rem] font-thin opacity-70 leading-tight">Investment Pool</p>
+                      <p className="text-[.6rem] font-thin opacity-70 text-slate-600 dark:text-slate-50 dark:opacity-100 leading-tight">Investment Pool</p>
                     </div>
                   </div>
                 </td>
@@ -153,7 +153,7 @@ export default function page() {
                     </div>
                     <div>
                       <h5 className="text-xs font-medium leading-tight whitespace-nowrap">Ejeh Mariam</h5>
-                      <p className="text-[.6rem] font-thin opacity-70 leading-tight">Savings</p>
+                      <p className="text-[.6rem] font-thin opacity-70 text-slate-600 dark:text-slate-50 dark:opacity-100 leading-tight">Savings</p>
                     </div>
                   </div>
                 </td>
@@ -179,7 +179,7 @@ export default function page() {
                     </div>
                     <div>
                       <h5 className="text-xs font-medium leading-tight whitespace-nowrap">Ebenezer Mohammad</h5>
-                      <p className="text-[.6rem] font-thin opacity-70 leading-tight">Withdrawal</p>
+                      <p className="text-[.6rem] font-thin opacity-70 text-slate-600 dark:text-slate-50 dark:opacity-100 leading-tight">Withdrawal</p>
                     </div>
                   </div>
                 </td>
@@ -205,7 +205,7 @@ export default function page() {
                     </div>
                     <div>
                       <h5 className="text-xs font-medium leading-tight whitespace-nowrap">Benjamin Bright</h5>
-                      <p className="text-[.6rem] font-thin opacity-70 leading-tight">Investment Pool</p>
+                      <p className="text-[.6rem] font-thin opacity-70 text-slate-600 dark:text-slate-50 dark:opacity-100 leading-tight">Investment Pool</p>
                     </div>
                   </div>
                 </td>

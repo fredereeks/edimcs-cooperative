@@ -1,14 +1,9 @@
+import { NavLinkProps } from '@/types'
 import { FaPiggyBank } from 'react-icons/fa'
 import { FaSackDollar } from 'react-icons/fa6'
 import {  IoClipboardOutline, IoMailUnreadOutline, IoNewspaperOutline, IoPeopleOutline, IoReceiptOutline } from 'react-icons/io5'
 
-interface NavLinkProps {
-    id: number
-    title: string
-    link: string
-    element: JSX.Element
-    icon: JSX.Element
-}
+
 
 export const navLinks : NavLinkProps[] = [
     {

@@ -65,7 +65,7 @@ export default function page() {
 
   return (
     <main className="flex flex-col gap-4 px-2 sm:px-0 pt-5 pb-10">
-      <section className="relative flex flex-col gap-2 p-4 bg-white shadow-slate-200 shadow-md rounded-lg">
+      <section className="relative flex flex-col gap-2 p-4 bg-white  dark:bg-[#dbf0f724] dark:shadow-black shadow-slate-200 shadow-md rounded-lg">
         <div className="w-full overflow-x-scroll pb-6 x-scrollbar">
           <table className="w-full text-slate-500 dark:text-slate-400 text-xs sm:text-sm min-w-[20rem]">
             <thead>

@@ -1,21 +1,7 @@
-import React, { ChangeEventHandler, HTMLInputTypeAttribute } from 'react'
+import { TextInputProps } from '@/types';
+import React, { ChangeEventHandler } from 'react'
 
-interface TextInputProps {
-  containerClassName?: string  | undefined | boolean
-  label?: string  | undefined | boolean
-  required?: boolean
-  disabled?: boolean | undefined
-  className?: string  | undefined
-  placeholder?: string  | undefined
-  type?: HTMLInputTypeAttribute | undefined
-  min?: string | number | undefined 
-  minLength?: number | undefined 
-  max?: string | number | undefined 
-  value?: string | number 
-  name?: string | undefined
-  id?: string | undefined 
-  onChange?: ChangeEventHandler<HTMLInputElement> | undefined
-}
+
 
 export default function TextInput({ containerClassName, label, required, disabled, className, placeholder, type, min, minLength, max, value, name, id, onChange } : TextInputProps) {
   containerClassName = containerClassName || '';

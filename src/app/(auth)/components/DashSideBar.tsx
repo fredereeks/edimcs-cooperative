@@ -7,11 +7,9 @@ import { navLinks } from '@/data'
 import { edimcs_silhouette } from '@/assets/images'
 import Image from 'next/image'
 import { IoFileTrayStackedSharp } from 'react-icons/io5'
+import { ColorSchemeProp } from '@/types'
 
-interface ColorSchemeProp {
-    color: string
-    background: string
-}
+
 
 export default function DashSideBar({ navShow }: { navShow: boolean }) {
     const location = usePathname();

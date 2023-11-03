@@ -7,15 +7,13 @@ import { FaMoneyCheck } from 'react-icons/fa'
 import toast from 'react-hot-toast'
 // import { redirect } from 'next/navigation';
 import { useRouter } from 'next/navigation'
+import { LoginFormDataProps } from '@/types'
 
 
 
-interface FormDataProps {
-    error: boolean
-    message: string
-}
 
-export default function LoginForm({ handleLogin }: { handleLogin: (formData: FormData) => Promise<FormDataProps | null> }) {
+
+export default function LoginForm({ handleLogin }: { handleLogin: (formData: FormData) => Promise<LoginFormDataProps | null> }) {
     const [loading, setLoading] = useState<boolean>(false)
     const formRef = useRef<HTMLFormElement>(null)
     const router = useRouter()

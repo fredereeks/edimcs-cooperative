@@ -1,17 +1,6 @@
-import React, { ChangeEventHandler } from 'react'
+import { TextAreaProps } from "@/types";
 
-interface TextAreaProps {
-  containerClassName?: string | undefined | boolean
-  label?: string | undefined | boolean
-  required?: boolean
-  disabled?: boolean | undefined
-  className?: string | undefined
-  placeholder?: string | undefined
-  maxLength?: number | undefined
-  name?: string | undefined
-  id?: string | undefined
-  onChange?: ChangeEventHandler<HTMLTextAreaElement> | undefined
-}
+
 
 
 export default function TextArea({ containerClassName, required, disabled, className, placeholder, name, id, maxLength, label, onChange }: TextAreaProps) {

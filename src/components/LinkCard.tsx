@@ -2,26 +2,14 @@
 import React, {useEffect, useState} from 'react'
 import Link from 'next/link'
 import { usePathname } from "next/navigation";
+import { LinkCardProps } from '@/types';
 
-// interface SubLinkProps {
-//     id: string
-//     title: string
-//     url: string
-// }
 
-interface LinkProps {
-    title: string
-    url: string
-    // sublinks: SubLinkProps[] | []
-    fixed: boolean
-}
-
-const LinkCard = ({title, url, fixed} : LinkProps) => {
+const LinkCard = ({title, url, fixed} : LinkCardProps) => {
     const location = usePathname();
     const [activeLink, setActiveLink] = useState(false);
     useEffect(() => {
         location === url ? setActiveLink(true) : setActiveLink(false);
-        // console.log({location, url, title, activeLink})
         return () => {
             setActiveLink(false);
         } 

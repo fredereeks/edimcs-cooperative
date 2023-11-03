@@ -2,19 +2,10 @@ import React from 'react'
 import Image from 'next/image'
 import { FaCalendarAlt, FaEnvelope, FaEnvelopeOpen, FaEnvelopeOpenText } from 'react-icons/fa'
 import { edimcs_phonecalculator } from '@/assets/images'
+import { MessageProps } from '@/types'
 
 
-type MessageProps = {
-  id: number
-  text: string
-  sender: string
-  senderStatus: string
-  receiver: string
-  receiverStatus: string
-  date: string
-  status: string
-  type: string
-}
+
 
 export default function Messages() {
   const messageData: MessageProps[] | [] = [
@@ -54,47 +45,47 @@ export default function Messages() {
   ]
   return (
     <main className="flex flex-col gap-4 px-2 sm:px-0 pt-5 pb-10">
-      <section className="relative flex flex-col gap-2 p-4 bg-white shadow-slate-200 shadow-md rounded-lg">
+      <section className="relative flex flex-col gap-2 p-4 bg-white  dark:bg-[#dbf0f724] dark:shadow-black shadow-slate-200 shadow-md rounded-lg">
         <div className="w-full overflow-x-scroll pb-6 x-scrollbar">
-          <table className="w-full text-slate-500 dark:text-slate-400 text-xs sm:text-sm min-w-[20rem]">
+          <table className="w-full text-slate-600 dark:text-slate-50 text-xs sm:text-sm min-w-[20rem]">
             <thead>
               <tr>
                 <th colSpan={6}>
-                  <h4 className="uppercase font-semibold text-slate-400 text-left pb-2 mb-2 border-b border-b-slate-200">INBOX</h4>
+                  <h4 className="uppercase font-semibold text-inherit text-left pb-2 mb-2 border-b border-b-slate-200">INBOX</h4>
                 </th>
               </tr>
-              <tr className='text-slate-400'>
-                <th colSpan={2} className='whitespace-nowrap px-4 font-thin text-xs text-slate-400 text-left'>Message Sender</th>
-                <th className='whitespace-nowrap px-4 font-thin text-xs text-slate-400 text-center'>Receiver Details</th>
-                {/* <th className='whitespace-nowrap px-4 font-thin text-xs text-slate-400 text-center'>Date</th> */}
-                <th className='whitespace-nowrap px-2 font-thin text-xs text-slate-400 text-center'>Actions</th>
+              <tr className='text-inherit'>
+                <th colSpan={2} className='whitespace-nowrap px-4 font-thin text-xs text-inherit text-left'>Message Sender</th>
+                <th className='whitespace-nowrap px-4 font-thin text-xs text-inherit text-center'>Receiver Details</th>
+                {/* <th className='whitespace-nowrap px-4 font-thin text-xs text-inherit text-center'>Date</th> */}
+                <th className='whitespace-nowrap px-2 font-thin text-xs text-inherit text-center'>Actions</th>
               </tr>
             </thead>
             <tbody className='w-full'>
               {
                 messageData.map(message => (
                   <tr key={message.id}>
-                    <td colSpan={2} className={`${message.status === 'Read' ? 'opacity-50' : 'opacity-100'}`}>
+                    <td colSpan={2} className={`${message.status === 'Read' ? 'opacity-70' : 'opacity-100'}`}>
                       <div className="w-full flex-1 flex items-center gap-2 cursor-pointer overflow-x-hidden">
-                        <div className={`h-7 sm:h-8 w-7 sm:w-8 flex-shrink-0 flex justify-center items-center rounded-full overflow-hidden text-white dark:text-slate-100 relative ${message.status === 'Read' ? 'bg-slate-500' : 'bg-success'} dark:bg-slate-600`}>
+                        <div className={`h-7 sm:h-8 w-7 sm:w-8 flex-shrink-0 flex justify-center items-center rounded-full overflow-hidden relative ${message.status === 'Read' ? 'bg-slate-500 dark:bg-slate-500 text-white' : 'bg-success dark:bg-slate-100 text-slate-100 dark:text-slate-600'}`}>
                           {
                             message.status === "Read" ? <FaEnvelopeOpen className='text-sm sm:text-base' /> : <FaEnvelope className='text-sm sm:text-base' />
                           }
                         </div>
                         <div className='flex-1 flex flex-col justify-center max-w-xs sm:max-w-md md:max-w-lg lg:max-w-2xl'>
                           <div className="flex justify-between items-center gap-4 max-w-md">
-                            <h5 className="text-xs font-medium leading-tight whitespace-nowrap flex items-center">{message.sender} <span className="text-[.4rem] bg-slate-200/50 p-[.2rem] px-[.3rem] rounded-xs text-slate-600 uppercase ml-2">{message.senderStatus}</span></h5>
-                            <div className="flex justify-center items-center gap-[.2rem] align-middle text-slate-500 text-[.6rem]">
+                            <h5 className="text-xs font-semibold leading-tight whitespace-nowrap flex items-center text-slate-600 dark:text-slate-50">{message.sender} <span className="text-[.4rem] bg-slate-200/50 dark:bg-slate-200 p-[.2rem] px-[.3rem] rounded-xs text-slate-600 uppercase ml-2">{message.senderStatus}</span></h5>
+                            <div className="flex justify-center items-center gap-[.2rem] align-middle text-slate-600 dark:text-slate-100 text-[.6rem]">
                               <FaCalendarAlt className="text-inherit opacity-60" /> <p className="">{message.date}</p>
                             </div>
                           </div>
-                          <p className="text-[.6rem] sm:text-[.65rem] font-thin opacity-70 leading-tight truncate ellipsis line-clamp-1 whitespace-nowrap max-w-full">{message.text}</p>
+                          <p className="text-[.6rem] sm:text-[.7rem] text-slate-500 dark:text-slate-50 font-extralight opacity-70 leading-tight truncate ellipsis line-clamp-1 whitespace-nowrap max-w-full">{message.text}</p>
                         </div>
                       </div>
                     </td>
                     <td className="align-middle">
-                      <div className='flex justify-center'>
-                        <h5 className="text-xs font-medium leading-tight whitespace-nowrap flex items-center">{message.receiver} <span className="text-[.4rem] bg-slate-200/50 p-[.2rem] px-[.3rem] rounded-xs text-slate-600 uppercase ml-2">{message.receiverStatus}</span></h5>
+                      <div className='flex justify-start'>
+                        <h5 className="text-xs font-medium leading-tight whitespace-nowrap flex items-center">{message.receiver} <span className="text-[.4rem] bg-slate-200/50 dark:bg-slate-200 p-[.2rem] px-[.3rem] rounded-xs text-slate-600 uppercase ml-2">{message.receiverStatus}</span></h5>
                       </div>
                     </td>
                     <td className="align-middle">

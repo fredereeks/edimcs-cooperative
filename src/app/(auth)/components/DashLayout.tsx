@@ -1,5 +1,5 @@
 "use client"
-import React, { useEffect, useMemo, useState } from 'react'
+import React, { useMemo, useState } from 'react'
 import { DashHeader, DashFooter, DashSideBar } from '@/app/(auth)/components';
 import { Toaster } from 'react-hot-toast'
 import axios, { AxiosError } from 'axios'
@@ -9,12 +9,10 @@ import { useRouter } from 'next/navigation';
 export default function DashLayout({ children }: { children: React.ReactNode }) {
     const [darkMode, setDarkMode] = useState<boolean>(false)
     const [navShow, setNavShow] = useState<boolean>(false)
-    const mode : string | null = localStorage.getItem("edimcs__theme") ?? 'light'
+    const mode : string | null = localStorage.getItem("edimcs__theme") ?? 'dark'
     const router = useRouter()
 
-    const modal = useMemo(() => mode, [mode])
-
-    console.log({modal})
+    let modal = useMemo(() => mode, [mode])
 
     const handleClick = () => {
         setNavShow(prev => !prev)
@@ -22,7 +20,7 @@ export default function DashLayout({ children }: { children: React.ReactNode }) 
 
     const toggleDarkMode = () => {
         setDarkMode(prev => !prev)
-        const modal = darkMode ? 'dark' : 'light'
+        let modal = darkMode ? 'dark' : 'light'
         localStorage.setItem("edimcs__theme", modal)
     }
 

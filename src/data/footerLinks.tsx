@@ -1,18 +1,7 @@
+import { FootLinkProps } from '@/types'
 import { IoLogoFacebook, IoLogoInstagram, IoLogoTwitter } from 'react-icons/io'
 
-interface SubLinkProps {
-    id: number;
-    title: string;
-    url: string;
-    icon: JSX.Element | string;
-}
 
-interface FootLinkProps {
-    id: number;
-    title: string;
-    label: string;
-    sublinks: SubLinkProps[] | []
-}
 
 export const footerLinks : FootLinkProps[] = [
     {
