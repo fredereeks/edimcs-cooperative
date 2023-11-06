@@ -67,7 +67,7 @@ export type MessageProps = {
     date: string
     status: string
     type: string
-  }
+}
 
 export interface FootLinkProps {
     id: number;

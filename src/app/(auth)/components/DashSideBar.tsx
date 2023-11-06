@@ -62,7 +62,7 @@ export default function DashSideBar({ navShow }: { navShow: boolean }) {
                             </div>
                             <div className="flex flex-col justify-center">
                                 <h4 className="text-primary font-semibold text-xs text-[.7rem] dark:opacity-80">United Bank Plc</h4>
-                                <p className="text-slate-500 text-xs opacity-60 dark:opacity-90 font-thin">&#8358;20,000</p>
+                                <p className="text-slate-600 dark:text-slate-900 text-xs opacity-60 dark:opacity-100 font-thin">&#8358;20,000</p>
                             </div>
                         </aside>
                     </div>

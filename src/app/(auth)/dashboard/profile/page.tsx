@@ -9,8 +9,8 @@ export default function Profile() {
       <section className="flex flex-col gap-4 sm:gap-10">
         {/* <h2 className="text-lg sm:text-xl md:text-2xl">Account Settings</h2> */}
         <div className="flex flex-wrap gap-2 sm:gap-4">
-          <label htmlFor="profileForm" className="cursor-pointer rounded-md text-thin text-xs text-slate-500  hover:text-primary border border-slate-300 hover:border-primary peer-checked/profile:border-primary py-2 px-4 sm:py-3 sm:px-6 w-max select-none">Personal Information</label>
-          <label htmlFor="accountForm" className="cursor-pointer rounded-md text-thin text-xs text-slate-500  hover:text-primary border border-slate-300 hover:border-primary peer-checked/account:border-primary py-2 px-4 sm:py-3 sm:px-6 w-max select-none">Account Details</label>
+          <label htmlFor="profileForm" className="cursor-pointer rounded-md text-thin text-xs text-slate-500  hover:text-primary dark:text-slate-400 dark:hover:border-slate-400 border border-slate-300 hover:border-primary peer-checked/profile:border-primary py-2 px-4 sm:py-3 sm:px-6 w-max select-none">Personal Information</label>
+          <label htmlFor="accountForm" className="cursor-pointer rounded-md text-thin text-xs text-slate-500  hover:text-primary dark:text-slate-400 dark:hover:border-slate-400 border border-slate-300 hover:border-primary peer-checked/account:border-primary py-2 px-4 sm:py-3 sm:px-6 w-max select-none">Account Details</label>
         </div>
       </section>
       <input type="radio" defaultChecked name="form-peer" id="profileForm" className="hidden peer/profile" />
@@ -27,7 +27,7 @@ export default function Profile() {
               <div className="flex flex-col gap-1 w-max justify-center sm:items-center">
                 <div className="flex gap-4">
                   <button type="button" className="py-2 px-4 sm:px-8 bg-primary text-white text-[.6rem] text-xs rounded-md hover:bg-blue-600 cursor-pointer">Upload New</button>
-                  <button type="button" className="py-2 px-4 sm:px-8 bg-slate-300/50 text-slate-700 text-[.6rem] text-xs rounded-md hover:bg-danger hover:text-white cursor-pointer">Delete Picture</button>
+                  <button type="button" className="py-2 px-4 sm:px-8 bg-slate-300/50 dark:bg-slate-100 dark:hover:text-slate-900 text-slate-700 text-[.6rem] text-xs rounded-md hover:bg-danger hover:text-white cursor-pointer">Delete Picture</button>
                 </div>
                 <p className="text-[.6rem] text-center text-slate-500">Your profile picture enables users recognize you on EDIMCS</p>
               </div>
