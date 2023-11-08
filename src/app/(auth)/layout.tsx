@@ -4,6 +4,8 @@ import '../globals.css'
 import DashLayout from '@/app/(auth)/components/DashLayout'
 import { cookies } from 'next/headers'
 import { redirect } from 'next/navigation'
+// import { UserProvider } from '@auth0/nextjs-auth0/client';
+
 
 
 const inter = Inter({ subsets: ['latin'] })
@@ -22,23 +24,25 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
 
-  if(!cookies().has("x-access-token") && cookies().get("x-access-token") != null) {
+  if (!cookies().has("x-access-token") && cookies().get("x-access-token") != null) {
     const user = cookies()?.get("x-access-token");
-    console.log("Checking cookies or redirect", {user, cookie: cookies().get("x-access-token")})
+    console.log("Checking cookies or redirect", { user, cookie: cookies().get("x-access-token") })
     redirect("/login")
   }
-  else{
+  else {
     const user = cookies()?.get("x-access-token");
     // console.log({hasCookiesInAuthElse: cookies().has("x-access-token")})
   }
-  
+
   return (
     <html lang="en">
-      <body className={`${inter.className} flex flex-col`}>
-        <DashLayout>
+      {/* <UserProvider> */}
+        <body className={`${inter.className} flex flex-col`}>
+          <DashLayout>
             {children}
-        </DashLayout>
-      </body>
+          </DashLayout>
+        </body>
+      {/* </UserProvider> */}
     </html>
   )
 }

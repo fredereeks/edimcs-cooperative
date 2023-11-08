@@ -15,14 +15,24 @@ export const headerLinks : HeaderLinkProps[] = [
         title: 'About',
         url: '/about',
     },
+    // {
+    //     id: 15927348772,
+    //     title: 'Save',
+    //     url: '/save',
+    // },
+    // {
+    //     id: 15927348773,
+    //     title: 'Loan',
+    //     url: '/loan',
+    // },
     {
-        id: 15927348772,
+        id: 15927348774,
         title: 'Contact',
         url: '/contact',
     },
     {
-        id: 15927348773,
-        title: 'Investment Pool',
-        url: '/investment-pool',
+        id: 15927348775,
+        title: 'Money Pool',
+        url: '/money-pool',
     },
 ]

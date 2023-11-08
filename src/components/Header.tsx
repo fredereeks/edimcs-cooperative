@@ -48,7 +48,7 @@ export default function Header() {
                         {headerLinks.map((link) => (
                             <LinkCard fixed={fixed} key={link.id} {...link} />
                         ))}
-                        <Link href="/login" className="relative flex gap-2 items-center self-center md:rounded-full w-full md:w-max md:ml-5 px-5 md:px-7 py-2 h-max bg-primary text-white text-sm">Login</Link>    
+                        <Link href="/api/auth/login" className="relative flex gap-2 items-center self-center md:rounded-full w-full md:w-max md:ml-5 px-5 md:px-7 py-2 h-max bg-primary text-white text-sm">Login</Link>    
                     </ul>
                 </nav>
                 <aside className="relative z-50 ml-auto w-[4rem] sm:w-max md:w-max flex gap-2 items-center justify-end sm:pr-0">

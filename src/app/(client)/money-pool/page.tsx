@@ -3,6 +3,11 @@ import Image from 'next/image'
 import Link from 'next/link'
 import React from 'react'
 
+export const metadata = {
+  title: "EDIMCS :: Money Pool", 
+  description: "EDIMCS money pool is a way Whether you are looking for a short-term savings plan, a medium or long-term savings plan. Hell, if you are looking for a money pool, we got you covered on all sides"
+}
+
 export default function page() {
   return (
     <main className="flex flex-col relative">
@@ -14,8 +19,8 @@ export default function page() {
             </div>
           </aside>
           <aside className="py-10 md:py-20 flex flex-col gap-2 md:justify-between items-center">
-            <h3 className="text-slate-700 text-4xl sm:text-5xl md:text-6xl leading-tight font-bold max-w-md sm:max-w-lg">Our Investment Pool.</h3>
-            <p style={{ lineHeight: 1.9 }} className="text-slate-500 dark:text-slate-400 text-xs sm:text-sm leading-loose font-light max-w-md sm:max-w-lg">Whether you are looking for a short-term savings plan, a medium or long-term savings plan. Hell, if you are looking for an investment pool, we got you covered on all sides.</p>
+            <h3 className="text-slate-700 text-4xl sm:text-5xl md:text-6xl leading-tight font-bold max-w-md sm:max-w-lg">Our Money Pool.</h3>
+            <p style={{ lineHeight: 1.9 }} className="text-slate-500 dark:text-slate-400 text-xs sm:text-sm leading-loose font-light max-w-md sm:max-w-lg">Whether you are looking for a short-term savings plan, a medium or long-term savings plan. Hell, if you are looking for a money pool, we got you covered on all sides.</p>
           </aside>
         </div>
         <div className="container mx-auto grid sm:grid-cols-2 md:grid-cols-3 gap-5 justify-center">

@@ -24,6 +24,11 @@ const handleContact = async(formData: FormData) => {
   return null;
 }
 
+export const metadata = {
+  title: "EDIMCS :: Contact", 
+  description: "EDIMCS money pool is a way Whether you are looking for a short-term savings plan, a medium or long-term savings plan. Hell, if you are looking for a money pool, we got you covered on all sides"
+}
+
 export default function page() {
   return (
     <main className="flex flex-col relative">
