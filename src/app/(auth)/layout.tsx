@@ -3,9 +3,9 @@ import { Inter } from 'next/font/google'
 import '../globals.css'
 import DashLayout from '@/app/(auth)/components/DashLayout'
 import { redirect } from 'next/navigation'
-import {Provider} from "@/components/Provider"
+// import {Provider} from "@/components/Provider"
+// import { authOptions } from '../api/auth/(nextauth)/route'
 // import { getServerSession } from 'next-auth'
-import { authOptions } from '../api/auth/(...nextauth)/route'
 
 
 
