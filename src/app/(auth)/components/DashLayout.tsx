@@ -9,7 +9,7 @@ import { Toaster } from 'react-hot-toast'
 export default function DashLayout({ children }: { children: React.ReactNode }) {
     const [darkMode, setDarkMode] = useState<boolean>(false)
     const [navShow, setNavShow] = useState<boolean>(false)
-    const mode: string | null = localStorage.getItem("edimcs__theme") ?? 'dark'
+    const mode: string | null = typeof window !== 'undefined' ? localStorage.getItem("edimcs__theme") : 'dark'
     // const { user, error, isLoading } = useUser();
 
     let modal = useMemo(() => mode, [mode])
@@ -21,7 +21,7 @@ export default function DashLayout({ children }: { children: React.ReactNode }) 
     const toggleDarkMode = () => {
         setDarkMode(prev => !prev)
         let modal = darkMode ? 'dark' : 'light'
-        localStorage.setItem("edimcs__theme", modal)
+        typeof window !== 'undefined' ? localStorage.setItem("edimcs__theme", modal) : null
     }
 
 
@@ -42,7 +42,4 @@ export default function DashLayout({ children }: { children: React.ReactNode }) 
         </main>
 
     )
-    // }
-
-    // return <a href="/api/auth/login">Login</a>;
 }

@@ -25,7 +25,7 @@ export default function DashHeader({ handleClick, darkMode, toggleDarkMode }: ha
                     {/* <ToolTip text={'Check Notifications'} direction='bottom' /> */}
                     <IoMailUnreadOutline size={16} className='text-inherit' />
                 </Link>
-                <Link href={"/auth/signout"} className='text-sm md:text-base text-slate-400 p-1 relative flex'>
+                <Link href={"/auth/login"} className='text-sm md:text-base text-slate-400 p-1 relative flex'>
                     <IoLogOutOutline size={16} className='text-inherit' />
                 </Link>
                 <button onClick={handleClick} className="cursor-pointer md:hidden text-base md:text-base text-slate-400 p-1"><IoMenuOutline size={22} className='text-inherit' /></button>

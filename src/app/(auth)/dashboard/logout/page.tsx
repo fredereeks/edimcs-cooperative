@@ -9,9 +9,9 @@ const clearCookies = async() => {
 }
 
 export default async function page() {
-  redirect("/login")
-  await clearCookies()
+  // redirect("/login")
+  // await clearCookies()
   return (
-    <div></div>
+    <div>Logout</div>
   )
 }
