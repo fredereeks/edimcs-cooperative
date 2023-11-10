@@ -5,7 +5,7 @@ import DashLayout from '@/app/(auth)/components/DashLayout'
 import { redirect } from 'next/navigation'
 import {Provider} from "@/components/Provider"
 // import { getServerSession } from 'next-auth'
-import { authOptions } from '../api/auth/[...nextauth]/route'
+import { authOptions } from '../api/auth/(...nextauth)/route'
 
 
 

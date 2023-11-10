@@ -41,9 +41,8 @@ export default function LoginForm() {
             //     toast.error(`You have supplied an invalid Member ID and Password`, { id: "8206" })
             // }
             // else {
-                //     router.refresh();
+            //         router.refresh();
             // }
-
             router.push("/dashboard")
         } catch (error) {
             toast.error(`Something went wrong. Due to ${error}`, { id: "8206" })
