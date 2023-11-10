@@ -1,11 +1,11 @@
-import { Account, AuthOptions, Profile, Session, User } from 'next-auth'
-import CredentialsProvider from 'next-auth/providers/credentials'
-import NextAuth from 'next-auth/next'
-import bcryptjs from 'bcryptjs'
-import jwt from 'jsonwebtoken'
+// import { Account, AuthOptions, Profile, Session, User } from 'next-auth'
+// import CredentialsProvider from 'next-auth/providers/credentials'
+// import NextAuth from 'next-auth/next'
+// import bcryptjs from 'bcryptjs'
+// import jwt from 'jsonwebtoken'
 
-import prisma from "@/utils/prisma"
-import { JWT } from 'next-auth/jwt'
+// import prisma from "@/utils/prisma"
+// import { JWT } from 'next-auth/jwt'
 
 // export const authOptions: AuthOptions = {
 //     providers: [
