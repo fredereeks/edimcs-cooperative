@@ -8,7 +8,7 @@ import toast from 'react-hot-toast'
 // import { redirect } from 'next/navigation';
 import { useRouter } from 'next/navigation'
 // import { LoginFormDataProps } from '@/types'
-import { signIn, useSession } from 'next-auth/react'
+// import { signIn, useSession } from 'next-auth/react'
 
 
 
@@ -20,7 +20,7 @@ export default function LoginForm() {
     const [email, setEmail] = useState<string>('')
     const formRef = useRef<HTMLFormElement>(null)
     const router = useRouter()
-    const {status} = useSession()
+    // const {status} = useSession()
 
     // useEffect(() => {
     //     if(status === "authenticated"){
