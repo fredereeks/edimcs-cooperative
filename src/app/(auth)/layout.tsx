@@ -2,9 +2,10 @@ import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import '../globals.css'
 import DashLayout from '@/app/(auth)/components/DashLayout'
-import { cookies } from 'next/headers'
 import { redirect } from 'next/navigation'
-// import { UserProvider } from '@auth0/nextjs-auth0/client';
+import {Provider} from "@/components/Provider"
+// import { getServerSession } from 'next-auth'
+import { authOptions } from '../api/auth/[...nextauth]/route'
 
 
 
@@ -18,31 +19,28 @@ export const metadata: Metadata = {
 
 
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode
 }) {
 
-  if (!cookies().has("x-access-token") && cookies().get("x-access-token") != null) {
-    const user = cookies()?.get("x-access-token");
-    console.log("Checking cookies or redirect", { user, cookie: cookies().get("x-access-token") })
-    redirect("/login")
-  }
-  else {
-    const user = cookies()?.get("x-access-token");
-    // console.log({hasCookiesInAuthElse: cookies().has("x-access-token")})
-  }
+  // const session = await getServerSession(authOptions);
+  // console.log({session, user: session?.user})
+
+  // if(!session || !session.user){
+  //   redirect("/auth/login")
+  // }
 
   return (
     <html lang="en">
-      {/* <UserProvider> */}
-        <body className={`${inter.className} flex flex-col`}>
+      <body className={`${inter.className} flex flex-col`}>
+        {/* <Provider session={session}> */}
           <DashLayout>
             {children}
           </DashLayout>
-        </body>
-      {/* </UserProvider> */}
+        {/* </Provider> */}
+      </body>
     </html>
   )
 }

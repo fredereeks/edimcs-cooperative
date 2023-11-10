@@ -98,7 +98,7 @@ export const footerLinks : FootLinkProps[] = [
             {
                 id: 823472344,
                 title: "Sitemap",
-                url: "/site-map",
+                url: "/site-map.xml",
                 icon: ""
             },
         ]

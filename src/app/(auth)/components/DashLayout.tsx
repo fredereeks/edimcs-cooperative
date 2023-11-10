@@ -1,8 +1,9 @@
 "use client"
+
 import React, { useMemo, useState } from 'react'
 import { DashHeader, DashFooter, DashSideBar } from '@/app/(auth)/components';
 import { Toaster } from 'react-hot-toast'
-// import { useUser } from '@auth0/nextjs-auth0/client';
+
 
 
 export default function DashLayout({ children }: { children: React.ReactNode }) {
@@ -10,7 +11,6 @@ export default function DashLayout({ children }: { children: React.ReactNode }) 
     const [navShow, setNavShow] = useState<boolean>(false)
     const mode: string | null = localStorage.getItem("edimcs__theme") ?? 'dark'
     // const { user, error, isLoading } = useUser();
-
 
     let modal = useMemo(() => mode, [mode])
 
@@ -25,19 +25,12 @@ export default function DashLayout({ children }: { children: React.ReactNode }) 
     }
 
 
-    // if (isLoading) return <div>Loading...</div>;
-    // if (error) return <div>{error.message}</div>;
-
-    // console.log({user, error})
-    // if (user) {
-    //     console.log({user})
-
     return (
         // <main className={`${darkMode === true ? 'dark' : 'light'}`}>
         <main className={`${modal}`}>
             <Toaster />
             <section className={`bg-slate-50 dark:bg-slate-900 min-h-screen flex py-2 gap-3 w-full`}>
-                <DashSideBar navShow={navShow} />
+                <DashSideBar navShow={navShow} setNavShow={setNavShow}/>
                 <div className="flex flex-col flex-1 py-4 sm:px-4 w-[50vw]">
                     <DashHeader handleClick={handleClick} darkMode={darkMode} toggleDarkMode={toggleDarkMode} />
                     <div className="min-h-[calc(100vh-120px)]">

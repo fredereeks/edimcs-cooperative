@@ -1,21 +1,14 @@
 import { edimcs_blackpeople, edimcs_calculator, edimcs_coins, edimcs_coinstack, edimcs_gathering } from '@/assets/images'
+import { LoanProps } from '@/types'
 import Image, { StaticImageData } from 'next/image'
 import React from 'react'
 import { FaClock } from 'react-icons/fa'
 
-type LoanProps = {
-  id: number
-  image: StaticImageData
-  name: string
-  type: string
-  amount: number
-  date: string
-  balance: number
-} 
+
 
 export default function page() {
 
-  const loanData : LoanProps[] = [
+  const loanData: LoanProps[] = [
     {
       id: 73495340,
       image: edimcs_coins,
@@ -71,7 +64,10 @@ export default function page() {
             <thead>
               <tr>
                 <th colSpan={4}>
-                  <h4 className="uppercase font-light text-slate-400 text-left pb-2 mb-2 border-b border-b-slate-200">LOAN TRANSACTIONS</h4>
+                  <div className='w-full flex justify-between items-center pb-2 mb-2 border-b border-b-slate-200'>
+                    <h4 className="uppercase font-light text-slate-400 text-left">LOAN TRANSACTIONS</h4>
+                    <button className="text-white bg-primary px-4 py-2 rounded-md cursor-pointer text-xs font-light">Apply for Loan</button>
+                  </div>
                 </th>
               </tr>
               <tr className='text-slate-400 py-2 border-b border-slate-200'>

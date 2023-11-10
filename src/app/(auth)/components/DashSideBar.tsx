@@ -1,6 +1,6 @@
 "use client"
 
-import React from 'react'
+import React, { Dispatch, SetStateAction, useEffect } from 'react'
 import { usePathname } from 'next/navigation'
 import Link from 'next/link'
 import { navLinks } from '@/data'
@@ -11,7 +11,7 @@ import { ColorSchemeProp } from '@/types'
 
 
 
-export default function DashSideBar({ navShow }: { navShow: boolean }) {
+export default function DashSideBar({ navShow, setNavShow }: { navShow: boolean; setNavShow: Dispatch<SetStateAction<boolean>>; }) {
     const location = usePathname();
     const pathname = location === "/" || location === "/dashboard" ? "Dashboard" : location.replace("/dashboard/", "");
     const page = pathname[0].toUpperCase() + pathname.slice(1);
@@ -41,6 +41,12 @@ export default function DashSideBar({ navShow }: { navShow: boolean }) {
             color: 'text-teal-500'
         },
     ]
+
+    useEffect(() => {
+        setNavShow(false)
+        //eslint-disable-next-line
+    },[location])
+
     return (
         <nav className={`${navShow ? 'left-3 fixed md:relative' : '-left-full md:left-3 fixed md:relative'} z-[60] rounded-xl py-5 px-4 flex flex-col h-[calc(100vh-35px)] mt-[10px] mb-[20px] bg-transparent w-[210px] max-w-sm sm:min-w-[12rem] md:min-w-[14rem] transition-all duration-300`}>
             <section className={`${navShow ? 'left-3 fixed' : '-left-full md:left-3 fixed'} z-[60] rounded-xl py-5 px-4 flex flex-col h-[calc(100vh-35px)] top-[20px] mb-[20px] bg-white dark:bg-slate-700 shadow-md w-[210px] max-w-sm sm:min-w-[12rem] md:min-w-[14rem] transition-all duration-300`}>

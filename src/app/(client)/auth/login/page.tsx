@@ -4,29 +4,26 @@ import {cookies} from 'next/headers'
 import jwt from 'jsonwebtoken'
 import { MAX_AGE, SECRET } from '@/constants'
 
-const handleLogin = async(formData: FormData) => {
-  "use server"
-  try{
-    const username = formData.get("username")?.valueOf()
-    const password = formData.get("password")?.valueOf()
-    // const cookieToken = process.env.JWT || 'EZLepwiqKxKaBIjnn4ISeKxHEbp1UM8vmvA6hRbFICSMLuDtGO'
-    const randomUUID = Buffer.from(crypto.randomUUID()).toString('base64')
-    const user = {id: randomUUID, username, password, token: Buffer.from(crypto.randomUUID()).toString('base64') }
-    console.log({username, password, user})
-      const token = jwt.sign(user, SECRET, {expiresIn: MAX_AGE})
-      cookies().set('x-access-token', token, {httpOnly: true, secure: process.env.NODE_ENV === 'production', maxAge: MAX_AGE, path: "/", domain: "localhost"})
-      return{
-        error: false,
-        message: `Welcome back ${username}. Glad to have yo back!`
-      }
-  }catch(err){
-    // const error = err as AxiosError;
-    return{
-      error: true,
-      message: "Something went wrong, please, try again"
-    }
-  }
-}
+// const handleLogin = async(formData: FormData) => {
+//   "use server"
+//   try{
+//     const memberId = formData.get("memberId")?.valueOf()
+//     const password = formData.get("password")?.valueOf()
+//     // const cookieToken = process.env.JWT || 'EZLepwiqKxKaBIjnn4ISeKxHEbp1UM8vmvA6hRbFICSMLuDtGO'
+//     console.log({memberId, password, user})
+//       const token = jwt.sign(user, SECRET, {expiresIn: MAX_AGE})
+//       cookies().set('x-access-token', token, {httpOnly: true, secure: process.env.NODE_ENV === 'production', maxAge: MAX_AGE, path: "/", domain: "localhost"})
+//       return{
+//         error: false,
+//         message: `Welcome back ${memberId}. Glad to have you back!`
+//       }
+//   }catch(err){
+//     return{
+//       error: true,
+//       message: "Something went wrong, please, try again"
+//     }
+//   }
+// }
 
 
 export const metadata = {
@@ -41,7 +38,7 @@ export default async function page() {
         <div className="container mx-auto flex flex-col-reverse md:flex-row relative z-10">
           <aside className="py-5 sm:py-20 flex flex-col justify-center flex-1 realtive overflow-hidden">
             <div className="max-w-md mx-auto w-full flex flex-col justify-center py-5 sm:px-5">
-              <LoginForm key={8347704} handleLogin={handleLogin} />
+              <LoginForm key={8347704} />
             </div>
           </aside>
           <aside className="py-20 pt-36 p-5 flex flex-col gap-4 flex-1 bg-primary/50">

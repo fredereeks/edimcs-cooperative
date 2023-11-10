@@ -5,13 +5,7 @@ import { usePathname } from 'next/navigation'
 import Link from 'next/link'
 import { IoMailUnreadOutline, IoLogOutOutline, IoMenuOutline, IoSunnyOutline } from "react-icons/io5";
 import { IoMoonOutline } from "react-icons/io5";
-
-type handleClickProp = {
-    handleClick: () => boolean | void
-    darkMode: boolean | string
-    toggleDarkMode: () => boolean | void,
-    //   handleLogOut: (data: FormData) => Promise<void>, 
-}
+import { handleClickProp } from '@/types';
 
 export default function DashHeader({ handleClick, darkMode, toggleDarkMode }: handleClickProp) {
     const location = usePathname();
@@ -31,7 +25,7 @@ export default function DashHeader({ handleClick, darkMode, toggleDarkMode }: ha
                     {/* <ToolTip text={'Check Notifications'} direction='bottom' /> */}
                     <IoMailUnreadOutline size={16} className='text-inherit' />
                 </Link>
-                <Link href={"/api/auth/logout"} type="submit" className='bg-transparent inline'>
+                <Link href={"/auth/signout"} className='text-sm md:text-base text-slate-400 p-1 relative flex'>
                     <IoLogOutOutline size={16} className='text-inherit' />
                 </Link>
                 <button onClick={handleClick} className="cursor-pointer md:hidden text-base md:text-base text-slate-400 p-1"><IoMenuOutline size={22} className='text-inherit' /></button>
