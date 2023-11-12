@@ -65,7 +65,7 @@ export type MessageProps = {
 }
 
 export type MemberProps = {
-    id: number; image: StaticImageData; firstname: string; middlename: string; lastname: string; email: string; status: string; phone: string | number; type: string; account_name: string; account_number: number | string; banker: string; address: string; memberId: number; date: string; savings: number; investment: number; withdrawal: number; balance: number
+    id: number; image: StaticImageData | string; firstname: string; middlename: string; lastname: string; email: string; status: string; phone: string | number; type: string; account_name: string; account_number: number | string; banker: string; address: string; memberId: number; date: string; savings: number; investment: number; withdrawal: number; balance: number
 }
 
 export interface NavLinkProps {
@@ -112,3 +112,16 @@ export interface TextInputProps {
     id?: string | undefined
     onChange?: ChangeEventHandler<HTMLInputElement> | undefined
 }
+
+export interface TransactionProps {
+    id: string | number
+    image: StaticImageData | string
+    firstname: string
+    middlename: string | null
+    lastname: string
+    type: string
+    amount: number
+    createdAt: string
+    balance: number
+    approvedBy: string
+  }

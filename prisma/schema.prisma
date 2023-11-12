@@ -58,11 +58,13 @@ model Member {
   updatedAt  DateTime   @default(now()) @updatedAt
   updatedBy  String?    @db.VarChar(50)
 
-  accountDetails AccountNumber[]
-  loans          Loan[]
-  savings        Saving[]
-  investments    Investment[]    @relation("investment")
-  beneficiary    Investment[]    @relation("beneficiary")
+  accountDetails   AccountNumber[]
+  loans            Loan[]
+  savings          Saving[]
+  sentMessages     Message[]       @relation("sender")
+  receivedMessages Message[]       @relation("receiver")
+  investments      Investment[]    @relation("investment")
+  beneficiary      Investment[]    @relation("beneficiary")
 
   @@index([id, memberId])
 }
@@ -111,4 +113,16 @@ model Saving {
   createdAt DateTime       @default(now())
   updatedAt DateTime       @default(now()) @updatedAt
   updatedBy String?        @db.VarChar(50)
+}
+
+model Message {
+  id               String   @id @default(uuid())
+  text             String
+  sender           Member   @relation("sender", fields: [senderId], references: [id])
+  senderId         String
+  receiver         Member   @relation("receiver", fields: [receiverId], references: [id])
+  receiverId       String
+  statusToReceiver String
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @default(now()) @updatedAt
 }

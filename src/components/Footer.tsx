@@ -25,7 +25,7 @@ export default function Footer() {
       </div>
       <div className="container mx-auto pb-4 mb-4 flex justify-center sm:justify-between gap-2 sm:gap-4 flex-wrap relative z-20">
         {/* <div className="py-2"> */}
-          <small className="text-slate-400">&copy; Copyright. {new Date().getFullYear()} EDIMCS. All rights reserved.</small>
+          <small className="text-slate-400">&copy; Copyright. {new Date().getFullYear()} EDIMCS. All Rights Reserved.</small>
           <div className="flex gap-4 w-max">
             <Link href={"/privacy-policy"} className="text-xs sm:text-sm flex gap-1 items-center text-slate-400 hover:text-slate-200">Privacy Policy</Link>
             <Link href={"/site-map.xml"} className="text-xs sm:text-sm flex gap-1 items-center text-slate-400 hover:text-slate-200">Sitemap</Link>

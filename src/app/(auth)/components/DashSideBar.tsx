@@ -8,6 +8,7 @@ import { edimcs_silhouette } from '@/assets/images'
 import Image from 'next/image'
 import { IoFileTrayStackedSharp } from 'react-icons/io5'
 import { ColorSchemeProp } from '@/types'
+import { user } from '@/data/user'
 
 
 
@@ -15,6 +16,8 @@ export default function DashSideBar({ navShow, setNavShow }: { navShow: boolean;
     const location = usePathname();
     const pathname = location === "/" || location === "/dashboard" ? "Dashboard" : location.replace("/dashboard/", "");
     const page = pathname[0].toUpperCase() + pathname.slice(1);
+    const {banker, balance} = user;
+
     const colorScheme: ColorSchemeProp[] = [
         {
             background: 'bg-sky-200/30 dark:bg-white',
@@ -49,6 +52,7 @@ export default function DashSideBar({ navShow, setNavShow }: { navShow: boolean;
 
     return (
         <nav className={`${navShow ? 'left-3 fixed md:relative' : '-left-full md:left-3 fixed md:relative'} z-[60] rounded-xl py-5 px-4 flex flex-col h-[calc(100vh-35px)] mt-[10px] mb-[20px] bg-transparent w-[210px] max-w-sm sm:min-w-[12rem] md:min-w-[14rem] transition-all duration-300`}>
+            <div onClick={() => setNavShow(false)} className={`${navShow ? 'overlay fixed bg-slate-500/5' : 'hidden'}`}></div>
             <section className={`${navShow ? 'left-3 fixed' : '-left-full md:left-3 fixed'} z-[60] rounded-xl py-5 px-4 flex flex-col h-[calc(100vh-35px)] top-[20px] mb-[20px] bg-white dark:bg-slate-700 shadow-md w-[210px] max-w-sm sm:min-w-[12rem] md:min-w-[14rem] transition-all duration-300`}>
                 <Link href={"/"} className="flex items-center gap-2 py-5 relative after:absolute after:left-1/2 after:-translate-x-1/2 after:top-full after:w-full after:h-[1px] after:bg-gradient-to-r after:from-slate-50 after:to-slate-50 after:via-slate-300 dark:after:from-slate-600 dark:after:to-slate-600 dark:after:via-slate-300">
                     <div className="h-8 w-8 flex justify-center items-center rounded-full overflow-hidden relative bg-primary">
@@ -67,8 +71,8 @@ export default function DashSideBar({ navShow, setNavShow }: { navShow: boolean;
                                 <div className="absolute w-[.6rem] h-2 rounded-sm bg-orange-200 top-1/2 -translate-y-1/2 left-1"></div>
                             </div>
                             <div className="flex flex-col justify-center">
-                                <h4 className="text-primary font-semibold text-xs text-[.7rem] dark:opacity-80">United Bank Plc</h4>
-                                <p className="text-slate-600 dark:text-slate-900 text-xs opacity-60 dark:opacity-100 font-thin">&#8358;20,000</p>
+                                <h4 className="text-primary font-semibold text-xs text-[.7rem] dark:opacity-80">{banker}</h4>
+                                <p className="text-slate-600 dark:text-slate-900 text-xs opacity-60 dark:opacity-100 font-thin">&#8358;{balance.toLocaleString()}</p>
                             </div>
                         </aside>
                     </div>

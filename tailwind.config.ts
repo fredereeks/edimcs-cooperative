@@ -5,6 +5,7 @@ const config: Config = {
     './src/pages/**/*.{js,ts,jsx,tsx,mdx}',
     './src/components/**/*.{js,ts,jsx,tsx,mdx}',
     './src/app/**/*.{js,ts,jsx,tsx,mdx}',
+    "./node_modules/tw-elements/dist/js/**/*.js",
   ],
   darkMode: 'class',
   theme: {
@@ -16,9 +17,13 @@ const config: Config = {
         primary: '#3b82f6',
         success: "#09dba0",
         danger: "#f34f7c",
+        default: "#323f89"
       }
     },
   },
-  plugins: [],
+  plugins: [require("daisyui"), require("tw-elements/dist/plugin.cjs")],
+  daisyui: {
+    themes: ["light", "dark", "winter"],
+  },
 }
 export default config

@@ -1,6 +1,8 @@
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import '../globals.css'
+import "tw-elements/dist/css/tw-elements.min.css";
+
 import DashLayout from '@/app/(auth)/components/DashLayout'
 import { redirect } from 'next/navigation'
 // import {Provider} from "@/components/Provider"
@@ -18,7 +20,6 @@ export const metadata: Metadata = {
 }
 
 
-
 export default async function RootLayout({
   children,
 }: {
@@ -33,7 +34,7 @@ export default async function RootLayout({
   // }
 
   return (
-    <html lang="en">
+    <html lang="en" data-theme="winter">
       <body className={`${inter.className} flex flex-col`}>
         {/* <Provider session={session}> */}
           <DashLayout>

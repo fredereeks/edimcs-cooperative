@@ -1,9 +1,12 @@
 import { edimcs_blackpeople } from '@/assets/images'
 import { TextInput } from '@/components'
+import { user } from '@/data/user';
 import Image from 'next/image'
 import React from 'react'
 
 export default function Profile() {
+  const {id, firstname, middlename, lastname, image, address, email, phone, banker, account_name, account_number, type, balance} = user;
+
   return (
     <main className="flex flex-col px-2">
       <section className="flex flex-col gap-4 sm:gap-10">
@@ -22,7 +25,7 @@ export default function Profile() {
             <div className="flex gap-4 md:gap-6">
               <label htmlFor="profilePicture" className="relative h-14 w-14 md:h-16 md:w-16 flex-shrink-0 rounded-full overflow-hidden cursor-pointer">
                 <input type="file" name="" id="profilePicture" className="hidden" />
-                <Image src={edimcs_blackpeople} alt="Mohammad Aturu" fill={true} className='object-cover' />
+                <Image src={image} alt={`${firstname} ${middlename} ${lastname}`} fill={true} className='object-cover' />
               </label>
               <div className="flex flex-col gap-1 w-max justify-center sm:items-center">
                 <div className="flex gap-4">
@@ -34,12 +37,13 @@ export default function Profile() {
             </div>
           </form>
           <form action="" className="px-4 sm:px-0 w-full sm:w-10/12 sm:scale-90 grid sm:grid-cols-2 gap-4 sm:gap-y-6 sm:justify-center relative after:bg-slate-300 after:-top-4 after:h-[.51px] after:w-11/12 after:left-1/2 after:-translate-x-1/2 after:absolute">
-            <TextInput key={6274} id='member-id' name='member-id' label='Your Member ID' disabled={true} value={'EDIMCS-18340'} minLength={3} required={true} containerClassName={'text-xs sm:col-span-2'} className='bg-slate-200 cursor-not-allowed' />
-            <TextInput key={6275} id='firstname' name='firstname' label='First Name' value={'Abubakar'} minLength={3} required={true} containerClassName={'text-xs'} />
-            <TextInput key={6276} id='lastname' name='lastname' label='Last Name' value={'Mutari'} minLength={3} required={true} containerClassName={'text-xs'} />
-            <TextInput key={6277} id='email' name='email' label='Email' value={'abumutari@gmail.com'} minLength={3} required={true} containerClassName={'text-xs'} />
-            <TextInput key={6278} id='phone' name='phone' label='Phone Number' value={'08141941985'} minLength={11} required={true} containerClassName={'text-xs'} />
-            <TextInput key={6279} id='address' name='address' label='Address' value={'6, Sirakoro Street, Adjecent Kilimanjaro Eatery, Wuse II'} minLength={3} required={true} containerClassName={'text-xs sm:col-span-2'} />
+            <TextInput key={6274} id='member-id' name='member-id' label='Your Member ID' disabled={true} value={id} minLength={3} required={true} containerClassName={'text-xs sm:col-span-2'} className='bg-slate-200 cursor-not-allowed' />
+            <TextInput key={6275} id='firstname' name='firstname' label='First Name' value={firstname} minLength={3} required={true} containerClassName={'text-xs'} />
+            <TextInput key={6275} id='middlename' name='middlename' label='Middle Name' value={middlename} minLength={3} required={false} containerClassName={'text-xs'} />
+            <TextInput key={6276} id='lastname' name='lastname' label='Last Name' value={lastname} minLength={3} required={true} containerClassName={'text-xs'} />
+            <TextInput key={6277} id='email' name='email' label='Email' value={email} minLength={3} required={true} containerClassName={'text-xs'} />
+            <TextInput key={6278} id='phone' name='phone' label='Phone Number' value={phone} minLength={11} required={true} containerClassName={'text-xs'} />
+            <TextInput key={6279} id='address' name='address' label='Address' value={address} minLength={3} required={true} containerClassName={'text-xs'} />
             <TextInput key={6267} id='conf-password' name='password' label='Confirm Password' placeholder={'Enter Password to Confirm Changes'} minLength={3} required={true} containerClassName={'text-xs sm:col-span-2'} />
             <button type='submit' className="cursor-pointer rounded-md text-thin text-xs text-white bg-primary hover:bg-blue-600 py-2 px-4 sm:py-3 sm:px-6 w-max select-none">Update Profile</button>
           </form>
@@ -52,21 +56,21 @@ export default function Profile() {
             <h4 className="text-xs text-slate-500 opacity-80">Your Account Details</h4>
             <div className="flex gap-4 md:gap-6">
               <div className="relative h-14 w-14 md:h-16 md:w-16 flex-shrink-0 rounded-full overflow-hidden cursor-pointer">
-                <Image src={edimcs_blackpeople} alt="Mohammad Aturu" fill={true} className='object-cover' />
+                <Image src={image} alt={`${firstname} ${middlename} ${lastname}`} fill={true} className='object-cover' />
               </div>
               <div className="flex flex-col gap-1 w-max justify-center">
                 <div className="flex flex-col">
-                <h3 className="text-sm text-primary">Abdullah Mutari</h3>
-                <p className="text-[.6rem] text-slate-500">Sterling Bank Plc</p>
-                <p className="text-xs text-slate-500 font-semibold">0061827052</p>
+                <h3 className="text-sm text-primary">{account_name}</h3>
+                <p className="text-[.6rem] text-slate-500">{banker}</p>
+                <p className="text-xs text-slate-500 font-semibold">{account_number}</p>
                 </div>
               </div>
             </div>
           </aside>
           <form action="" className="px-4 sm:px-0 w-full sm:w-10/12 sm:scale-90 grid sm:grid-cols-2 gap-4 sm:gap-y-6 sm:justify-center relative after:bg-slate-300 after:-top-4 after:h-[.51px] after:w-11/12 after:left-1/2 after:-translate-x-1/2 after:absolute">
-            <TextInput key={6264} id='account-name' name='account-name' label='Account Name' value={'Abdullah Mutari'} minLength={11} required={true} containerClassName={'text-xs sm:col-span-2'} />
-            <TextInput key={6265} id='banker' name='banker' label='Bank Name' value={'Sterling Bank Plc'} minLength={10} required={true} containerClassName={'text-xs'} />
-            <TextInput key={6266} id='account-no' name='account-no' label='Account Number' value={'00975566762'} minLength={10} required={true} containerClassName={'text-xs'} />
+            <TextInput key={6264} id='account-name' name='account-name' label='Account Name' value={account_name} minLength={11} required={true} containerClassName={'text-xs sm:col-span-2'} />
+            <TextInput key={6265} id='banker' name='banker' label='Bank Name' value={banker} minLength={10} required={true} containerClassName={'text-xs'} />
+            <TextInput key={6266} id='account-no' name='account-no' label='Account Number' value={account_number} minLength={10} required={true} containerClassName={'text-xs'} />
             <TextInput key={6267} id='password' name='password' label='Confirm Password' placeholder={'Enter Password to Confirm Changes'} minLength={3} required={true} containerClassName={'text-xs sm:col-span-2'} />
             {/* <TextInput key={6268} id='address' name='address' label='Address' value={'6, Sirakoro Street, Adjecent Kilimanjaro Eatery, Wuse II'} minLength={3} required={true} containerClassName={'text-xs sm:col-span-2'} /> */}
             <button type='submit' className="cursor-pointer rounded-md text-thin text-xs text-white bg-primary hover:bg-blue-600 py-2 px-4 sm:py-3 sm:px-6 w-max select-none">Update Account Details</button>
