@@ -7,9 +7,10 @@ import { FaCalendarAlt } from 'react-icons/fa'
 import { TextInput } from '@/components'
 import { MemberProps } from '@/types'
 import Modal from '../../components/Modal'
+import { user } from '@/data/user'
 
 
-export default function MemberList({ memberData }: { memberData: MemberProps[] }) {
+export default function SavingList({ memberData }: { memberData: MemberProps[] }) {
     const modalRef = useRef<HTMLDialogElement | null>(null)
     const formRef = useRef<HTMLFormElement | null>(null)
     const [selectedMember, setSelectedMember] = useState<MemberProps>({ id: 492348, image: "", firstname: "string", middlename: "string", lastname: "string", email: "string", status: "string", phone: "string", type: "Member", account_name: "string", account_number: 492348, banker: "string", memberId: 492348, date: "string", address: 'Sting wier', savings: 492348, investment: 492348, withdrawal: 492348, balance: 492348 })
@@ -54,7 +55,7 @@ export default function MemberList({ memberData }: { memberData: MemberProps[] }
                         <thead className='pb-2 border-b border-b-slate-200 dark:border-b-slate-500'>
                             <tr>
                                 <th colSpan={6}>
-                                    <h4 className="uppercase font-semibold text-slate-400 text-left pb-2 mb-2 border-b border-b-slate-200 dark:border-b-slate-500">MEMBER LIST</h4>
+                                    <h4 className="uppercase font-semibold text-slate-400 text-left pb-2 mb-2 border-b border-b-slate-200 dark:border-b-slate-500">SAVINGS {user.type === "Admin" ? 'LIST' : 'RECORDS' }</h4>
                                 </th>
                             </tr>
                             <tr className='text-slate-600 dark:text-slate-50'>

@@ -1,94 +1,145 @@
-import Link from 'next/link'
 import React from 'react'
-import { FaDollarSign, FaDownload, FaSackDollar } from 'react-icons/fa6'
-import { IoReceiptOutline, IoTrophyOutline } from 'react-icons/io5'
+import { edimcs_cliff, edimcs_silhouette, edimcs_blackpeople, edimcs_calculator, edimcs_phonecalculator, edimcs_piggyvest } from '@/assets/images'
+import SavingList from './SavingList'
+import { MemberProps } from '@/types'
 
-export default function Savings() {
+
+
+export default function page() {
+
+  const memberData: MemberProps[] | [] = [
+    {
+      id: 8921140,
+      image: edimcs_blackpeople,
+      firstname: "Abubakar",
+      middlename: '',
+      lastname: "Suleiman",
+      account_name: "Abubakar  Suleiman",
+      type: "Member",
+      memberId: 208950,
+      account_number: "0828208950",
+      banker: 'Sterling Bank Plc',
+      email: "Abubakar@gmail.com",
+      phone: "+2340828208950",
+      address: '130, Sporting Estate, Lugbe',
+      status: 'Active',
+      date: "26/01/2023",
+      savings: 5400,
+      investment: 32500,
+      withdrawal: 15100,
+      balance: 37900
+    },
+    {
+      id: 8921141,
+      image: edimcs_silhouette,
+      firstname: "Dorcas",
+      middlename: 'Omoh',
+      lastname: "Kilbane",
+      account_name: "Dorcas Omoh Kilbane",
+      account_number: "0828250701",
+      type: "Admin",
+      status: "Active",
+      memberId: 250701,
+      phone: "+234808250701",
+      address: '6, Sirakoro Street, Adjecent Kilimanjaro Eatery, Wuse II',
+      banker: 'Sterling Bank Plc',
+      email: "Dorcas@gmail.com",
+      date: "11/03/2023",
+      savings: 41500,
+      investment: 551000,
+      withdrawal: 250000,
+      balance: 956100
+    },
+    {
+      id: 8921142,
+      image: edimcs_cliff,
+      firstname: "Oloruntoba",
+      middlename: 'Sunday',
+      lastname: "Samuel",
+      account_name: "Oloruntoba Sunday Samuel",
+      account_number: "0828321290",
+      type: "Member",
+      status: "Active",
+      memberId: 321290,
+      phone: "+234808321290",
+      address: '10, Garki Extension, Garki',
+      banker: 'Sterling Bank Plc',
+      email: "Oloruntoba@gmail.com",
+      date: "05/05/2023",
+      savings: 32200,
+      investment: 85100,
+      withdrawal: 32000,
+      balance: 117300
+    },
+    {
+      id: 8921143,
+      image: edimcs_phonecalculator,
+      firstname: "Benjamin",
+      middlename: '',
+      lastname: "Bright",
+      account_name: "Benjamin  Bright",
+      account_number: "0828782369",
+      type: "Member",
+      status: "Active",
+      memberId: 782369,
+      phone: "+234808782369",
+      address: '18, New Layout, Lokogoma Estate, Lokogoma',
+      banker: 'Sterling Bank Plc',
+      email: "Benjamin@gmail.com",
+      date: "14/09/2023",
+      savings: 22000,
+      investment: 35100,
+      withdrawal: 21500,
+      balance: 57100
+    },
+    {
+      id: 8921144,
+      image: edimcs_piggyvest,
+      firstname: "Kevin",
+      middlename: 'Ojonugwa',
+      lastname: "Gambari",
+      account_name: "Kevin Ojonugwa Gambari",
+      account_number: "0828709734",
+      type: "Admin",
+      status: "Active",
+      memberId: 709734,
+      phone: "+234808709734",
+      address: '32, Opposite Living Faith, Paso II, Gwagwalada',
+      banker: 'Sterling Bank Plc',
+      email: "Kevin@gmail.com",
+      date: "28/10/2023",
+      savings: 19800,
+      investment: 70500,
+      withdrawal: 12000,
+      balance: 91300
+    },
+    {
+      id: 8921145,
+      image: edimcs_calculator,
+      firstname: "Linda",
+      middlename: '',
+      lastname: "Ikagwu",
+      account_name: "Linda  Ikagwu",
+      account_number: "0828709734",
+      type: "Admin",
+      status: "Active",
+      memberId: 709734,
+      phone: "+234808709734",
+      address: '42, Federal Medical Center, Dawaki',
+      banker: 'Sterling Bank Plc',
+      email: "Linda@gmail.com",
+      date: "28/10/2023",
+      savings: 19800,
+      investment: 70500,
+      withdrawal: 12000,
+      balance: 91300
+    },
+  ]
+
   return (
-    <main className="flex flex-col relative px-4 pb-10 dark">
-      <section className="flex flex-col sm:flex-row justify-center sm:justify-between items-center gap-4 py-10">
-        <div className="flex flex-col items-center">
-          <p className="text-slate-400 text-xs sm:text-base">Total Savings</p>
-          <h3 className="text-slate-700 dark:text-slate-300 text-3xl sm:text-4xl font-sans font-extrabold">&#8358;8,292,340</h3>
-        </div>
-        <div className="shadow-lg shadow-slate-300 sm:ml-auto flex gap-4 items-center bg-primary-grad dark:bg-slate-700 rounded-md p-4 w-[90%] max-w-sm text-center">
-          <span className="h-10 w-10 p-2 rounded-md bg-slate-50 text-primary text-xl grid place-items-center"><IoTrophyOutline className='text-inherit ' /></span>
-          <p className="text-white opacity-90 text-xs sm:text-sm">You are doing <span className="font-bold">great</span> this month with <span className="font-bold">&#8358;8,292</span> saved</p>
-        </div>
-      </section>
-      <section className="grid sm:grid-cols-2 sm:justify-between items-center gap-4">
-        <div className="flex justify-between items-center flex-wrap gap-2 sm:gap-4 sm:col-span-2 pb-5">
-          <button className='shadow-lg hover:shadow-xl flex items-center gap-2 bg-orange-grad w-max px-4 sm:px-8 py-[.45rem] sm:py-[.55rem] text-xs sm:text-sm text-white text-center rounded-[2rem]'>
-            <FaSackDollar className="text-inherit" /> Deposit
-          </button>
-          <button className='shadow-lg hover:shadow-xl flex items-center gap-2 bg-red-grad w-max px-4 sm:px-8 py-[.45rem] sm:py-[.55rem] text-xs sm:text-sm text-white text-center rounded-[2rem]'>
-            <FaDollarSign className="text-inherit" /> Withdraw
-          </button>
-          <button className='shadow-lg hover:shadow-xl flex items-center gap-2 bg-dark-grad w-max px-4 sm:px-8 py-[.45rem] sm:py-[.55rem] text-xs sm:text-sm text-white text-center rounded-[2rem] cursor-pointer'>
-            <FaDownload className="text-inherit" /> Export
-          </button>
-        </div>
-        <aside className="border-b border-b-slate-200 pb-2 flex items-center gap-3 sm:p-2">
-          <div className="shadow-lg w-10 h-10 rounded-full grid place-items-center text-lg text-white bg-green-grad">
-            <FaSackDollar className="text-inherit" />
-          </div>
-          <div className="flex-1 flex flex-col">
-            <div className="flex justify-between items-center">
-              <h2 className="text-slate-500 font-bold text-xs md:text-sm">Adobe Creative Suite</h2>
-              <p className="font-medium text-[.65rem] text-xs text-green whitespace-nowrap">+&#8358;37,000</p>
-            </div>
-            <div className="flex justify-between items-center">
-              <h2 className="text-slate-500/50 font-semibold text-[.6rem] md:text-xs">Income Transfer</h2>
-              <p className="font-medium text-[.55rem] sm:text-[.65rem] text-slate-400">18 May, 2023</p>
-            </div>
-          </div>
-        </aside>
-        <aside className="border-b border-b-slate-200 pb-2 flex items-center gap-3 sm:p-2 sm:pl-3 sm:border-l-[2px] sm:border-l-slate-200">
-          <div className="shadow-lg w-10 h-10 rounded-full grid place-items-center text-lg text-white bg-green-grad">
-            <FaSackDollar className="text-inherit" />
-          </div>
-          <div className="flex-1 flex flex-col">
-            <div className="flex justify-between items-center">
-              <h2 className="text-slate-500 font-bold text-xs md:text-sm">New House Goal</h2>
-              <p className="font-medium text-[.65rem] text-xs text-green whitespace-nowrap">+&#8358;220,000</p>
-            </div>
-            <div className="flex justify-between items-center">
-              <h2 className="text-slate-500/50 font-semibold text-[.6rem] md:text-xs">Salary Direct Transfer</h2>
-              <p className="font-medium text-[.55rem] sm:text-[.65rem] text-slate-400">24 August, 2023</p>
-            </div>
-          </div>
-        </aside>
-        <aside className="border-b border-b-slate-200 pb-2 flex items-center gap-3 sm:p-2">
-          <div className="shadow-lg w-10 h-10 rounded-full grid place-items-center text-lg text-white bg-red-grad">
-            <FaSackDollar className="text-inherit" />
-          </div>
-          <div className="flex-1 flex flex-col">
-            <div className="flex justify-between items-center">
-              <h2 className="text-slate-500 font-bold text-sm base:text-base">New House Goal</h2>
-              <p className="font-medium text-xs text-red">-&#8358;220,000</p>
-            </div>
-            <div className="flex justify-between items-center">
-              <h2 className="text-slate-500/50 font-semibold text-xs">Salary Direct Transfer</h2>
-              <p className="font-medium text-xs text-slate-400">24 August, 2023</p>
-            </div>
-          </div>
-        </aside>
-        <aside className="border-b border-b-slate-200 pb-2 flex items-center gap-3 sm:p-2 sm:pl-3 sm:border-l-[2px] sm:border-l-slate-200">
-          <div className="shadow-lg w-10 h-10 rounded-full grid place-items-center text-lg text-white bg-green-grad">
-            <FaSackDollar className="text-inherit" />
-          </div>
-          <div className="flex-1 flex flex-col">
-            <div className="flex justify-between items-center">
-              <h2 className="text-slate-500 font-bold text-xs md:text-sm">Trip to Kebbi State</h2>
-              <p className="font-medium text-[.65rem] text-xs text-green whitespace-nowrap">+&#8358;220,000</p>
-            </div>
-            <div className="flex justify-between items-center">
-              <h2 className="text-slate-500/50 font-semibold text-[.6rem] md:text-xs">Income Cash</h2>
-              <p className="font-medium text-[.55rem] sm:text-[.65rem] text-slate-400">24 August, 2023</p>
-            </div>
-          </div>
-        </aside>
-      </section>
+    <main className="flex flex-col gap-4 px-2 sm:px-0 pt-5 pb-10">
+      <SavingList key={'171243'} memberData={memberData}/>
     </main>
   )
 }
+

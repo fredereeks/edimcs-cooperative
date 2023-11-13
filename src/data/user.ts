@@ -9,7 +9,7 @@ export const user: MemberProps = {
     lastname: "Gambari",
     account_name: "Kevin Ojonugwa Gambari",
     account_number: "0828709734",
-    type: "admin",
+    type: "Admin",
     status: "Active",
     memberId: 709734,
     phone: "+234808709734",

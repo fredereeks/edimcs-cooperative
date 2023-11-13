@@ -2,14 +2,16 @@
 
 import React, { useRef } from 'react'
 import { useEffect } from 'react';
-import { Chart, initTE } from "tw-elements";
 
 export default function DashCharts({ savings, doughtnut, investment }) {
     // const canvasRef = useRef<HTMLCanvasElement | null>(null)
-
-
+    
+    
     useEffect(() => {
-        initTE({ Chart });
+        (async()=>{
+            const { Chart, initTE } = await require("tw-elements");
+            initTE({ Chart });
+        })()
         //eslint-disable-next-line
     }, []);
 
