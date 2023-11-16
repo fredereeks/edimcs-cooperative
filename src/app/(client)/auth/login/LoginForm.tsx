@@ -9,12 +9,19 @@ import toast from 'react-hot-toast'
 import { useRouter } from 'next/navigation'
 // import { LoginFormDataProps } from '@/types'
 import { signIn, useSession } from 'next-auth/react'
+import SignupForm from './SignupForm'
+import bcryptjs from 'bcryptjs'
+import prisma from '@/utils/prisma'
+import Image from 'next/image'
+import { edimcs_bookkeeping } from '@/assets/images'
 
 
 
 
 
-export default function LoginForm() {
+
+
+export default function LoginForm({setShowSignUp} : {setShowSignUp: React.Dispatch<React.SetStateAction<boolean>>}) {
     const [loading, setLoading] = useState<boolean>(false)
     const [password, setPassword] = useState<string>('')
     const [memberId, setMemberId] = useState<string>('')
@@ -58,15 +65,30 @@ export default function LoginForm() {
     }
     return (
         <>
-            <form ref={formRef} onSubmit={handleSubmit} className="py-5 flex flex-col gap-3 px-4 sm:px-0">
-                <div className="flex flex-col gap-2">
-                    <TextInput onChange={e => setMemberId(e.currentTarget.value)} label={'Member ID'} containerClassName={'text-slate-400'} key={823406} type='text' name='memberId' id='memberId' value={memberId} placeholder='Enter Your Member ID' required={true} />
-                    <TextInput onChange={e => setPassword(e.currentTarget.value)} label={'Password'} containerClassName={'text-slate-400'} key={823407} type='password' name='password' id='password' value={password} placeholder='********' minLength={6} required={true} />
-                </div>
-                <button type="submit" disabled={loading} className="rounded-full py-2 px-5 md:px-8 w-max bg-primary text-white text-sm text-center flex-1 cursor-pointer flex items-center gap-2 mt-2"><FaMoneyCheck className="text-sm text-inherit" />{loading ? <div className="flex gap-2"><span className="loading loading-spinner loading-xs"></span> Processing...</div> : 'Login'}</button>
-            </form>
-            {/* <Link download={'EDIMCS_APPLICATION_FORM-edimcs.com'} href={"/documents/EDIMCS-LOAN-APPLICATION-FORM.pdf"} className="text-center cursor-pointer mx-auto z-20 relative before:absolute before:w-1/6 before:top-1/2 before:-translate-y-1/2 before:right-full before:h-[1px] before:bg-slate-300 before:rounded-md before:z-10  after:absolute after:w-1/6 after:top-1/2 after:-translate-y-1/2 after:left-full after:h-[1px] after:bg-slate-300 after:rounded-md after:z-10 w-max bg-neutral-50 py-2 px-3 text-sm text-slate-400">Download the Member Account Form</Link> */}
-            <Link href={"/auth/signup"} className="text-center cursor-pointer mx-auto z-20 relative before:absolute before:w-1/6 before:top-1/2 before:-translate-y-1/2 before:right-full before:h-[1px] before:bg-slate-300 before:rounded-md before:z-10  after:absolute after:w-1/6 after:top-1/2 after:-translate-y-1/2 after:left-full after:h-[1px] after:bg-slate-300 after:rounded-md after:z-10 w-max bg-neutral-50 py-2 px-3 text-sm text-slate-400">Don&apos;t have an account? Become a Member</Link>
+            <main className="flex flex-col relative">
+                <section className="shadow-lg shadow-slate-950 flex flex-col relative before:hidden md:before:flex before-overlay before:bg-neutral-50 after-overlay  after:bg-white after:left-1/2">
+                    <div className="container mx-auto flex flex-col-reverse md:flex-row relative z-10">
+                        <aside className="py-5 sm:py-20 flex flex-col justify-center flex-1 realtive overflow-hidden">
+                            <div className="max-w-md mx-auto w-full flex flex-col justify-center py-5 sm:px-5">
+                                <form ref={formRef} onSubmit={handleSubmit} className="py-5 flex flex-col gap-3 px-4 sm:px-0">
+                                    <div className="flex flex-col gap-2">
+                                        <TextInput onChange={e => setMemberId(e.currentTarget.value)} label={'Member ID'} containerClassName={'text-slate-400'} key={823406} type='text' name='memberId' id='memberId' value={memberId} placeholder='Enter Your Member ID' required={true} />
+                                        <TextInput onChange={e => setPassword(e.currentTarget.value)} label={'Password'} containerClassName={'text-slate-400'} key={823407} type='password' name='password' id='password' value={password} placeholder='********' minLength={6} required={true} />
+                                    </div>
+                                    <button type="submit" disabled={loading} className="rounded-full py-2 px-5 md:px-8 w-max bg-primary text-white text-sm text-center flex-1 cursor-pointer flex items-center gap-2 mt-2"><FaMoneyCheck className="text-sm text-inherit" />{loading ? <div className="flex gap-2"><span className="loading loading-spinner loading-xs"></span> Processing...</div> : 'Login'}</button>
+                                </form>
+                                {/* <Link download={'EDIMCS_APPLICATION_FORM-edimcs.com'} href={"/documents/EDIMCS-LOAN-APPLICATION-FORM.pdf"} className="text-center cursor-pointer mx-auto z-20 relative before:absolute before:w-1/6 before:top-1/2 before:-translate-y-1/2 before:right-full before:h-[1px] before:bg-slate-300 before:rounded-md before:z-10  after:absolute after:w-1/6 after:top-1/2 after:-translate-y-1/2 after:left-full after:h-[1px] after:bg-slate-300 after:rounded-md after:z-10 w-max bg-neutral-50 py-2 px-3 text-sm text-slate-400">Download the Member Account Form</Link> */}
+                                <button onClick={() => setShowSignUp(true)} className="cursor-pointer text-center mx-auto z-20 relative before:absolute before:w-1/6 before:top-1/2 before:-translate-y-1/2 before:right-full before:h-[1px] before:bg-slate-300 before:rounded-md before:z-10  after:absolute after:w-1/6 after:top-1/2 after:-translate-y-1/2 after:left-full after:h-[1px] after:bg-slate-300 after:rounded-md after:z-10 w-max bg-neutral-50 py-2 px-3 text-sm text-slate-400">Don&apos;t have an account? Become a Member</button>
+                            </div>
+                        </aside>
+                        <aside className="py-20 pt-36 p-5 flex flex-col gap-4 flex-1 bg-primary/50">
+                            <h3 className="text-slate-50 text-4xl sm:text-5xl md:text-6xl leading-tight font-bold max-w-md sm:max-w-xl">Welcome Back <span className="text-primary">Esteem</span> Member<span className="text-red-500">.</span></h3>
+                            <p className="text-slate-50 text-sm leading-loose max-w-lg">.</p>
+                        </aside>
+                    </div>
+                </section>
+            </main>
+
         </>
     )
 }
