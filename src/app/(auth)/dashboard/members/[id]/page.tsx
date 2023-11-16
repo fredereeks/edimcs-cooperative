@@ -26,6 +26,7 @@ export default async function page({ params: { id } }: PageProp) {
 }
 
 
-export const getStaticParams = () => {
-
+export const generateStaticParams = async() => {
+    const members = await memberData
+    return members.map(member => member.id.toString())
 }
