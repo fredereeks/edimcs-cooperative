@@ -1,5 +1,7 @@
 import React from 'react'
 import AccountForm from './AccountForm'
+import prisma from '@/utils/prisma'
+import bcryptjs from 'bcryptjs'
 // import SignupForm from './SignupForm'
 // import AccountForm from './AccountForm'
 
