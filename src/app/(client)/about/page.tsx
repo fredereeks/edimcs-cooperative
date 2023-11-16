@@ -113,7 +113,7 @@ export default function page() {
                   <span className={`text-3xl sm:text-4xl flex-shrink-0 pt-5 ${i === 0 ? 'text-slate-100' : i === 1 ? 'text-slate-300' : 'text-slate-700'}`}>{icon}</span>
                   <div className="py-5 flex flex-col gap-2">
                     <h3 className={`text-lg sm:text-xl font-medium sm:font-semibold max-w-lg leading-tight ${i === 0 ? 'text-slate-100' : i === 1 ? 'text-slate-300' : 'text-slate-700'}`}>{title}</h3>
-                    <p style={{ lineHeight: 2 }} className={`text-xs sm:text-sm font-thin leading-loose text-justify ${i === 0 ? 'text-slate-100' : i === 1 ? 'text-slate-300' : 'text-slate-700'}`}>{text}</p>
+                    <p style={{ lineHeight: 2 }} className={`text-xs sm:text-sm font-light leading-loose text-justify ${i === 0 ? 'text-slate-100' : i === 1 ? 'text-slate-300' : 'text-slate-700'}`}>{text}</p>
                   </div>
                 </aside>
               )))

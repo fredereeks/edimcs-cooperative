@@ -77,24 +77,24 @@ export default function LoanList({ loanData }: { loanData: LoanProps[] }) {
                             <tr>
                                 <th colSpan={user.type === "Admin" ? 6 : 5}>
                                     <div className='w-full flex justify-between items-center pb-2 mb-2 border-b border-b-slate-200'>
-                                        <h4 className="uppercase font-light text-slate-400 text-left">LOAN TRANSACTIONS</h4>
+                                        <h4 className="uppercase font-semibold text-slate-400 text-left">LOAN TRANSACTIONS</h4>
                                         <button onClick={() => modalRef.current?.showModal()} className="text-white bg-primary px-4 py-2 rounded-md cursor-pointer text-xs font-light btn-primary">Apply for Loan</button>
                                     </div>
                                 </th>
                             </tr>
-                            <tr className='text-slate-400 py-2 border-b border-slate-200'>
-                                <th className='font-thin text-xs text-slate-400 text-left'>Member Details</th>
-                                <th className='font-thin text-xs text-slate-400 text-center'>Loan Amount</th>
-                                <th className='font-thin text-xs text-slate-400 text-center'>Loan Date</th>
-                                <th className='font-thin text-xs text-slate-400 text-center'>Verdict</th>
-                                <th className='font-thin text-xs text-slate-400 text-center'>Status</th>
-                                {user.type === "Admin" && <th className='font-thin text-xs text-slate-400 text-center'>Action</th>}
+                            <tr className='text-slate-600 dark:text-slate-50 text-xs text-center'>
+                                <th className='font-light text-left'>Member Details</th>
+                                <th className='font-light'>Loan Amount</th>
+                                <th className='font-light'>Loan Date</th>
+                                <th className='font-light'>Verdict</th>
+                                <th className='font-light'>Status</th>
+                                {user.type === "Admin" && <th className='font-light'>Action</th>}
                             </tr>
                         </thead>
                         <tbody className='w-full'>
                             {
                                 loanData.map(loan => (
-                                    <tr key={loan.id}>
+                                    <tr key={loan.id} className='hover:bg-slate-50 dark:hover:bg-slate-900/30'>
                                         <td>
                                             <div onClick={() => showPreview(loan.id)} className="max-w-sm w-max flex items-center gap-2 cursor-pointer">
                                                 <div className="h-7 sm:h-8 w-7 sm:w-8 flex justify-center items-center rounded-full overflow-hidden text-white dark:text-primary relative bg-primary dark:bg-slate-100">
@@ -150,7 +150,7 @@ export default function LoanList({ loanData }: { loanData: LoanProps[] }) {
                         <p className='py-1 leading-loose'>
                             I, <span className="border-b-2 border-default border-dotted">&nbsp;&nbsp; {user.lastname} {user.middlename} {user.firstname} &nbsp;&nbsp;</span> &nbsp;&nbsp;of&nbsp;&nbsp; <span className="border-b-2 border-default border-dotted">&nbsp;&nbsp; {user.address} &nbsp;&nbsp;</span>
                         </p>
-                        <p className='py-1 leading-loose'>Apply for the sum of <span className="border-b-2 border-default border-dotted relative inline-block w-44 overflow-x-hidden">&nbsp;&nbsp;&#8358;<input type="number" placeholder={`Amount`} defaultValue={user.balance} max={user.balance * 2} className="outline-none absolute left-6 -bottom-1 w-full text-default bg-transparent" /></span> loan from EDIMCS limited for a repayment period of <span className="border-b-2 border-default border-dotted relative inline-block w-12 overflow-x-hidden">&nbsp;&nbsp;<input type="number" placeholder={`Amount`} defaultValue={6} min={1} max={12} maxLength={2} className="outline-none absolute left-6 -bottom-1 w-full text-default bg-transparent" /></span> Months and pledged prompt repayment of the loan through postdated cheques. I shall issue the agreed repayment plan made in favor of Enlightenment Drive Initiative Multi-Purpose Cooperative Society Limited (EDIMCS) between me and the Society until the loan plus interest is completely liquidated.</p>
+                        <p className='py-1 leading-loose'>Apply for the sum of <span className="border-b-2 border-default border-dotted relative inline-block w-44 overflow-x-hidden">&nbsp;&nbsp;&#8358;<input type="number" placeholder={`Amount`} defaultValue={user?.balance} max={user?.balance ? user?.balance * 2 : 0} className="outline-none absolute left-6 -bottom-1 w-full text-default bg-transparent" /></span> loan from EDIMCS limited for a repayment period of <span className="border-b-2 border-default border-dotted relative inline-block w-12 overflow-x-hidden">&nbsp;&nbsp;<input type="number" placeholder={`Amount`} defaultValue={6} min={1} max={12} maxLength={2} className="outline-none absolute left-6 -bottom-1 w-full text-default bg-transparent" /></span> Months and pledged prompt repayment of the loan through postdated cheques. I shall issue the agreed repayment plan made in favor of Enlightenment Drive Initiative Multi-Purpose Cooperative Society Limited (EDIMCS) between me and the Society until the loan plus interest is completely liquidated.</p>
                         <p className='py-1 leading-loose'>Applicant&apos;s Place of Work: <span className="border-b-2 border-default border-dotted relative inline-block w-96 overflow-x-hidden">&nbsp;&nbsp;<input type="text" placeholder={`Enter your Current Place of Work`} className="outline-none absolute left-6 -bottom-1 w-full text-default bg-transparent" />&nbsp;&nbsp;</span></p>
                         <p className='py-1 leading-loose'>Business: <span className="border-b-2 border-default border-dotted relative inline-block w-96 overflow-x-hidden">&nbsp;&nbsp;<input type="text" placeholder={`Enter your Current Place of Work`} className="outline-none absolute left-6 -bottom-1 w-full text-default bg-transparent" />&nbsp;&nbsp;</span></p>
                         <p className='py-1 leading-loose'>NIN: <span className="border-b-2 border-default border-dotted relative inline-block w-[35%] overflow-x-hidden">&nbsp;&nbsp;<input type="number" max={10} placeholder={`Enter your 10-digits NIN`} className="outline-none absolute left-6 -bottom-1 w-full text-default bg-transparent" />&nbsp;&nbsp;</span> BVN: <span className="border-b-2 border-default border-dotted relative inline-block w-[35%] overflow-x-hidden">&nbsp;&nbsp;<input type="number" max={10} placeholder={`Enter your BVN Number`} className="outline-none absolute left-6 -bottom-1 w-full text-default bg-transparent" />&nbsp;&nbsp;</span></p>
@@ -207,40 +207,41 @@ export default function LoanList({ loanData }: { loanData: LoanProps[] }) {
                             {
                                 selectedLoan?.status === "Running" ?
                                     <form ref={formRef} action={'dialog'} onSubmit={handleSubmit} className="relative flex flex-col gap-2">
-                                        <p className="bg-sky-100 text-sky-500 text-center text-xs py-1 px-2 -mt-4">This member current has &#8358;{selectedLoan.balance.toLocaleString()} and can has a &#8358;{(selectedLoan.amount - selectedLoan.payback).toLocaleString()} to payback</p>
+                                        <p className="bg-sky-100 text-sky-500 text-center text-xs py-1 px-2 -mt-4">This member currently has &#8358;{selectedLoan.balance.toLocaleString()} and has a &#8358;{(selectedLoan.amount - selectedLoan.payback).toLocaleString()} to payback</p>
                                         <input type="number" required min={0} max={selectedLoan.amount - selectedLoan.payback} ref={amountRef} name='payback' placeholder={`Enter an amount NOT greater than N${(selectedLoan.amount - selectedLoan.payback).toLocaleString()}`} className="relative outline-none py-2 px-4 border border-gray-300 rounded-md text-gray-600 text-sm placeholder-opacity-70 bg-transparent focus-within:bg-transparent focus:bg-transparent" />
-                                        <button type="submit" className="py-2 px-4 sm:px-8 bg-sky-500 text-white text-[.6rem] text-xs rounded-md hover:bg-sky-600 cursor-pointer" disabled={loading}>Add Repayment</button>
+                                        <button type="submit" className="py-2 px-4 sm:px-8 bg-sky-500 text-white text-[.6rem] text-xs rounded-md hover:bg-sky-600 cursor-pointer" disabled={loading}>Record Payment</button>
                                     </form> : ""
                             }
                         </div>
                     </Modal>
-                </> :  <Modal modalRef={previewRef}>
-                        <div className='p-5 flex flex-col gap-4'>
-                            <span className="text-[.6rem] sm:text-[.75rem] text-sky-700 bg-sky-200/50 dark:bg-sky-200 p-[.2rem] px-[.3rem] rounded-xs uppercase text-center">Loan Action Form </span>
-                            <div className="w-full flex items-center gap-2">
-                                <div className={`h-7 sm:h-8 w-7 sm:w-8 flex-shrink-0 flex justify-center items-center rounded-full overflow-hidden relative bg-primary dark:bg-slate-100 text-slate-100 dark:text-slate-600`}>
-                                    <FaSackDollar className='text-sm sm:text-base' />
+                </> : <></>
+            }
+            <Modal modalRef={previewRef}>
+                <div className='p-5 flex flex-col gap-4'>
+                    <span className="text-[.6rem] sm:text-[.75rem] text-sky-700 bg-sky-200/50 dark:bg-sky-200 p-[.2rem] px-[.3rem] rounded-xs uppercase text-center">Loan Action Form </span>
+                    <div className="w-full flex items-center gap-2">
+                        <div className={`h-7 sm:h-8 w-7 sm:w-8 flex-shrink-0 flex justify-center items-center rounded-full overflow-hidden relative bg-primary dark:bg-slate-100 text-slate-100 dark:text-slate-600`}>
+                            <FaSackDollar className='text-sm sm:text-base' />
+                        </div>
+                        <div className='flex-1 flex flex-col justify-center w-full'>
+                            <div className="flex justify-between items-center gap-4 text-slate-600">
+                                <div className="flex flex-col">
+                                    {/* <span className="text-[.4rem] bg-slate-200/50 dark:bg-slate-200 p-[.2rem] px-[.3rem] rounded-xs uppercase ml-2">{selectedLoan?.verdict}</span> */}
+                                    <h5 className="text-sm font-semibold leading-tight whitespace-nowrap flex items-center">{selectedLoan?.name} </h5>
+                                    <p className="text-slate-400 text-xs py-[.1rem] sm:py-1">Account Balance: &#8358;{selectedLoan?.balance.toLocaleString()}</p>
                                 </div>
-                                <div className='flex-1 flex flex-col justify-center w-full'>
-                                    <div className="flex justify-between items-center gap-4 text-slate-600">
-                                        <div className="flex flex-col">
-                                            {/* <span className="text-[.4rem] bg-slate-200/50 dark:bg-slate-200 p-[.2rem] px-[.3rem] rounded-xs uppercase ml-2">{selectedLoan?.verdict}</span> */}
-                                            <h5 className="text-sm font-semibold leading-tight whitespace-nowrap flex items-center">{selectedLoan?.name} </h5>
-                                            <p className="text-slate-400 text-xs py-[.1rem] sm:py-1">Account Balance: &#8358;{selectedLoan?.balance.toLocaleString()}</p>
-                                        </div>
-                                        <div className="flex justify-center items-center gap-[.2rem] align-middle dark:text-slate-100 text-[.6rem]">
-                                            <FaCalendarAlt className="text-inherit opacity-60" /> <p className="">{selectedLoan?.createdAt}</p>
-                                        </div>
-                                    </div>
+                                <div className="flex justify-center items-center gap-[.2rem] align-middle dark:text-slate-100 text-[.6rem]">
+                                    <FaCalendarAlt className="text-inherit opacity-60" /> <p className="">{selectedLoan?.createdAt}</p>
                                 </div>
-                            </div>
-                            <div className="flex justify-between items-center border border-slate-200 border-l-0 border-r-0 py-4">
-                                <h3 className="-my-2 text-slate-700 text-center text-lg font-bold"><span className="text-xs font-light flex items-center">Amount Requested:</span> &#8358;{selectedLoan?.amount.toLocaleString()}</h3>
-                                <h3 className="-my-2 text-slate-700 text-center text-lg font-bold"><span className="text-xs font-light flex items-center">Amount Repaid:</span> &#8358;{selectedLoan?.payback.toLocaleString()}</h3>
                             </div>
                         </div>
-                    </Modal>
-            }
+                    </div>
+                    <div className="flex justify-between items-center border border-slate-200 border-l-0 border-r-0 py-4">
+                        <h3 className="-my-2 text-slate-700 text-center text-lg font-bold"><span className="text-xs font-light flex items-center">Amount Requested:</span> &#8358;{selectedLoan?.amount.toLocaleString()}</h3>
+                        <h3 className="-my-2 text-slate-700 text-center text-lg font-bold"><span className="text-xs font-light flex items-center">Amount Repaid:</span> &#8358;{selectedLoan?.payback.toLocaleString()}</h3>
+                    </div>
+                </div>
+            </Modal>
         </>
     )
 }

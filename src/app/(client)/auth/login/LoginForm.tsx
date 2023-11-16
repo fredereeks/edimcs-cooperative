@@ -8,7 +8,7 @@ import toast from 'react-hot-toast'
 // import { redirect } from 'next/navigation';
 import { useRouter } from 'next/navigation'
 // import { LoginFormDataProps } from '@/types'
-// import { signIn, useSession } from 'next-auth/react'
+import { signIn, useSession } from 'next-auth/react'
 
 
 
@@ -17,31 +17,32 @@ import { useRouter } from 'next/navigation'
 export default function LoginForm() {
     const [loading, setLoading] = useState<boolean>(false)
     const [password, setPassword] = useState<string>('')
-    const [email, setEmail] = useState<string>('')
+    const [memberId, setMemberId] = useState<string>('')
     const formRef = useRef<HTMLFormElement>(null)
     const router = useRouter()
-    // const {status} = useSession()
+    const { status } = useSession()
 
-    // useEffect(() => {
-    //     if(status === "authenticated"){
-    //         router.refresh()
-    //         router.push('/dashboard', { scroll: false })
-    //     }
-    //     //eslint-disable-next-line
-    // }, [status])
+    useEffect(() => {
+        if (status === "authenticated") {
+            router.refresh()
+            router.push('/dashboard', { scroll: false })
+        }
+        //eslint-disable-next-line
+    }, [status])
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         setLoading(true)
         toast.loading(`Please wait while we log you in`, { id: "8206" })
         try {
-                toast.success(`Welcome Back, ${email}`, { id: "8206" })
-            // const res = await signIn('credentials', {email, password, redirect: false})
-            // if(!res || res.ok !== true){
+            console.log("Attempting a Login")
+            toast.success(`Welcome Back, ${memberId}`, { id: "8206" })
+            // const res = await signIn('credentials', { email, password, redirect: false, callbackUrl: '/auth/login' })
+            // if (!res || res.ok !== true) {
             //     toast.error(`You have supplied an invalid Member ID and Password`, { id: "8206" })
             // }
             // else {
-            //         router.refresh();
+            //     router.refresh();
             // }
             // server name is correct, go to server name and click on "browse", it will show you a list of options and find 'database engine', expand (if you have only one), select that and click 'ok' and try connecting, if multiple, try each.
             // SQL Server configuration Manager (from the start menu), click on 'SQL Server Services', the first one, not the one in the middle, the one in the left-navigation mgr.
@@ -52,14 +53,14 @@ export default function LoginForm() {
         } catch (error) {
             toast.error(`Something went wrong. Due to ${error}`, { id: "8206" })
         } finally {
-            // setLoading(false)
+            setLoading(false)
         }
     }
     return (
         <>
             <form ref={formRef} onSubmit={handleSubmit} className="py-5 flex flex-col gap-3 px-4 sm:px-0">
                 <div className="flex flex-col gap-2">
-                    <TextInput onChange={e => setEmail(e.currentTarget.value)} label={'Email'} containerClassName={'text-slate-400'} key={823406} type='email' name='email' id='email' value={email} placeholder='Enter Your Email' required={true} />
+                    <TextInput onChange={e => setMemberId(e.currentTarget.value)} label={'Member ID'} containerClassName={'text-slate-400'} key={823406} type='text' name='memberId' id='memberId' value={memberId} placeholder='Enter Your Member ID' required={true} />
                     <TextInput onChange={e => setPassword(e.currentTarget.value)} label={'Password'} containerClassName={'text-slate-400'} key={823407} type='password' name='password' id='password' value={password} placeholder='********' minLength={6} required={true} />
                 </div>
                 <button type="submit" disabled={loading} className="rounded-full py-2 px-5 md:px-8 w-max bg-primary text-white text-sm text-center flex-1 cursor-pointer flex items-center gap-2 mt-2"><FaMoneyCheck className="text-sm text-inherit" />{loading ? <div className="flex gap-2"><span className="loading loading-spinner loading-xs"></span> Processing...</div> : 'Login'}</button>

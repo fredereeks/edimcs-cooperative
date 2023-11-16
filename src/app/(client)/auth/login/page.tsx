@@ -1,30 +1,5 @@
 import React from 'react'
 import LoginForm from './LoginForm'
-import {cookies} from 'next/headers'
-import jwt from 'jsonwebtoken'
-import { MAX_AGE, SECRET } from '@/constants'
-
-// const handleLogin = async(formData: FormData) => {
-//   "use server"
-//   try{
-//     const memberId = formData.get("memberId")?.valueOf()
-//     const password = formData.get("password")?.valueOf()
-//     // const cookieToken = process.env.JWT || 'EZLepwiqKxKaBIjnn4ISeKxHEbp1UM8vmvA6hRbFICSMLuDtGO'
-//     console.log({memberId, password, user})
-//       const token = jwt.sign(user, SECRET, {expiresIn: MAX_AGE})
-//       cookies().set('x-access-token', token, {httpOnly: true, secure: process.env.NODE_ENV === 'production', maxAge: MAX_AGE, path: "/", domain: "localhost"})
-//       return{
-//         error: false,
-//         message: `Welcome back ${memberId}. Glad to have you back!`
-//       }
-//   }catch(err){
-//     return{
-//       error: true,
-//       message: "Something went wrong, please, try again"
-//     }
-//   }
-// }
-
 
 export const metadata = {
   title: "EDIMCS :: Login", 

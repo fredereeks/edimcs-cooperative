@@ -3,15 +3,12 @@
 import React, { useEffect, useMemo, useState } from 'react'
 import { DashHeader, DashFooter, DashSideBar } from '@/app/(auth)/components';
 import { Toaster } from 'react-hot-toast'
-
-
+import 'aos/dist/aos.css';
 
 export default function DashLayout({ children }: { children: React.ReactNode }) {
     const [darkMode, setDarkMode] = useState<boolean>(false)
     const [navShow, setNavShow] = useState<boolean>(false)
     const mode: string | null = typeof window !== 'undefined' ? localStorage.getItem("edimcs__theme") : 'light'
-    // const { user, error, isLoading } = useUser();
-
 
     let modal = useMemo(() => mode, [mode])
 

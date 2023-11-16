@@ -66,8 +66,20 @@ export type MessageProps = {
     type: string
 }
 
+export type AccountDetailsProps = {
+    id: string
+    banker: string
+    accountName: string
+    accountNo: string
+    type: "Savings" | "Current" | "Fixed"
+    owner?: MemberProps[]
+    accountOwner?: string
+}
+
 export type MemberProps = {
-    id: number; image: StaticImageData | string; firstname: string; middlename: string; lastname: string; email: string; status: string; phone: string | number; type: "Admin" | "Member"; account_name: string; account_number: number | string; banker: string; address: string; memberId: number; date: string; savings: number; investment: number; withdrawal: number; balance: number
+    id: number; image?: StaticImageData | string; firstname: string; middlename: string; lastname: string; email: string; status?: string; phone: string | number; type?: "Admin" | "Member";
+    accountDetails?: AccountDetailsProps[] | undefined
+    address?: string | undefined; memberId: number | string; createdAt?: string; savings?: number; investment?: number; withdrawal?: number; balance?: number
 }
 
 export interface NavLinkProps {
@@ -126,4 +138,4 @@ export interface TransactionProps {
     createdAt: string
     balance: number
     approvedBy: string
-  }
+}

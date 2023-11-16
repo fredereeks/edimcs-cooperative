@@ -73,16 +73,16 @@ export default function MessageList({ messageData }: { messageData: MessageProps
                             </th>
                         </tr>
                         <tr className='text-inherit'>
-                            <th colSpan={2} className='whitespace-nowrap px-4 font-thin text-xs text-inherit text-left'>Message Sender</th>
-                            <th className='whitespace-nowrap px-4 font-thin text-xs text-inherit text-center'>Receiver Details</th>
-                            {/* <th className='whitespace-nowrap px-4 font-thin text-xs text-inherit text-center'>Date</th> */}
-                            <th className='whitespace-nowrap px-2 font-thin text-xs text-inherit text-center'>Actions</th>
+                            <th colSpan={2} className='whitespace-nowrap px-4 font-light text-xs text-inherit text-left'>Message Sender</th>
+                            <th className='whitespace-nowrap px-4 font-light text-xs text-inherit text-center'>Receiver Details</th>
+                            {/* <th className='whitespace-nowrap px-4 font-light text-xs text-inherit text-center'>Date</th> */}
+                            <th className='whitespace-nowrap px-2 font-light text-xs text-inherit text-center'>Actions</th>
                         </tr>
                     </thead>
                     <tbody className='w-full'>
                         {
                             messageData.map(message => (
-                                <tr key={message.id}>
+                                <tr key={message.id} className='hover:bg-slate-50 dark:hover:bg-slate-900/30'>
                                     <td colSpan={2} onClick={() => handleClick(message?.id)} key={message?.id} className={`${message.status === 'Read' ? 'opacity-70' : 'opacity-100'}`}>
                                         <div className="w-full flex-1 flex items-center gap-2 cursor-pointer overflow-x-hidden">
                                             <div className={`h-7 sm:h-8 w-7 sm:w-8 flex-shrink-0 flex justify-center items-center rounded-full overflow-hidden relative ${message.status === 'Read' ? 'bg-slate-500 dark:bg-slate-500 text-white' : 'bg-success dark:bg-slate-100 text-slate-100 dark:text-slate-600'}`}>

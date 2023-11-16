@@ -2,12 +2,13 @@ import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import '../globals.css'
 import "tw-elements/dist/css/tw-elements.min.css";
+import 'aos/dist/aos.css';
 
 import DashLayout from '@/app/(auth)/components/DashLayout'
 import { redirect } from 'next/navigation'
-// import {Provider} from "@/components/Provider"
-// import { authOptions } from '../api/auth/(nextauth)/route'
-// import { getServerSession } from 'next-auth'
+// import SessionProvider from "@/components/SessionProvider"
+import { authOptions } from  "@/app/api/route"
+import { getServerSession } from 'next-auth'
 
 
 
@@ -26,8 +27,8 @@ export default async function RootLayout({
   children: React.ReactNode
 }) {
 
-  // const session = await getServerSession(authOptions);
-  // console.log({session, user: session?.user})
+  const session = await getServerSession(authOptions);
+  // console.log({session, user: session?.user, authOptions})
 
   // if(!session || !session.user){
   //   redirect("/auth/login")
@@ -36,11 +37,11 @@ export default async function RootLayout({
   return (
     <html lang="en" data-theme="winter">
       <body className={`${inter.className} flex flex-col`}>
-        {/* <Provider session={session}> */}
+        {/* <SessionProvider session={session}> */}
           <DashLayout>
             {children}
           </DashLayout>
-        {/* </Provider> */}
+        {/* </SessionProvider> */}
       </body>
     </html>
   )

@@ -16,7 +16,7 @@ export default function DashSideBar({ navShow, setNavShow }: { navShow: boolean;
     const location = usePathname();
     const pathname = location === "/" || location === "/dashboard" ? "Dashboard" : location.replace("/dashboard/", "");
     const page = pathname[0].toUpperCase() + pathname.slice(1);
-    const {banker, balance} = user;
+    const banker = user?.accountDetails ? user?.accountDetails[0]?.banker : 'No Account Registered'
 
     const colorScheme: ColorSchemeProp[] = [
         {
@@ -72,7 +72,7 @@ export default function DashSideBar({ navShow, setNavShow }: { navShow: boolean;
                             </div>
                             <div className="flex flex-col justify-center">
                                 <h4 className="text-primary font-semibold text-xs text-[.7rem] dark:opacity-80">{banker}</h4>
-                                <p className="text-slate-600 dark:text-slate-900 text-xs opacity-60 dark:opacity-100 font-thin">&#8358;{balance.toLocaleString()}</p>
+                                <p className="text-slate-900 dark:text-slate-900 text-xs opacity-60 dark:opacity-100 font-light">&#8358;{("1,885,000,000").toLocaleString()}</p>
                             </div>
                         </aside>
                     </div>

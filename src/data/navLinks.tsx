@@ -41,10 +41,10 @@ export const navLinks : NavLinkProps[] = [
     },
     {
         id: 282347,
-        title: 'Profile',
+        title: 'Money Pool',
         // background: 'bg-indigo-200',
         element: <span className='border border-slate-500 bg-indigo-200 text-indigo-500 text-sm sm:text-base h-6 w-6 rounded-full flex justify-center items-center'><IoClipboardOutline className='text-inherit ' /></span>,
-        link: '/dashboard/profile',
+        link: '/dashboard/money-pool',
         icon: <IoClipboardOutline className='text-inherit ' />
     },
 ]
