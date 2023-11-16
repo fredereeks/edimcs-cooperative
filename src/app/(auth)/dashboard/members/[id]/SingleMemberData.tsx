@@ -230,7 +230,76 @@ export default function SingleMemberData({ member }: { member: MemberProps | und
                             </span>
                         </div>
                         <div data-te-stepper-content-ref className="absolute left-0 w-full translate-x-[150%] p-4 transition-all duration-500 ease-in-out">
-                            Savings Table in a bit...
+                        <section className="relative flex flex-col gap-2 p-4 bg-white  dark:bg-[#dbf0f724] dark:shadow-black shadow-slate-200 shadow-md rounded-lg">
+                                <div className="w-full overflow-x-scroll pb-6 x-scrollbar">
+                                    <table className="w-full text-slate-500 dark:text-slate-400 text-xs sm:text-sm min-w-[20rem]">
+                                        <thead>
+                                            <tr>
+                                                <th colSpan={user.type === "Admin" ? 6 : 5}>
+                                                    <div className='w-full flex justify-between items-center pb-2 mb-2 border-b border-b-slate-200'>
+                                                        <h4 className="uppercase font-semibold text-slate-400 text-left">SAVINGS TRANSACTIONS</h4>
+                                                        <button className="text-white bg-success px-4 py-2 rounded-md cursor-pointer text-xs font-light btn-primary">Save Money</button>
+                                                    </div>
+                                                </th>
+                                            </tr>
+                                            <tr className='text-slate-600 dark:text-slate-50 text-xs text-center'>
+                                                <th className='font-light text-left'>Member Details</th>
+                                                <th className='font-light'>Amount</th>
+                                                <th className='font-light'>Date</th>
+                                                <th className='font-light'>Verdict</th>
+                                                <th className='font-light'>Status</th>
+                                                {user.type === "Admin" && <th className='font-light'>Action</th>}
+                                            </tr>
+                                        </thead>
+                                        <tbody className='w-full'>
+                                            {
+                                                loanData.map(loan => (
+                                                    <tr key={loan.id} className='hover:bg-slate-50 dark:hover:bg-slate-900/30'>
+                                                        <td>
+                                                            <div onClick={() => showPreview(loan.id)} className="max-w-sm w-max flex items-center gap-2 cursor-pointer">
+                                                                <div className="h-7 sm:h-8 w-7 sm:w-8 flex justify-center items-center rounded-full overflow-hidden text-white dark:text-primary relative bg-primary dark:bg-slate-100">
+                                                                    {user.type === "Member" ? <FaSackDollar className='text-sm sm:text-base text-inherit' /> : <Image src={loan.image} alt={loan.name} fill={true} className="absolute left-0 top-0 object-cover w-full h-full" />}
+                                                                </div>
+                                                                <div className='flex flex-col'>
+                                                                    <h5 className="text-sm font-medium leading-tight whitespace-nowrap">{loan.name}</h5>
+                                                                    <h4 className="text-slate-400 text-xs py-[.1rem] sm:py-1">Balance: &#8358;{loan.balance.toLocaleString()}</h4>
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                        <td className="align-middle">
+                                                            <div className="flex justify-center items-center align-middle mx-auto whitespace-nowrap">
+                                                                <div className={`${loan.verdict === "Rejected" ? 'bg-red-100 text-red-500' : loan.verdict === "Granted" ? 'bg-sky-100 text-sky-500' : 'bg-slate-100 text-slate-500'} text-xs py-[.1rem] sm:py-1 px-3 rounded-sm font-medium`}>&#8358;{loan.amount.toLocaleString()}</div>
+                                                            </div>
+                                                        </td>
+                                                        <td className="align-middle">
+                                                            <div className="flex justify-center items-center gap-[.2rem] align-middle text-slate-400 text-xs py-[.1rem] sm:py-1">
+                                                                <FaClock className="text-inherit mt-[.1rem]" /> <p className="">{loan.createdAt}</p>
+                                                            </div>
+                                                        </td>
+                                                        <td className="align-middle">
+                                                            <div className="flex justify-center gap-2">
+                                                                <div className={`${loan.verdict === "Rejected" ? 'bg-red-100 text-red-500' : loan.verdict === "Granted" ? 'bg-teal-100 text-teal-500' : 'bg-slate-100 text-slate-500'} text-xs py-[.1rem] sm:py-1 px-3 rounded-sm font-medium`}>{loan.verdict}</div>
+                                                            </div>
+                                                        </td>
+                                                        <td className="align-middle">
+                                                            <div className="flex justify-center gap-2">
+                                                                <div className={`${loan.status === "Defaulted" ? 'bg-red-100 text-red-500' : loan.status === "Running" ? 'bg-sky-100 text-sky-500' : 'bg-slate-100 text-slate-500'} text-xs py-[.1rem] sm:py-1 px-3 rounded-sm font-medium`}>{loan.status}</div>
+                                                            </div>
+                                                        </td>
+                                                        {user.type === "Admin" &&
+                                                            <td className="align-middle">
+                                                                <div className="flex justify-center gap-2">
+                                                                    {loan.verdict === "Pending" && <button onClick={() => showReview(loan.id)} className="flex justify-center items-center gap-[.2rem] align-middle bg-success hover:bg-success/80 text-white dark:text-slate-900 px-3 rounded-sm cursor-pointer text-[.6rem] py-2 sm:py-1">Review</button>}
+                                                                    {loan.verdict === "Granted" && (loan.amount - loan.payback) !== 0 && <button onClick={() => showReview(loan.id)} className="flex justify-center items-center gap-[.2rem] align-middle bg-sky-500 hover:bg-sky-500/80 text-white dark:text-slate-900 px-3 rounded-sm cursor-pointer text-[.6rem] py-2 sm:py-1">Add Payback</button>}
+                                                                </div>
+                                                            </td>}
+                                                    </tr>
+                                                ))
+                                            }
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </section>
                         </div>
                     </li>
 
