@@ -7,7 +7,7 @@ import 'aos/dist/aos.css';
 import DashLayout from '@/app/(auth)/components/DashLayout'
 import { redirect } from 'next/navigation'
 // import SessionProvider from "@/components/SessionProvider"
-import { authOptions } from  "@/app/api/route"
+import { authOptions } from  "@/api/route"
 import { getServerSession } from 'next-auth'
 
 
