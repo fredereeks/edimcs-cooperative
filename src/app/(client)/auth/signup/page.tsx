@@ -46,7 +46,6 @@ const handleSignup = async (formData: FormData) => {
           email: email.toLowerCase(),
         }
       })
-      console.log({ newUser })
     }
 
     return {

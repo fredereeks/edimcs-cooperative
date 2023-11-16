@@ -4,7 +4,6 @@ import React, { useRef, useState } from 'react'
 import { TextInput } from '@/components'
 import { FaMoneyCheck } from 'react-icons/fa'
 import toast from 'react-hot-toast'
-// import { redirect } from 'next/navigation';
 import { useRouter } from 'next/navigation'
 import { LoginFormDataProps } from '@/types'
 import Link from 'next/link'
