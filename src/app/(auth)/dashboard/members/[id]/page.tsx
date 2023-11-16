@@ -17,7 +17,7 @@ const fetchMember = async (id: string | number) => {
 
 export default async function page({ params: { id } }: PageProp) {
     const member: MemberProps | undefined = await fetchMember(id);
-    console.log({ params: id, member })
+    // console.log({ params: id, member })
     return (
         <main className="relative">
             <SingleMemberData member={member} />
