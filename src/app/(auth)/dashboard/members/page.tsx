@@ -2,7 +2,7 @@ import React from 'react'
 import { edimcs_cliff, edimcs_silhouette, edimcs_blackpeople, edimcs_calculator, edimcs_phonecalculator, edimcs_piggyvest } from '@/assets/images'
 import MemberList from './MemberList'
 import { MemberProps } from '@/types'
-import { memberData } from '@/data/member'
+import { memberData } from '@/data/members'
 
 
 

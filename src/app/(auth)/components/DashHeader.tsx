@@ -12,7 +12,7 @@ import { edimcs_blackpeople } from '@/assets/images';
 
 export default function DashHeader({ handleClick, darkMode, toggleDarkMode }: handleClickProp) {
     const location = usePathname();
-    const pathname = location === "/dashboard" ? "Dashboard" : location.indexOf("/dashboard/user/") > -1 ? "User Details" : location.indexOf("/dashboard/admin/") > -1 ? "Admin Details" : location.replace("/dashboard/", "");
+    const pathname = location === "/dashboard" ? "Dashboard" : location.indexOf("/dashboard/members/") > -1 ? "Member Details" : location.indexOf("/dashboard/admin/") > -1 ? "Admin Details" : location.replace("/dashboard/", "");
     const page = pathname[0].toUpperCase() + pathname.slice(1);
     const { firstname, lastname } = user;
     const userImage = user?.image || edimcs_blackpeople

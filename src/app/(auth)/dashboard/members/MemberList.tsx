@@ -16,23 +16,7 @@ export default function MemberList({ memberData }: { memberData: MemberProps[] }
     const [tableData, setTableData] = useState<MemberProps[] | []>(memberData)
     const modalRef = useRef<HTMLDialogElement | null>(null)
     const inputRef = useRef<HTMLInputElement | null>(null)
-    const [selectedMember, setSelectedMember] = useState<MemberProps>({
-        memberId: "memberId",
-        firstname: "firstname",
-        middlename: "middlename",
-        lastname: "lastname",
-        email: "email",
-        phone: "phone",
-        address: "address",
-        // accountDetails: [{
-        //     id: '8234234',
-        //     accountName: 'Belkins Jones',
-        //     accountNo: '1823406234',
-        //     banker: 'Sterling Bank Plc',
-        //     type: 'Savings'
-        // }],
-        id: 8122934,
-    })
+    const [selectedMember, setSelectedMember] = useState<MemberProps>()
 
     const handleSearch = (e: React.FormEvent) => {
         e.preventDefault()
@@ -41,7 +25,7 @@ export default function MemberList({ memberData }: { memberData: MemberProps[] }
             setTableData(allTableData)
         }
         else {
-            const result = tableData.filter(el => el.firstname.toLowerCase().includes(keyword) || el.middlename.toLowerCase().includes(keyword) || el.lastname.toLowerCase().includes(keyword) || el.memberId.toString().toLowerCase().includes(keyword) || el.createdAt?.toString().toLowerCase().includes(keyword) || el.email.toLowerCase().includes(keyword) || el.phone.toString().toLowerCase().includes(keyword) || el.address?.toLowerCase().includes(keyword) || el.type?.toLowerCase().includes(keyword) || el.balance?.toString().toLowerCase().includes(keyword) || el.investment?.toString().toLowerCase().includes(keyword) || el.withdrawal?.toString().toLowerCase().includes(keyword))
+            const result = tableData.filter(el => el.firstname.toLowerCase().includes(keyword) || el.middlename.toLowerCase().includes(keyword) || el.lastname.toLowerCase().includes(keyword) || el.memberId.toString().toLowerCase().includes(keyword) || el.createdAt?.toString().toLowerCase().includes(keyword) || el.email.toLowerCase().includes(keyword) || el.phone?.toString().toLowerCase().includes(keyword) || el.address?.toLowerCase().includes(keyword) || el.type?.toLowerCase().includes(keyword) || el.balance?.toString().toLowerCase().includes(keyword) || el.investment?.toString().toLowerCase().includes(keyword) || el.withdrawal?.toString().toLowerCase().includes(keyword))
             setTableData(prev => [...result])
         }
     }
@@ -54,11 +38,8 @@ export default function MemberList({ memberData }: { memberData: MemberProps[] }
                         <thead className='pb-2 border-b border-b-slate-200 dark:border-b-slate-500'>
                             <tr>
                                 <th colSpan={6}>
-                                    {/* <h4 className="uppercase font-semibold text-slate-400 text-left pb-2 mb-2 border-b border-b-slate-200 dark:border-b-slate-500">SAVINGS {user.type === "Admin" ? 'LIST' : 'RECORDS'}</h4> */}
-                                    <div className="flex justify-between items-center gap-2 flex-wrap font-normal pb-2 border-b border-b-slate-200 dark:border-b-slate-500">
-                                        <h4 className="uppercase text-lg font-semibold text-slate-600 text-left">MEMBERS {user.type === "Admin" ? 'LIST' : 'RECORDS'}</h4>
-                                        <TableSearch key={'72088234'} handleSearch={handleSearch} inputRef={inputRef} />
-                                    </div>
+                                    <TableSearch title='MEMBERS' key={'72088234'} handleSearch={handleSearch} inputRef={inputRef}>
+                                    </TableSearch>
                                 </th>
                             </tr>
                             <tr className='text-slate-600 dark:text-slate-50'>
@@ -72,44 +53,51 @@ export default function MemberList({ memberData }: { memberData: MemberProps[] }
                         </thead>
                         <tbody className='w-full'>
                             {
-                                tableData.map(member => (
-                                    <tr key={member?.id} className='hover:bg-slate-50 dark:hover:bg-slate-900/30'>
-                                        <td>
-                                            <Link href={`/dashboard/members/${member?.id}`} className="max-w-sm w-max flex items-center gap-2 cursor-pointer text-slate-700 dark:text-slate-50">
-                                                <div className="h-7 sm:h-8 w-7 sm:w-8 flex justify-center items-center rounded-full overflow-hidden relative bg-primary dark:bg-slate-600">
-                                                    <Image src={member?.image || edimcs_bookkeeping} alt={`${member?.firstname} ${member?.firstname} ${member?.lastname}`} fill={true} className="absolute left-0 top-0 object-cover w-full h-full" />
+                                tableData.length ?
+                                    tableData.map(member => (
+                                        <tr key={member?.id} className='hover:bg-slate-50 dark:hover:bg-slate-900/30'>
+                                            <td>
+                                                <Link href={`/dashboard/members/${member?.id}`} className="max-w-sm w-max flex items-center gap-2 cursor-pointer text-slate-700 dark:text-slate-50">
+                                                    <div className="h-7 sm:h-8 w-7 sm:w-8 flex justify-center items-center rounded-full overflow-hidden relative bg-primary dark:bg-slate-600">
+                                                        <Image src={member?.image || edimcs_bookkeeping} alt={`${member?.firstname} ${member?.firstname} ${member?.lastname}`} fill={true} className="absolute left-0 top-0 object-cover w-full h-full" />
+                                                    </div>
+                                                    <div>
+                                                        <h5 className="text-xs font-medium leading-tight whitespace-nowrap flex items-center">{member?.firstname} {member?.middlename} {member?.lastname} <span className="text-[.4rem] bg-slate-200/50 p-[.2rem] px-[.3rem] rounded-[2px] uppercase ml-2">{member?.type}</span></h5>
+                                                        <p className="text-[.6rem] font-medium opacity-70 leading-tight">EDIMCS-{member?.memberId}</p>
+                                                    </div>
+                                                </Link>
+                                            </td>
+                                            <td className="align-middle">
+                                                <div className="flex justify-center items-center gap-[.2rem] align-middle text-slate-600 dark:text-slate-50 text-[.6rem] py-[.1rem] sm:py-1">
+                                                    <FaCalendarAlt className="text-inherit mt-[.1rem]" /> <p className="">{member?.createdAt}</p>
                                                 </div>
-                                                <div>
-                                                    <h5 className="text-xs font-medium leading-tight whitespace-nowrap flex items-center">{member?.firstname} {member?.middlename} {member?.lastname} <span className="text-[.4rem] bg-slate-200/50 p-[.2rem] px-[.3rem] rounded-[2px] uppercase ml-2">{member?.type}</span></h5>
-                                                    <p className="text-[.6rem] font-medium opacity-70 leading-tight">EDIMCS-{member?.memberId}</p>
+                                            </td>
+                                            <td className="align-middle">
+                                                <div className="flex justify-center items-center align-middle mx-auto">
+                                                    <div className={`bg-teal-100 dark:bg-slate-50 text-teal-600 text-[.6rem] py-[.1rem] sm:py-1 px-3 rounded-sm font-medium`}>&#8358;{member?.savings}</div>
                                                 </div>
-                                            </Link>
-                                        </td>
-                                        <td className="align-middle">
-                                            <div className="flex justify-center items-center gap-[.2rem] align-middle text-slate-600 dark:text-slate-50 text-[.6rem] py-[.1rem] sm:py-1">
-                                                <FaCalendarAlt className="text-inherit mt-[.1rem]" /> <p className="">{member?.createdAt}</p>
-                                            </div>
-                                        </td>
-                                        <td className="align-middle">
-                                            <div className="flex justify-center items-center align-middle mx-auto">
-                                                <div className={`bg-teal-100 dark:bg-slate-50 text-teal-600 text-[.6rem] py-[.1rem] sm:py-1 px-3 rounded-sm font-medium`}>&#8358;{member?.savings}</div>
-                                            </div>
-                                        </td>
-                                        <td className="align-middle">
-                                            <div className="flex justify-center items-center align-middle mx-auto">
-                                                <div className={`bg-sky-100 dark:bg-slate-50 text-sky-600 text-[.6rem] py-[.1rem] sm:py-1 px-3 rounded-sm font-medium`}>&#8358;{member?.investment}</div>
-                                            </div>
-                                        </td>
-                                        <td className="align-middle">
-                                            <div className="flex justify-center items-center align-middle mx-auto">
-                                                <div className={`bg-red-100 dark:bg-slate-50 text-red-600 text-[.6rem] py-[.1rem] sm:py-1 px-3 rounded-sm font-medium whitespace-nowrap`}>-&#8358;{member?.withdrawal}</div>
-                                            </div>
-                                        </td>
-                                        <td className="align-middle">
-                                            <h4 className="flex justify-center items-center gap-[.2rem] align-middle text-slate-500 dark:text-slate-50 text-[.6rem] py-[.1rem] sm:py-1">&#8358;{member?.balance}</h4>
+                                            </td>
+                                            <td className="align-middle">
+                                                <div className="flex justify-center items-center align-middle mx-auto">
+                                                    <div className={`bg-sky-100 dark:bg-slate-50 text-sky-600 text-[.6rem] py-[.1rem] sm:py-1 px-3 rounded-sm font-medium`}>&#8358;{member?.investment}</div>
+                                                </div>
+                                            </td>
+                                            <td className="align-middle">
+                                                <div className="flex justify-center items-center align-middle mx-auto">
+                                                    <div className={`bg-red-100 dark:bg-slate-50 text-red-600 text-[.6rem] py-[.1rem] sm:py-1 px-3 rounded-sm font-medium whitespace-nowrap`}>-&#8358;{member?.withdrawal}</div>
+                                                </div>
+                                            </td>
+                                            <td className="align-middle">
+                                                <h4 className="flex justify-center items-center gap-[.2rem] align-middle text-slate-500 dark:text-slate-50 text-[.6rem] py-[.1rem] sm:py-1">&#8358;{member?.balance}</h4>
+                                            </td>
+                                        </tr>
+                                    ))
+                                    :
+                                    <tr>
+                                        <td colSpan={6}>
+                                            <h4 className="text-slate-500 text-center dark:text-slate-300">No Record(s) Found</h4>
                                         </td>
                                     </tr>
-                                ))
                             }
                         </tbody>
                     </table>

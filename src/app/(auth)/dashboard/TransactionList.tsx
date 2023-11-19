@@ -49,10 +49,8 @@ export default function TransactionList({ transactionData }: { transactionData: 
                         <thead>
                             <tr>
                                 <th colSpan={4}>
-                                    <div className="flex justify-between items-center gap-2 flex-wrap font-normal pb-2 border-b border-b-slate-200 dark:border-b-slate-500">
-                                        <h4 className="uppercase text-lg font-semibold text-slate-600 text-left">RECENT TRANSACTIONS {user.type === "Admin" ? 'LIST' : 'RECORDS'}</h4>
-                                        <TableSearch key={'72088234'} handleSearch={handleSearch} inputRef={inputRef} />
-                                    </div>
+                                    <TableSearch title='RECENT TRANSACTIONS' key={'72088234'} handleSearch={handleSearch} inputRef={inputRef}>
+                                    </TableSearch>
                                 </th>
                             </tr>
                             <tr className='text-slate-500 dark:text-slate-50'>

@@ -6,9 +6,15 @@ import { Toaster } from 'react-hot-toast'
 import 'aos/dist/aos.css';
 
 export default function DashLayout({ children }: { children: React.ReactNode }) {
-    const [darkMode, setDarkMode] = useState<boolean>(false)
+    const [darkMode, setDarkMode] = useState<boolean>(true)
     const [navShow, setNavShow] = useState<boolean>(false)
-    const mode: string | null = typeof window !== 'undefined' ? localStorage.getItem("edimcs__theme") : 'light'
+    const mode: string | null = typeof window !== 'undefined' ? localStorage.getItem("edimcs__theme") : 'dark'
+
+    useEffect(() => {
+        // setDarkMode(prev => !prev)
+        // let modal = darkMode ? 'light' : 'dark'
+        typeof window !== 'undefined' ? localStorage.setItem("edimcs__theme", darkMode ? 'light' : 'dark') : null
+    }, [darkMode])
 
     let modal = useMemo(() => mode, [mode])
 
@@ -18,11 +24,10 @@ export default function DashLayout({ children }: { children: React.ReactNode }) 
 
     const toggleDarkMode = () => {
         setDarkMode(prev => !prev)
-        let modal = darkMode ? 'dark' : 'light'
-        typeof window !== 'undefined' ? localStorage.setItem("edimcs__theme", modal) : null
+        // let modal = darkMode ? 'dark' : 'light'
+        // typeof window !== 'undefined' ? localStorage.setItem("edimcs__theme", modal) : null
     }
-
-
+    
     return (
         // <main className={`${darkMode === true ? 'dark' : 'light'}`}>
         <main className={`${modal}`}>

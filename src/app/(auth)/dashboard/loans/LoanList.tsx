@@ -11,14 +11,18 @@ import { user } from '@/data/user'
 import { FaSackDollar } from 'react-icons/fa6'
 import toast from 'react-hot-toast'
 import { useRouter } from 'next/navigation'
+import { TableSearch } from '../../components'
 
 
 export default function LoanList({ loanData }: { loanData: LoanProps[] }) {
+    const [allTableData, setAllTableData] = useState<LoanProps[] | []>(loanData)
+    const [tableData, setTableData] = useState<LoanProps[] | []>(loanData)
     const modalRef = useRef<HTMLDialogElement | null>(null)
     const reviewRef = useRef<HTMLDialogElement | null>(null)
     const previewRef = useRef<HTMLDialogElement | null>(null)
     const formRef = useRef<HTMLFormElement | null>(null)
     const amountRef = useRef<HTMLInputElement | null>(null)
+    const inputRef = useRef<HTMLInputElement | null>(null)
 
     const [selectedLoan, setSelectedLoan] = useState<LoanProps>()
     const [loading, setLoading] = useState<boolean>(false)
@@ -62,7 +66,17 @@ export default function LoanList({ loanData }: { loanData: LoanProps[] }) {
         setLoading(false)
     }
 
-
+    const handleSearch = (e: React.FormEvent) => {
+        e.preventDefault()
+        let keyword = inputRef.current?.value.toLowerCase() || ''
+        if (!keyword || keyword === '') {
+            setTableData(allTableData)
+        }
+        else {
+            const result = tableData.filter(el => el.amount.toString().toLowerCase().includes(keyword) || el.balance.toString().toLowerCase().includes(keyword) || el.createdAt.toString().toLowerCase().includes(keyword) || el.name.toString().toLowerCase().includes(keyword) || el.payback.toString().toLowerCase().includes(keyword) || el.status.toString().toLowerCase().includes(keyword) || el.verdict.toString().toLowerCase().includes(keyword))
+            setTableData(prev => [...result])
+        }
+    }
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -76,10 +90,9 @@ export default function LoanList({ loanData }: { loanData: LoanProps[] }) {
                         <thead>
                             <tr>
                                 <th colSpan={user.type === "Admin" ? 6 : 5}>
-                                    <div className='w-full flex justify-between items-center pb-2 mb-2 border-b border-b-slate-200'>
-                                        <h4 className="uppercase font-semibold text-slate-400 text-left">LOAN TRANSACTIONS</h4>
-                                        <button onClick={() => modalRef.current?.showModal()} className="text-white bg-primary px-4 py-2 rounded-md cursor-pointer text-xs font-light btn-primary">Apply for Loan</button>
-                                    </div>
+                                    <TableSearch title='LOAN' key={'72088234'} handleSearch={handleSearch} inputRef={inputRef}>
+                                    <button onClick={() => modalRef.current?.showModal()} className="text-white bg-primary px-4 py-2 rounded-md cursor-pointer text-xs font-light btn-primary">Apply for Loan</button>
+                                    </TableSearch>
                                 </th>
                             </tr>
                             <tr className='text-slate-600 dark:text-slate-50 text-xs text-center'>
@@ -93,7 +106,7 @@ export default function LoanList({ loanData }: { loanData: LoanProps[] }) {
                         </thead>
                         <tbody className='w-full'>
                             {
-                                loanData.map(loan => (
+                                tableData.map(loan => (
                                     <tr key={loan.id} className='hover:bg-slate-50 dark:hover:bg-slate-900/30'>
                                         <td>
                                             <div onClick={() => showPreview(loan.id)} className="max-w-sm w-max flex items-center gap-2 cursor-pointer">

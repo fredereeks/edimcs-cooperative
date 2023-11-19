@@ -47,8 +47,11 @@ html,body{
   .modalRef{
     @apply rounded-lg translate-y-10 sm:-translate-y-10 min-h-full mb-[70px] sm:mb-[40px] relative w-11/12 md:w-max max-w-lg py-5 sm:px-4 mx-auto bg-white;
   }
-  tbody tr{
-    @apply hover:bg-slate-50 dark:hover:bg-slate-900/30;
+  tbody tr:not(:last-child){
+    @apply hover:bg-slate-50 dark:hover:bg-slate-900/30 border-b border-b-slate-200 dark:border-b-slate-500;
+  }
+  tbody tr:first-child{
+    @apply border-t border-t-slate-200 dark:border-t-slate-500;
   }
 }
 
@@ -88,7 +91,7 @@ html,body{
   td, th{
     padding: 0.5rem .25rem;
   }
-  tbody tr:not(:last-child){
-    border-bottom: 1px solid #e9eaee;
-  }
+  /* tbody tr:not(:last-child){
+    border-bottom: 1px solid #e9edf3;
+  } */
 }

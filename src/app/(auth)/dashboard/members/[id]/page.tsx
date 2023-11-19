@@ -1,5 +1,5 @@
 import { TextInput } from '@/components'
-import { memberData } from '@/data/member'
+import { memberData } from '@/data/members'
 import React from 'react'
 import SingleMemberData from './SingleMemberData'
 import { MemberProps } from '@/types'

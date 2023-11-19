@@ -77,7 +77,7 @@ export type AccountDetailsProps = {
 }
 
 export type MemberProps = {
-    id: number; image?: StaticImageData | string; firstname: string; middlename: string; lastname: string; email: string; status?: string; phone: string | number; type?: "Admin" | "Member";
+    id: number; image?: StaticImageData | string; firstname: string; middlename: string; lastname: string; email: string; status?: string; phone?: string | number; type?: "Admin" | "Member";
     accountDetails?: AccountDetailsProps[] | undefined
     address?: string | undefined; memberId: number | string; createdAt?: string; savings?: number; investment?: number; withdrawal?: number; balance?: number
 }
@@ -95,6 +95,17 @@ export interface SubLinkProps {
     title: string;
     url: string;
     icon: JSX.Element | string;
+}
+
+export interface SavingsProps{
+    id: string | number
+    amount: number
+    saver?: MemberProps
+    saverId: string | number
+    status: "Pending" | "Running" | "Settled" | "Suspended" | "Rejected"
+    createdAt: string
+    updatedAt: string
+    updatedBy?: string
 }
 
 export interface TextAreaProps {

@@ -23,7 +23,7 @@ const config: Config = {
   },
   plugins: [require("daisyui"), require("tw-elements/dist/plugin.cjs")],
   daisyui: {
-    themes: ["light", "dark", "winter"],
+    themes: ["winter"],
   },
 }
 export default config
