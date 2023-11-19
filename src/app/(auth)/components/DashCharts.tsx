@@ -1,10 +1,10 @@
 "use client"
 
-import React, { useRef } from 'react'
+import React, { ReactElement, useRef } from 'react'
 import { useEffect } from 'react';
 
-export default function DashCharts({ savings, doughtnut, investment }) {
-    // const canvasRef = useRef<HTMLCanvasElement | null>(null)
+// ReactElement<HTMLDivElement>
+export default function DashCharts({ savings, doughtnut, investment }: {savings: ReactElement<HTMLDivElement>, doughtnut: ReactElement<HTMLDivElement>, investment: ReactElement<HTMLDivElement> }) {
     
     
     useEffect(() => {

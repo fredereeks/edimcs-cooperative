@@ -3,10 +3,6 @@
 import prisma from "@/utils/prisma"
 import bcryptjs from 'bcryptjs'
 
-interface UserType {
-    firstname: string, middlename: string, lastname: string, email: string, memberId: string, password: string, confirmPassword: string,
-
-}
 export const signUp = async (firstname: string, middlename: string, lastname: string, email: string, memberId: string, password: string, confirmPassword: string) => {
     try {
 

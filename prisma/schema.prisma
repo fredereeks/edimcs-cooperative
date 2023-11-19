@@ -80,14 +80,13 @@ model AccountNumber {
 
 model Investment {
   id            String         @id @default(uuid())
-  banker        String         @db.VarChar(100)
-  number        Int            @db.Int
   type          InvestmentType @default(Silver)
   status        ActivityStatus @default(Pending)
-  investor      Member?        @relation("investment", fields: [investorId], references: [id])
-  investorId    String?
+  investor      Member         @relation("investment", fields: [investorId], references: [id])
+  investorId    String
   beneficiary   Member?        @relation("beneficiary", fields: [beneficiaryId], references: [id])
   beneficiaryId String?
+  nextDueDate   DateTime?       
   createdAt     DateTime       @default(now())
   updatedAt     DateTime       @default(now()) @updatedAt
   updatedBy     String?        @db.VarChar(50)

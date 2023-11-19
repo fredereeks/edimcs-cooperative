@@ -133,6 +133,7 @@ export interface TransactionProps {
     firstname: string
     middlename: string | null
     lastname: string
+    memberId: string
     type: string
     amount: number
     createdAt: string

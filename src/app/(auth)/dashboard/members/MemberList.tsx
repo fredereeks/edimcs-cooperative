@@ -6,14 +6,16 @@ import Image, { StaticImageData } from 'next/image'
 import { FaCalendarAlt } from 'react-icons/fa'
 import { TextInput } from '@/components'
 import { MemberProps } from '@/types'
-import Modal from '../../components/Modal'
 import { user } from '@/data/user'
 import Link from 'next/link'
+import { TableSearch, Modal } from '@/app/(auth)/components'
 
 
 export default function MemberList({ memberData }: { memberData: MemberProps[] }) {
+    const [allTableData, setAllTableData] = useState<MemberProps[] | []>(memberData)
+    const [tableData, setTableData] = useState<MemberProps[] | []>(memberData)
     const modalRef = useRef<HTMLDialogElement | null>(null)
-    const formRef = useRef<HTMLFormElement | null>(null)
+    const inputRef = useRef<HTMLInputElement | null>(null)
     const [selectedMember, setSelectedMember] = useState<MemberProps>({
         memberId: "memberId",
         firstname: "firstname",
@@ -32,29 +34,15 @@ export default function MemberList({ memberData }: { memberData: MemberProps[] }
         id: 8122934,
     })
 
-    const inputs: { [key: string]: string | number | undefined } = useMemo(() => ({
-        "memberId": selectedMember.memberId,
-        "firstname": selectedMember.firstname,
-        "middlename": selectedMember.middlename,
-        "lastname": selectedMember.lastname,
-        "email": selectedMember.email,
-        "phone": selectedMember.phone,
-        "address": selectedMember.address,
-    }), [selectedMember.memberId, selectedMember.firstname, selectedMember.middlename, selectedMember.lastname, selectedMember.email, selectedMember.phone, selectedMember.address,])
-
-    
-
-    const handleClick = (id: number) => {
-        try {
-            // make request to get user details
-            const targetMember = memberData?.find(member => member.id === id)
-            if (targetMember) {
-                setSelectedMember(prev => ({ ...targetMember }))
-            }
-            modalRef.current?.showModal()
+    const handleSearch = (e: React.FormEvent) => {
+        e.preventDefault()
+        let keyword = inputRef.current?.value.toLowerCase() || ''
+        if (!keyword || keyword === '') {
+            setTableData(allTableData)
         }
-        catch (err) {
-            console.log({ err })
+        else {
+            const result = tableData.filter(el => el.firstname.toLowerCase().includes(keyword) || el.middlename.toLowerCase().includes(keyword) || el.lastname.toLowerCase().includes(keyword) || el.memberId.toString().toLowerCase().includes(keyword) || el.createdAt?.toString().toLowerCase().includes(keyword) || el.email.toLowerCase().includes(keyword) || el.phone.toString().toLowerCase().includes(keyword) || el.address?.toLowerCase().includes(keyword) || el.type?.toLowerCase().includes(keyword) || el.balance?.toString().toLowerCase().includes(keyword) || el.investment?.toString().toLowerCase().includes(keyword) || el.withdrawal?.toString().toLowerCase().includes(keyword))
+            setTableData(prev => [...result])
         }
     }
 
@@ -66,7 +54,11 @@ export default function MemberList({ memberData }: { memberData: MemberProps[] }
                         <thead className='pb-2 border-b border-b-slate-200 dark:border-b-slate-500'>
                             <tr>
                                 <th colSpan={6}>
-                                    <h4 className="uppercase font-semibold text-slate-400 text-left pb-2 mb-2 border-b border-b-slate-200 dark:border-b-slate-500">SAVINGS {user.type === "Admin" ? 'LIST' : 'RECORDS'}</h4>
+                                    {/* <h4 className="uppercase font-semibold text-slate-400 text-left pb-2 mb-2 border-b border-b-slate-200 dark:border-b-slate-500">SAVINGS {user.type === "Admin" ? 'LIST' : 'RECORDS'}</h4> */}
+                                    <div className="flex justify-between items-center gap-2 flex-wrap font-normal pb-2 border-b border-b-slate-200 dark:border-b-slate-500">
+                                        <h4 className="uppercase text-lg font-semibold text-slate-600 text-left">MEMBERS {user.type === "Admin" ? 'LIST' : 'RECORDS'}</h4>
+                                        <TableSearch key={'72088234'} handleSearch={handleSearch} inputRef={inputRef} />
+                                    </div>
                                 </th>
                             </tr>
                             <tr className='text-slate-600 dark:text-slate-50'>
@@ -80,7 +72,7 @@ export default function MemberList({ memberData }: { memberData: MemberProps[] }
                         </thead>
                         <tbody className='w-full'>
                             {
-                                memberData.map(member => (
+                                tableData.map(member => (
                                     <tr key={member?.id} className='hover:bg-slate-50 dark:hover:bg-slate-900/30'>
                                         <td>
                                             <Link href={`/dashboard/members/${member?.id}`} className="max-w-sm w-max flex items-center gap-2 cursor-pointer text-slate-700 dark:text-slate-50">

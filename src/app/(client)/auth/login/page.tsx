@@ -61,7 +61,7 @@ const handleSignup = async (formData: FormData) => {
       // const error = err as AxiosError;
       return {
           error: true,
-          message: "Something went wrong, please, try again"
+          message: "Something went wrong, please, try again. Due to "+ err
       }
   }
 }

@@ -1,10 +1,10 @@
 import React, { ReactElement } from 'react'
 import { edimcs_blackpeople, edimcs_calculator, edimcs_cliff, edimcs_coinstack, edimcs_moneybox } from '@/assets/images'
-import { FaClock } from 'react-icons/fa'
-import Image from 'next/image'
+
 import { TransactionProps } from '@/types'
-import DashCharts from '../components/DashCharts'
+import {DashCharts} from '../components'
 import { Chart, initTE } from "tw-elements";
+import TransactionList from './TransactionList';
 
 export default async function page() {
 
@@ -12,6 +12,7 @@ export default async function page() {
   const transactionData: TransactionProps[] | [] = [
     {
       id: 812331,
+      memberId: "EDIMCS-812331",
       image: edimcs_blackpeople,
       firstname: 'Amaka',
       middlename: '',
@@ -24,6 +25,7 @@ export default async function page() {
     },
     {
       id: 812332,
+      memberId: "EDIMCS-812332",
       image: edimcs_cliff,
       firstname: 'David',
       middlename: '',
@@ -36,6 +38,7 @@ export default async function page() {
     },
     {
       id: 812333,
+      memberId: "EDIMCS-812333",
       image: edimcs_coinstack,
       firstname: 'Ejeh',
       middlename: '',
@@ -48,6 +51,7 @@ export default async function page() {
     },
     {
       id: 812334,
+      memberId: "EDIMCS-812334",
       image: edimcs_calculator,
       firstname: 'Ebenezer',
       middlename: '',
@@ -60,6 +64,7 @@ export default async function page() {
     },
     {
       id: 812335,
+      memberId: "EDIMCS-812335",
       image: edimcs_moneybox,
       firstname: 'David',
       middlename: '',
@@ -134,57 +139,7 @@ export default async function page() {
           <button className="transition-all text-xs hover:text-primary dark:hover:text-slate-200 border-b-2 border-b-transparent hover:border-b-primary py-2 px-4 cursor-pointer">Withdrawals</button>
         </div>
       </section> */}
-      <section className="relative flex flex-col gap-2 p-4 bg-white dark:bg-[#dbf0f724] dark:shadow-black shadow-slate-200 shadow-md rounded-lg">
-        <div className="w-full overflow-x-scroll pb-6 x-scrollbar">
-          <table className="w-full text-slate-600 dark:text-slate-50 text-xs sm:text-sm min-w-[20rem]">
-            <thead>
-              <tr>
-                <th colSpan={4}>
-                  <h4 className="uppercase font-medium text-slate-400 text-left pb-2 mb-2 border-b border-b-slate-200">RECENT TRANSACTIONS</h4>
-                </th>
-              </tr>
-              <tr className='text-slate-500 dark:text-slate-50'>
-                <th className='uppercase font-medium text-xs text-left'>Member/Transaction Details</th>
-                <th className='font-medium text-xs text-center'>Transaction Amount</th>
-                <th className='font-medium text-xs text-center'>Transaction Date</th>
-                <th className='font-medium text-xs text-center'>Balance at Date</th>
-              </tr>
-            </thead>
-            <tbody className='w-full text-slate-700 dark:text-slate-50'>
-              {
-                transactionData.map(transaction => (
-                  <tr key={transaction.id} className='hover:bg-slate-50 dark:hover:bg-slate-900/30'>
-                    <td>
-                      <div className="max-w-sm w-max flex items-center gap-2 cursor-pointer">
-                        <div className="h-7 sm:h-8 w-7 sm:w-8 flex justify-center items-center rounded-full overflow-hidden relative bg-primary dark:bg-slate-600/50">
-                          <Image src={transaction.image} alt={`${transaction?.firstname} ${transaction?.middlename} ${transaction?.lastname}`} fill={true} className="absolute left-0 top-0 object-cover w-full h-full" />
-                        </div>
-                        <div>
-                          <h5 className="text-sm font-medium leading-tight whitespace-nowrap">{transaction?.firstname} {transaction?.middlename} {transaction?.lastname}</h5>
-                          <p className="text-xs font-medium opacity-70 text-slate-600 dark:text-slate-50 dark:opacity-100 leading-tight">{transaction.type}</p>
-                        </div>
-                      </div>
-                    </td>
-                    <td className="align-middle">
-                      <div className="flex justify-center items-center align-middle mx-auto">
-                        <div className={`${transaction.type === 'Savings' ? 'bg-teal-100 text-teal-500' : transaction.type === 'Withdrawal' ? 'bg-red-100 text-red-500' : 'bg-sky-100 text-sky-500'} text-xs py-[.1rem] sm:py-1 px-3 rounded-sm font-medium`}>{transaction.type === 'Withdrawal' ? '-' : ''}&#8358;{transaction.amount.toLocaleString()}</div>
-                      </div>
-                    </td>
-                    <td className="align-middle">
-                      <div className="flex justify-center items-center gap-[.2rem] align-middle text-xs py-[.1rem] sm:py-1">
-                        <FaClock className="text-inherit mt-[.1rem]" /> <p className="">{transaction.createdAt}</p>
-                      </div>
-                    </td>
-                    <td className="align-middle">
-                      <h4 className="flex justify-center items-center gap-[.2rem] align-middle text-xs py-[.1rem] sm:py-1">&#8358;{transaction.balance.toLocaleString()}</h4>
-                    </td>
-                  </tr>
-                ))
-              }
-            </tbody>
-          </table>
-        </div>
-      </section>
+      <TransactionList key={'820416'} transactionData={transactionData} />
     </main>
   )
 }
