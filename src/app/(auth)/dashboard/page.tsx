@@ -3,7 +3,6 @@ import { edimcs_blackpeople, edimcs_calculator, edimcs_cliff, edimcs_coinstack, 
 
 import { TransactionProps } from '@/types'
 import {DashCharts} from '../components'
-import { Chart, initTE } from "tw-elements";
 import TransactionList from './TransactionList';
 
 export default async function page() {

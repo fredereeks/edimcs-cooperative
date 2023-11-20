@@ -11,7 +11,7 @@ import { useRouter } from 'next/navigation'
 import { signIn, useSession } from 'next-auth/react'
 import SignupForm from './SignupForm'
 import bcryptjs from 'bcryptjs'
-import prisma from '@/libs/prisma'
+import prisma from '@/lib/prisma'
 import Image from 'next/image'
 import { edimcs_bookkeeping } from '@/assets/images'
 

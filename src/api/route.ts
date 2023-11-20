@@ -4,7 +4,7 @@ import NextAuth from 'next-auth/next'
 import bcryptjs from 'bcryptjs'
 import jwt from 'jsonwebtoken'
 
-import prisma from "@/libs/prisma"
+import prisma from "@/lib/prisma"
 import { JWT } from 'next-auth/jwt'
 
 export const authOptions: AuthOptions = {

@@ -1,4 +1,4 @@
-import { TextInput } from '@/components'
+export const dynamic = 'force-dynamic'
 import { memberData } from '@/data/members'
 import React from 'react'
 import SingleMemberData from './SingleMemberData'

@@ -6,17 +6,18 @@ import { Toaster } from 'react-hot-toast'
 import 'aos/dist/aos.css';
 
 export default function DashLayout({ children }: { children: React.ReactNode }) {
-    const [darkMode, setDarkMode] = useState<boolean>(true)
+    const [darkMode, setDarkMode] = useState<boolean>(false)
     const [navShow, setNavShow] = useState<boolean>(false)
-    const mode: string | null = typeof window !== 'undefined' ? localStorage.getItem("edimcs__theme") : 'dark'
 
     useEffect(() => {
-        // setDarkMode(prev => !prev)
-        // let modal = darkMode ? 'light' : 'dark'
-        typeof window !== 'undefined' ? localStorage.setItem("edimcs__theme", darkMode ? 'light' : 'dark') : null
-    }, [darkMode])
+        const currentMode = localStorage.getItem("edimcs__theme") || 'light'
+        setDarkMode(currentMode === 'dark' ? true : false)
+    },[])
 
-    let modal = useMemo(() => mode, [mode])
+    useEffect(() => {
+        let modal = darkMode ? 'dark' : 'light'
+        localStorage.setItem("edimcs__theme", modal)
+    }, [darkMode])
 
     const handleClick = () => {
         setNavShow(prev => !prev)
@@ -24,18 +25,16 @@ export default function DashLayout({ children }: { children: React.ReactNode }) 
 
     const toggleDarkMode = () => {
         setDarkMode(prev => !prev)
-        // let modal = darkMode ? 'dark' : 'light'
-        // typeof window !== 'undefined' ? localStorage.setItem("edimcs__theme", modal) : null
     }
     
     return (
         // <main className={`${darkMode === true ? 'dark' : 'light'}`}>
-        <main className={`${modal}`}>
+        <main className={`${darkMode ? 'dark' : 'light'}`}>
             <Toaster />
             <section className={`bg-slate-50 dark:bg-slate-900 min-h-screen flex py-2 gap-3 w-full`}>
                 <DashSideBar navShow={navShow} setNavShow={setNavShow}/>
                 <div className="flex flex-col flex-1 py-4 sm:px-4 w-[50vw]">
-                    <DashHeader handleClick={handleClick} darkMode={darkMode} toggleDarkMode={toggleDarkMode} />
+                    <DashHeader handleClick={handleClick} darkMode={darkMode} toggleDarkMode={(toggleDarkMode)} />
                     <div className="min-h-[calc(100vh-120px)]">
                         {children}
                     </div>

@@ -65,12 +65,12 @@ export default function DashSideBar({ navShow, setNavShow }: { navShow: boolean;
                     <div className="flex flex-col gap-2">
                         <h3 className="text-slate-400 text-[.6rem] font-semibold whitespace-nowrap uppercase">Account</h3>
                         <aside className={`bg-primary/10 dark:bg-white rounded-sm flex items-center gap-2 p-2 transition-all duration-300`}>
-                            <div className="h-full w-11 rounded-[.2rem] bg-slate-800 relative before:absolute before:w-[.6rem] before:h-[.6rem] before:bg-orange-400 before:rounded-full before:bottom-1 before:right-[.6rem] after:absolute after:w-[.6rem] after:h-[.6rem] after:rounded-full after:bottom-1 after:right-1 after:bg-gradient-to-br after:from-slate-200 via-slate-100 to-slate-100/90">
+                            <div className="h-8 w-11 rounded-[.2rem] bg-slate-800 border border-slate-800 relative before:absolute before:w-[.6rem] before:h-[.6rem] before:bg-orange-400 before:rounded-full before:bottom-1 before:right-[.6rem] after:absolute after:w-[.6rem] after:h-[.6rem] after:rounded-full after:bottom-1 after:right-1 after:bg-gradient-to-br after:from-slate-200 via-slate-100 to-slate-100/90">
                                 <div className="absolute w-[.6rem] h-2 rounded-sm bg-orange-200 top-1/2 -translate-y-1/2 left-1"></div>
                             </div>
                             <div className="flex flex-col justify-center">
-                                <h4 className="text-primary font-semibold text-xs text-[.7rem] dark:opacity-80">{banker}</h4>
-                                <p className="text-slate-900 dark:text-slate-900 text-xs opacity-60 dark:opacity-100 font-light">&#8358;{("1,885,000,000").toLocaleString()}</p>
+                                <h4 className="text-primary font-semibold text-xs text-[.7rem] dark:opacity-80">{user?.accountDetails && user?.accountDetails[0]?.banker || 'EDIMCS Savings'}</h4>
+                                <p className="text-slate-900 dark:text-slate-900 text-xs opacity-60 dark:opacity-100 font-light">&#8358;{user?.balance?.toLocaleString()}</p>
                             </div>
                         </aside>
                     </div>

@@ -1,6 +1,6 @@
 "use server"
 
-import prisma from "@/libs/prisma"
+import prisma from "@/lib/prisma"
 import bcryptjs from 'bcryptjs'
 
 export const signUp = async (firstname: string, middlename: string, lastname: string, email: string, memberId: string, password: string, confirmPassword: string) => {

@@ -102,7 +102,7 @@ export interface SavingsProps{
     amount: number
     saver?: MemberProps
     saverId: string | number
-    status: "Pending" | "Running" | "Settled" | "Suspended" | "Rejected"
+    status: "Pending" | "Approved" | "Rejected"
     createdAt: string
     updatedAt: string
     updatedBy?: string
