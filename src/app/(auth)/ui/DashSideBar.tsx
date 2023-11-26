@@ -6,7 +6,7 @@ import Link from 'next/link'
 import { navLinks } from '@/data'
 import { IoFileTrayStackedSharp } from 'react-icons/io5'
 import { ColorSchemeProp } from '@/types'
-import { user } from '@/data/user'
+import { user } from '@/data'
 
 
 
@@ -18,12 +18,20 @@ export default function DashSideBar({ navShow, setNavShow }: { navShow: boolean;
 
     const colorScheme: ColorSchemeProp[] = [
         {
-            background: 'bg-sky-200/30 dark:bg-white',
-            color: 'text-sky-500'
+            background: 'bg-purple-200/30 dark:bg-white',
+            color: 'text-purple-500'
         },
         {
             background: 'bg-indigo-200/30 dark:bg-white',
             color: 'text-indigo-500'
+        },
+        {
+            background: 'bg-sky-200/30 dark:bg-white',
+            color: 'text-sky-500'
+        },
+        {
+            background: 'bg-[#f34e7c20] dark:bg-white',
+            color: 'text-danger'
         },
         {
             background: 'bg-teal-200/30 dark:bg-white',
@@ -78,6 +86,9 @@ export default function DashSideBar({ navShow, setNavShow }: { navShow: boolean;
                         {
                             navLinks?.map((navLink, i) => {
                                 const active = (navLink.title === page) ? 'bg-slate-200/30 dark:bg-white/10' : 'bg-white dark:bg-transparent dark:hover:bg-white/10'
+                                if(user?.type === "Member" && navLink.title === "Members") {
+                                     return null
+                                }
                                 return (<Link href={navLink.link} key={navLink.id} className={`flex gap-2 p-2 transition-all duration-300 rounded-md ${active}`}>
                                             <div className={`${colorScheme[i].background} ${colorScheme[i].color} grid place-items-center w-7 h-7 rounded-full`}>{navLink.icon}</div>
                                             <div className="flex flex-col justify-center">

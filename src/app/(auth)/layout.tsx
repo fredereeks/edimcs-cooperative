@@ -1,11 +1,10 @@
-import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import '../globals.css'
 import "tw-elements/dist/css/tw-elements.min.css";
 import 'aos/dist/aos.css';
 
-import DashLayout from '@/app/(auth)/components/DashLayout'
-import { redirect } from 'next/navigation'
+import DashLayout from '@/app/(auth)/ui/DashLayout'
+// import { redirect } from 'next/navigation'
 // import SessionProvider from "@/components/SessionProvider"
 import { authOptions } from  "@/api/route"
 import { getServerSession } from 'next-auth'
@@ -14,11 +13,7 @@ import { getServerSession } from 'next-auth'
 
 const inter = Inter({ subsets: ['latin'] })
 
-export const metadata: Metadata = {
-  title: 'EDIMCS :: Dashboard',
-  description: "EDIMCS stands for Enlightenment Drive Initiative Co-operative Society. We are the largest cooperative organization among cooperatives in Nigeria and in the world; with the goal of achieving a first-world Nigeria with empowerment and housing for low-income and small and medium enterprises as our primary goal",
-  viewport: "width=device-width, initial-scale=1.0"
-}
+
 
 
 export default async function RootLayout({

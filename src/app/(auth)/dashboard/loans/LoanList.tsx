@@ -2,35 +2,40 @@
 
 import { LoanProps } from '@/types'
 import React, { useRef, useState } from 'react'
-import Modal from '../../components/Modal'
+import Modal from '@/app/(auth)/ui/Modal'
 import { IoClose } from 'react-icons/io5'
 import { FaCalendarAlt, FaClock } from 'react-icons/fa'
-import Image, { StaticImageData } from 'next/image'
+import Image from 'next/image'
 
-import { user } from '@/data/user'
+import { user } from '@/data'
 import { FaSackDollar } from 'react-icons/fa6'
 import toast from 'react-hot-toast'
 import { useRouter } from 'next/navigation'
-import { TableSearch } from '../../components'
+import { TableSearch } from '../../ui'
+import { edimcs_dollarbills } from '@/assets/images'
+import Link from 'next/link'
 
+// import {useForm} from 'react-hook-form'
 
-export default function LoanList({ loanData }: { loanData: LoanProps[] }) {
-    const [allTableData, setAllTableData] = useState<LoanProps[] | []>(loanData)
-    const [tableData, setTableData] = useState<LoanProps[] | []>(loanData)
+export default function LoanList({ loansData }: { loansData: LoanProps[] }) {
+    const [allTableData, setAllTableData] = useState<LoanProps[] | []>(loansData)
+    const [tableData, setTableData] = useState<LoanProps[] | []>(loansData)
     const modalRef = useRef<HTMLDialogElement | null>(null)
     const reviewRef = useRef<HTMLDialogElement | null>(null)
     const previewRef = useRef<HTMLDialogElement | null>(null)
     const formRef = useRef<HTMLFormElement | null>(null)
-    const amountRef = useRef<HTMLInputElement | null>(null)
+    const [interest, setInterest] = useState<number>(1)
+    const [payback, setPayback] = useState<number>(500)
     const inputRef = useRef<HTMLInputElement | null>(null)
 
     const [selectedLoan, setSelectedLoan] = useState<LoanProps>()
     const [loading, setLoading] = useState<boolean>(false)
     const router = useRouter()
 
-    const showReview = (id: number) => {
+
+    const showReview = (id: string) => {
         try {
-            const targetLoan = loanData?.find(loan => loan.id === id)
+            const targetLoan = loansData?.find(loan => loan.id === id)
             if (targetLoan) {
                 setSelectedLoan(prev => ({ ...targetLoan }))
             }
@@ -41,9 +46,9 @@ export default function LoanList({ loanData }: { loanData: LoanProps[] }) {
         }
     }
 
-    const showPreview = (id: number) => {
+    const showPreview = (id: string) => {
         try {
-            const targetLoan = loanData?.find(loan => loan.id === id)
+            const targetLoan = loansData?.find(loan => loan.id === id)
             if (targetLoan) {
                 setSelectedLoan(prev => ({ ...targetLoan }))
             }
@@ -54,7 +59,7 @@ export default function LoanList({ loanData }: { loanData: LoanProps[] }) {
         }
     }
 
-    const handleReview = async (id: string | number | undefined, status: string) => {
+    const handleReview = async (id: string, status: string) => {
         setLoading(true)
         try {
             // const res = await verdictAction(id, status)
@@ -73,9 +78,48 @@ export default function LoanList({ loanData }: { loanData: LoanProps[] }) {
             setTableData(allTableData)
         }
         else {
-            const result = tableData.filter(el => el.amount.toString().toLowerCase().includes(keyword) || el.balance.toString().toLowerCase().includes(keyword) || el.createdAt.toString().toLowerCase().includes(keyword) || el.name.toString().toLowerCase().includes(keyword) || el.payback.toString().toLowerCase().includes(keyword) || el.status.toString().toLowerCase().includes(keyword) || el.verdict.toString().toLowerCase().includes(keyword))
+
+            const result = tableData.filter(el => el.amount.toString().toLowerCase().includes(keyword) || el?.loaner?.balance?.toString().toLowerCase().includes(keyword) || el.createdAt.toString().toLowerCase().includes(keyword) || el?.loaner?.firstname.toLowerCase().includes(keyword) || el?.loaner?.middlename.toLowerCase().includes(keyword) || el?.loaner?.lastname.toLowerCase().includes(keyword) || el?.loaner?.memberId.toString().toLowerCase().includes(keyword) || el?.loaner?.email.toLowerCase().includes(keyword) || el?.loaner?.phone?.toString().toLowerCase().includes(keyword) || el.status.toString().toLowerCase().includes(keyword) || el.verdict.toString().toLowerCase().includes(keyword))
             setTableData(prev => [...result])
         }
+    }
+
+    const ShowComputedValues = () => {
+        return (
+            <>
+                {selectedLoan?.status === "Pending" ? <div className="flex justify-between items-center gap-2 py-1">
+                    <span className="text-xs font-light flex items-center justify-start flex-1">Add Interest (%):</span>
+                    <div className="flex overflow-x-hidden relative w-[3rem] max-w-[3rem] border border-gray-300 rounded-md px-2 py-0">
+                        <input value={interest} onChange={e => setInterest(Number(e.target.value))} type="number" required min={0} max={10} name='interest' placeholder={`Enter an Interest Rate NOT greater than 10`} className="relative outline-none py-2 pl-2 pr-4  text-gray-600 text-xs placeholder-opacity-70 font-normal flex w-[6rem] bg-transparent focus-within:bg-transparent focus:bg-transparent" />
+                    </div>
+                </div> : selectedLoan?.status === "Running" ? <form ref={formRef} action={'dialog'} onSubmit={handleSubmit} className="relative flex flex-col"> <div className="flex justify-between items-center gap-2 py-1">
+                    <span className="text-xs font-light flex items-center justify-start flex-1">Add Loan Payback Amount:</span>
+                    <div className="flex gap-1">
+                        <div className="flex overflow-x-hidden relative w-[5rem] max-w-[5rem] border border-gray-300 rounded-md px-2 py-0">
+                            <input value={payback} onChange={e => setPayback(Number(e.target.value))} type="number" required min={500} max={selectedLoan?.amount + (selectedLoan?.payback || 0)} name='interest' placeholder={`Enter an Interest Rate NOT greater than 10`} className="relative outline-none py-2 pl-2 pr-4  text-gray-600 text-xs placeholder-opacity-70 font-normal flex w-[7rem] bg-transparent focus-within:bg-transparent focus:bg-transparent" />
+                        </div>
+                        <button type="submit" className="py-2 px-3 sm:px-8 bg-primary text-white text-[.6rem] text-xs rounded-md hover:bg-primary/90 cursor-pointer" disabled={loading}>Record Payment</button>
+                    </div>
+                </div> </form> : ""}
+                <div className="flex justify-between items-center gap-2 py-1 text-slate-700">
+                    <span className="text-xs font-light flex items-center justify-start">Amount Requested:</span>
+                    <h3 className="text-right text-sm font-semibold">&#8358;{selectedLoan?.amount.toLocaleString()}.00</h3>
+                </div>
+                <div className="flex justify-between items-center gap-2 py-1 text-slate-700">
+                    <span className="text-xs font-light flex items-center justify-start">Interest:</span>
+                    {selectedLoan?.status === "Pending" ? <h3 className="text-right text-sm font-medium">&#8358;{(Number(selectedLoan?.amount || 1) * (interest / 100)).toLocaleString()}</h3> : selectedLoan?.status === "Running" ? <h3 className="text-right text-sm font-medium">&#8358;{(Number(selectedLoan?.interest)).toLocaleString()}</h3> : ""}
+                </div>
+                <div className="flex justify-between items-center gap-2 py-1 text-slate-700">
+                    <span className="text-xs font-light flex items-center justify-start">Total Expected Payment:</span>
+                    {selectedLoan?.status === "Pending" ? <h3 className="text-right text-lg font-semibold">&#8358;{(Number(selectedLoan?.amount || 1) + (Number(selectedLoan?.amount || 1) * (interest / 100))).toLocaleString()}</h3> : selectedLoan?.status === "Running" ? <h3 className="text-right text-lg font-semibold">&#8358;{(Number(selectedLoan?.amount || 1) + (Number(selectedLoan?.interest))).toLocaleString()}</h3> : ""}
+                </div>
+                <div className="flex justify-between items-center gap-2 py-1 text-slate-700">
+                    <span className="text-xs font-light flex items-center justify-start">Amount Repaid:</span>
+                    <h3 className="text-right text-sm font-semibold">&#8358;{selectedLoan?.payback?.toLocaleString() || 0}</h3>
+                </div>
+            </>
+
+        )
     }
 
     const handleSubmit = async (e: React.FormEvent) => {
@@ -91,7 +135,10 @@ export default function LoanList({ loanData }: { loanData: LoanProps[] }) {
                             <tr>
                                 <th colSpan={user.type === "Admin" ? 6 : 5}>
                                     <TableSearch title='LOAN' key={'72088234'} handleSearch={handleSearch} inputRef={inputRef}>
-                                    <button onClick={() => modalRef.current?.showModal()} className="text-white bg-primary px-4 py-2 rounded-md cursor-pointer text-xs font-light btn-primary">Apply for Loan</button>
+                                        <div className="md:ml-[5rem] flex gap-2">
+                                            <button onClick={() => modalRef.current?.showModal()} className="text-white bg-primary px-4 py-2 rounded-md cursor-pointer text-xs font-light">Apply for Loan</button>
+                                            <Link href={`/documents/EDIMCS-LOAN-APPLICATION-FORM.pdf`} className="text-white bg-success hover:bg-success/90 px-4 py-2 rounded-md cursor-pointer text-xs font-light">Download Loan Form</Link>
+                                        </div>
                                     </TableSearch>
                                 </th>
                             </tr>
@@ -109,13 +156,13 @@ export default function LoanList({ loanData }: { loanData: LoanProps[] }) {
                                 tableData.map(loan => (
                                     <tr key={loan.id} className='hover:bg-slate-50 dark:hover:bg-slate-900/30'>
                                         <td>
-                                            <div onClick={() => showPreview(loan.id)} className="max-w-sm w-max flex items-center gap-2 cursor-pointer">
+                                            <div onClick={() => showPreview(loan.id.toString())} className="max-w-sm w-max flex items-center gap-2 cursor-pointer">
                                                 <div className="h-7 sm:h-8 w-7 sm:w-8 flex justify-center items-center rounded-full overflow-hidden text-white dark:text-primary relative bg-primary dark:bg-slate-100">
-                                                    {user.type === "Member" ? <FaSackDollar className='text-sm sm:text-base text-inherit' /> : <Image src={loan.image} alt={loan.name} fill={true} className="absolute left-0 top-0 object-cover w-full h-full" />}
+                                                    {user.type === "Member" ? <FaSackDollar className='text-sm sm:text-base text-inherit' /> : <Image src={loan?.loaner?.image || edimcs_dollarbills} alt={`${loan?.loaner?.firstname} ${loan?.loaner?.middlename} ${loan?.loaner?.lastname}`} fill={true} className="absolute left-0 top-0 object-cover w-full h-full" />}
                                                 </div>
                                                 <div className='flex flex-col'>
-                                                    <h5 className="text-sm font-medium leading-tight whitespace-nowrap">{loan.name}</h5>
-                                                    <h4 className="text-slate-400 text-xs py-[.1rem] sm:py-1">Balance: &#8358;{loan.balance.toLocaleString()}</h4>
+                                                    <h5 className="text-sm font-medium leading-tight whitespace-nowrap">{loan.loaner?.firstname} {loan.loaner?.middlename} {loan.loaner?.lastname}</h5>
+                                                    <h4 className="text-slate-400 text-xs py-[.1rem] sm:py-1">Balance: &#8358;{loan.loaner?.balance?.toLocaleString()}</h4>
                                                 </div>
                                             </div>
                                         </td>
@@ -136,14 +183,14 @@ export default function LoanList({ loanData }: { loanData: LoanProps[] }) {
                                         </td>
                                         <td className="align-middle">
                                             <div className="flex justify-center gap-2">
-                                                <div className={`${loan.status === "Defaulted" ? 'bg-red-100 text-red-500' : loan.status === "Running" ? 'bg-sky-100 text-sky-500' : 'bg-slate-100 text-slate-500'} text-xs py-[.1rem] sm:py-1 px-3 rounded-sm font-medium`}>{loan.status}</div>
+                                                <div className={`${loan.status === "Rejected" ? 'bg-red-100 text-red-500' : loan.status === "Running" ? 'bg-sky-100 text-sky-500' : 'bg-slate-100 text-slate-500'} text-xs py-[.1rem] sm:py-1 px-3 rounded-sm font-medium`}>{loan.status}</div>
                                             </div>
                                         </td>
                                         {user.type === "Admin" &&
                                             <td className="align-middle">
                                                 <div className="flex justify-center gap-2">
                                                     {loan.verdict === "Pending" && <button onClick={() => showReview(loan.id)} className="flex justify-center items-center gap-[.2rem] align-middle bg-success hover:bg-success/80 text-white dark:text-slate-900 px-3 rounded-sm cursor-pointer text-[.6rem] py-2 sm:py-1">Review</button>}
-                                                    {loan.verdict === "Granted" && (loan.amount - loan.payback) !== 0 && <button onClick={() => showReview(loan.id)} className="flex justify-center items-center gap-[.2rem] align-middle bg-sky-500 hover:bg-sky-500/80 text-white dark:text-slate-900 px-3 rounded-sm cursor-pointer text-[.6rem] py-2 sm:py-1">Add Payback</button>}
+                                                    {loan.verdict === "Granted" && (loan.amount - (loan?.payback || 0)) !== 0 && <button onClick={() => showReview(loan.id)} className="flex justify-center items-center gap-[.2rem] align-middle bg-sky-500 hover:bg-sky-500/80 text-white dark:text-slate-900 px-3 rounded-sm cursor-pointer text-[.6rem] py-2 sm:py-1 whitespace-nowrap">Add Payback</button>}
 
                                                 </div>
                                             </td>}
@@ -187,8 +234,8 @@ export default function LoanList({ loanData }: { loanData: LoanProps[] }) {
                 user.type === "Admin" ? <>
                     {/* Loan Verdict Form */}
                     <Modal modalRef={reviewRef}>
-                        <div className='p-5 flex flex-col gap-4'>
-                            <span className="text-[.6rem] sm:text-[.75rem] text-sky-700 bg-sky-200/50 dark:bg-sky-200 p-[.2rem] px-[.3rem] rounded-xs uppercase text-center">Loan Action Form </span>
+                        <div className='p-5 flex flex-col gap-4 text-slate-700'>
+                            <span className="text-[.6rem] sm:text-[.75rem] text-sky-700 bg-sky-200/50 dark:bg-sky-200 p-2 px-[.3rem] rounded-xs uppercase text-center">Loan Action Form </span>
                             <div className="w-full flex items-center gap-2">
                                 <div className={`h-7 sm:h-8 w-7 sm:w-8 flex-shrink-0 flex justify-center items-center rounded-full overflow-hidden relative bg-primary dark:bg-slate-100 text-slate-100 dark:text-slate-600`}>
                                     <FaSackDollar className='text-sm sm:text-base' />
@@ -197,8 +244,8 @@ export default function LoanList({ loanData }: { loanData: LoanProps[] }) {
                                     <div className="flex justify-between items-center gap-4 text-slate-600">
                                         <div className="flex flex-col">
                                             {/* <span className="text-[.4rem] bg-slate-200/50 dark:bg-slate-200 p-[.2rem] px-[.3rem] rounded-xs uppercase ml-2">{selectedLoan?.verdict}</span> */}
-                                            <h5 className="text-sm font-semibold leading-tight whitespace-nowrap flex items-center">{selectedLoan?.name} </h5>
-                                            <p className="text-slate-400 text-xs py-[.1rem] sm:py-1">Account Balance: &#8358;{selectedLoan?.balance.toLocaleString()}</p>
+                                            <h5 className="text-sm font-semibold leading-tight whitespace-nowrap flex items-center">{`${selectedLoan?.loaner?.firstname} ${selectedLoan?.loaner?.middlename} ${selectedLoan?.loaner?.lastname}`} </h5>
+                                            <p className="text-slate-400 text-xs py-[.1rem] sm:py-1">Account Balance: &#8358;{selectedLoan?.loaner?.balance?.toLocaleString()}</p>
                                         </div>
                                         <div className="flex justify-center items-center gap-[.2rem] align-middle dark:text-slate-100 text-[.6rem]">
                                             <FaCalendarAlt className="text-inherit opacity-60" /> <p className="">{selectedLoan?.createdAt}</p>
@@ -206,24 +253,24 @@ export default function LoanList({ loanData }: { loanData: LoanProps[] }) {
                                     </div>
                                 </div>
                             </div>
-                            <div className="flex justify-between items-center border border-slate-200 border-l-0 border-r-0 py-4">
-                                <h3 className="-my-2 text-slate-700 text-center text-lg font-bold"><span className="text-xs font-light flex items-center">Amount Requested:</span> &#8358;{selectedLoan?.amount.toLocaleString()}</h3>
-                                <h3 className="-my-2 text-slate-700 text-center text-lg font-bold"><span className="text-xs font-light flex items-center">Amount Repaid:</span> &#8358;{selectedLoan?.payback.toLocaleString()}</h3>
+                            <div className="flex flex-col font-normal divide-y divide-slate-300 border-b border-b-slate-300 pt-4 pb-0">
+                                {ShowComputedValues()}
                             </div>
                             {
                                 selectedLoan?.verdict === "Pending" ?
-                                    <div className="flex gap-2 justify-end">
-                                        <button onClick={() => handleReview(selectedLoan?.id, "Approve")} className="flex justify-center items-center gap-[.2rem] align-middle bg-success hover:bg-success/80 text-white px-5 rounded-sm cursor-pointer text-[.6rem] py-[.4rem]" disabled={loading}>Approve</button>
-                                        <button onClick={() => handleReview(selectedLoan?.id, "Reject")} className="flex justify-center items-center gap-[.2rem] align-middle bg-danger hover:bg-danger/80 text-white px-5 rounded-sm cursor-pointer text-[.6rem] py-[.4rem]" disabled={loading}>Reject</button>
-                                    </div> : ""
+                                    <>
+                                        <div className="flex gap-2 justify-end">
+                                            <button onClick={() => handleReview(selectedLoan?.id, "Approve")} className="flex justify-center items-center gap-[.2rem] align-middle bg-success hover:bg-success/80 text-white px-5 rounded-sm cursor-pointer text-[.6rem] py-[.4rem]" disabled={loading}>Approve</button>
+                                            <button onClick={() => handleReview(selectedLoan?.id, "Reject")} className="flex justify-center items-center gap-[.2rem] align-middle bg-danger hover:bg-danger/80 text-white px-5 rounded-sm cursor-pointer text-[.6rem] py-[.4rem]" disabled={loading}>Reject</button>
+                                        </div> </> : ""
                             }
                             {
-                                selectedLoan?.status === "Running" ?
-                                    <form ref={formRef} action={'dialog'} onSubmit={handleSubmit} className="relative flex flex-col gap-2">
-                                        <p className="bg-sky-100 text-sky-500 text-center text-xs py-1 px-2 -mt-4">This member currently has &#8358;{selectedLoan.balance.toLocaleString()} and has a &#8358;{(selectedLoan.amount - selectedLoan.payback).toLocaleString()} to payback</p>
-                                        <input type="number" required min={0} max={selectedLoan.amount - selectedLoan.payback} ref={amountRef} name='payback' placeholder={`Enter an amount NOT greater than ₦${(selectedLoan.amount - selectedLoan.payback).toLocaleString()}`} className="relative outline-none py-2 px-4 border border-gray-300 rounded-md text-gray-600 text-sm placeholder-opacity-70 bg-transparent focus-within:bg-transparent focus:bg-transparent" />
-                                        <button type="submit" className="py-2 px-4 sm:px-8 bg-sky-500 text-white text-[.6rem] text-xs rounded-md hover:bg-sky-600 cursor-pointer" disabled={loading}>Record Payment</button>
-                                    </form> : ""
+                                // selectedLoan?.status === "Running" ?
+                                //     <form ref={formRef} action={'dialog'} onSubmit={handleSubmit} className="relative flex flex-col gap-2">
+                                //         <p className="bg-sky-100 text-sky-500 text-center text-xs py-1 px-2 -mt-4">This member currently has &#8358;{selectedLoan?.loaner?.balance?.toLocaleString()} and has a &#8358;{(selectedLoan.amount - (selectedLoan?.payback || 0)).toLocaleString()} to payback</p>
+                                //         <input type="number" required min={0} max={selectedLoan.amount - (selectedLoan?.payback || 0)} name='payback' placeholder={`Enter an amount NOT greater than ₦${(selectedLoan.amount - (selectedLoan?.payback || 0)).toLocaleString()}`} className="relative outline-none py-2 pl-2 pr-4 border border-gray-300 rounded-md text-gray-600 text-sm placeholder-opacity-70 bg-transparent focus-within:bg-transparent focus:bg-transparent" />
+                                //         <button type="submit" className="py-2 px-4 sm:px-8 bg-sky-500 text-white text-[.6rem] text-xs rounded-md hover:bg-sky-600 cursor-pointer" disabled={loading}>Record Payment</button>
+                                //     </form> : ""
                             }
                         </div>
                     </Modal>
@@ -231,7 +278,7 @@ export default function LoanList({ loanData }: { loanData: LoanProps[] }) {
             }
             <Modal modalRef={previewRef}>
                 <div className='p-5 flex flex-col gap-4'>
-                    <span className="text-[.6rem] sm:text-[.75rem] text-sky-700 bg-sky-200/50 dark:bg-sky-200 p-[.2rem] px-[.3rem] rounded-xs uppercase text-center">Loan Action Form </span>
+                    <span className="text-[.6rem] sm:text-[.75rem] text-sky-700 bg-sky-200/50 dark:bg-sky-200 p-2 px-[.3rem] rounded-xs uppercase text-center">Loan Action Form </span>
                     <div className="w-full flex items-center gap-2">
                         <div className={`h-7 sm:h-8 w-7 sm:w-8 flex-shrink-0 flex justify-center items-center rounded-full overflow-hidden relative bg-primary dark:bg-slate-100 text-slate-100 dark:text-slate-600`}>
                             <FaSackDollar className='text-sm sm:text-base' />
@@ -240,8 +287,8 @@ export default function LoanList({ loanData }: { loanData: LoanProps[] }) {
                             <div className="flex justify-between items-center gap-4 text-slate-600">
                                 <div className="flex flex-col">
                                     {/* <span className="text-[.4rem] bg-slate-200/50 dark:bg-slate-200 p-[.2rem] px-[.3rem] rounded-xs uppercase ml-2">{selectedLoan?.verdict}</span> */}
-                                    <h5 className="text-sm font-semibold leading-tight whitespace-nowrap flex items-center">{selectedLoan?.name} </h5>
-                                    <p className="text-slate-400 text-xs py-[.1rem] sm:py-1">Account Balance: &#8358;{selectedLoan?.balance.toLocaleString()}</p>
+                                    <h5 className="text-sm font-semibold leading-tight whitespace-nowrap flex items-center">{`${selectedLoan?.loaner?.firstname} ${selectedLoan?.loaner?.middlename} ${selectedLoan?.loaner?.lastname}`} </h5>
+                                    <p className="text-slate-400 text-xs py-[.1rem] sm:py-1">Account Balance: &#8358;{selectedLoan?.loaner?.balance?.toLocaleString()}</p>
                                 </div>
                                 <div className="flex justify-center items-center gap-[.2rem] align-middle dark:text-slate-100 text-[.6rem]">
                                     <FaCalendarAlt className="text-inherit opacity-60" /> <p className="">{selectedLoan?.createdAt}</p>
@@ -251,7 +298,7 @@ export default function LoanList({ loanData }: { loanData: LoanProps[] }) {
                     </div>
                     <div className="flex justify-between items-center border border-slate-200 border-l-0 border-r-0 py-4">
                         <h3 className="-my-2 text-slate-700 text-center text-lg font-bold"><span className="text-xs font-light flex items-center">Amount Requested:</span> &#8358;{selectedLoan?.amount.toLocaleString()}</h3>
-                        <h3 className="-my-2 text-slate-700 text-center text-lg font-bold"><span className="text-xs font-light flex items-center">Amount Repaid:</span> &#8358;{selectedLoan?.payback.toLocaleString()}</h3>
+                        <h3 className="-my-2 text-slate-700 text-center text-lg font-bold"><span className="text-xs font-light flex items-center">Amount Repaid:</span> &#8358;{selectedLoan?.payback?.toLocaleString() || 0}</h3>
                     </div>
                 </div>
             </Modal>

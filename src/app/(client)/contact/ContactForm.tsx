@@ -1,9 +1,9 @@
 "use client"
 
 import React, { useRef, useState } from 'react'
-import { TextInput } from '@/components'
+import { TextInput } from '@/ui'
 import toast from 'react-hot-toast'
-import TextArea from '@/components/TextArea'
+import TextArea from '@/ui/TextArea'
 import { FaEnvelope } from 'react-icons/fa6'
 import { LoginFormDataProps } from '@/types'
 

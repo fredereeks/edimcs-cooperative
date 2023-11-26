@@ -6,10 +6,11 @@ import parse from 'html-react-parser'
 import { AiFillCompass, AiOutlineIdcard, AiOutlineKey } from 'react-icons/ai'
 import { IoAirplaneOutline, IoArrowForward, IoScaleOutline, IoTelescopeOutline } from 'react-icons/io5'
 import { FaScaleBalanced } from 'react-icons/fa6'
+import { Metadata } from 'next'
 
-export const metadata = {
+export const metadata: Metadata = {
   title: "EDIMCS :: About",
-  description: "EDIMCS money pool is a way Whether you are looking for a short-term savings plan, a medium or long-term savings plan. Hell, if you are looking for a money pool, we got you covered on all sides"
+  description: "EDIMCS money pool is the way, whether you are looking for a short-term, medium-term or long-term savings plan. In fact, if you are looking for a money pool, we got you covered on all sides"
 }
 
 export default function page() {

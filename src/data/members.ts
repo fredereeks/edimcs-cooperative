@@ -3,7 +3,7 @@ import { MemberProps } from "@/types"
 
 export const memberData: MemberProps[] | [] = [
     {
-      id: 8921140,
+      id: "8921140",
       image: edimcs_blackpeople,
       firstname: "Abubakar",
       middlename: '',
@@ -17,19 +17,19 @@ export const memberData: MemberProps[] | [] = [
           banker: 'Sterling Bank Plc',
         }
       ],
-      memberId: 208950,
+      memberId: "EDIMCS-8950",
       address: '130, Sporting Estate, Lugbe',
       email: "Abubakar@gmail.com",
       phone: "+2340828208950",
       status: 'Active',
       createdAt: "26/01/2023",
       savings: 5400,
-      investment: 32500,
+      deposits: 32500,
       withdrawal: 15100,
       balance: 37900
     },
     {
-      id: 8921141,
+      id: "8921141",
       image: edimcs_silhouette,
       firstname: "Dorcas",
       middlename: 'Omoh',
@@ -44,18 +44,18 @@ export const memberData: MemberProps[] | [] = [
         }
       ],
       type: "Admin",
-      memberId: 250701,
+      memberId: "EDIMCS-0701",
       phone: "+234808250701",
       address: '6, Sirakoro Street, Adjecent Kilimanjaro Eatery, Wuse II',
       email: "Dorcas@gmail.com",
       createdAt: "11/03/2023",
       savings: 41500,
-      investment: 551000,
+      deposits: 551000,
       withdrawal: 250000,
       balance: 956100
     },
     {
-      id: 8921142,
+      id: "8921142",
       image: edimcs_cliff,
       firstname: "Oloruntoba",
       middlename: 'Sunday',
@@ -70,18 +70,18 @@ export const memberData: MemberProps[] | [] = [
         }
       ],
       type: "Member",
-      memberId: 321290,
+      memberId: "EDIMCS-1290",
       phone: "+234808321290",
       address: '10, Garki Extension, Garki',
       email: "Oloruntoba@gmail.com",
       createdAt: "05/05/2023",
       savings: 32200,
-      investment: 85100,
+      deposits: 85100,
       withdrawal: 32000,
       balance: 117300
     },
     {
-      id: 8921143,
+      id: "8921143",
       image: edimcs_phonecalculator,
       firstname: "Benjamin",
       middlename: '',
@@ -96,18 +96,18 @@ export const memberData: MemberProps[] | [] = [
         }
       ],
       type: "Member",
-      memberId: 782369,
+      memberId: "EDIMCS-2369",
       phone: "+234808782369",
       address: '18, New Layout, Lokogoma Estate, Lokogoma',
       email: "Benjamin@gmail.com",
       createdAt: "14/09/2023",
       savings: 22000,
-      investment: 35100,
+      deposits: 35100,
       withdrawal: 21500,
       balance: 57100
     },
     {
-      id: 8921144,
+      id: "8921144",
       image: edimcs_piggyvest,
       firstname: "Kevin",
       middlename: 'Ojonugwa',
@@ -122,18 +122,18 @@ export const memberData: MemberProps[] | [] = [
         }
       ],
       type: "Admin",
-      memberId: 709734,
+      memberId: "EDIMCS-9734",
       phone: "+234808709734",
       address: '32, Opposite Living Faith, Paso II, Gwagwalada',
       email: "Kevin@gmail.com",
       createdAt: "28/10/2023",
       savings: 19800,
-      investment: 70500,
+      deposits: 70500,
       withdrawal: 12000,
       balance: 91300
     },
     {
-      id: 8921145,
+      id: "8921145",
       image: edimcs_calculator,
       firstname: "Linda",
       middlename: '',
@@ -148,13 +148,13 @@ export const memberData: MemberProps[] | [] = [
         }
       ],
       type: "Admin",
-      memberId: 709734,
+      memberId: "EDIMCS-9734",
       phone: "+234808709734",
       address: '42, Federal Medical Center, Dawaki',
       email: "Linda@gmail.com",
       createdAt: "28/10/2023",
       savings: 19800,
-      investment: 70500,
+      deposits: 70500,
       withdrawal: 12000,
       balance: 91300
     },

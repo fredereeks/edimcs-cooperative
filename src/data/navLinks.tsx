@@ -1,6 +1,7 @@
 import { NavLinkProps } from '@/types'
-import { FaPiggyBank } from 'react-icons/fa'
+import { FaBriefcase, FaIdCard, FaPiggyBank } from 'react-icons/fa'
 import { FaSackDollar } from 'react-icons/fa6'
+import { MdAccountBalanceWallet, MdAttachMoney } from 'react-icons/md'
 import {  IoClipboardOutline, IoMailUnreadOutline, IoNewspaperOutline, IoPeopleOutline, IoReceiptOutline } from 'react-icons/io5'
 
 
@@ -23,6 +24,22 @@ export const navLinks : NavLinkProps[] = [
         icon: <IoPeopleOutline className='text-inherit ' />
     },
     {
+        id: 282347,
+        title: 'Deposit',
+        // background: 'bg-slate-200',
+        element: <span className='border border-slate-500 bg-slate-200 text-slate-500 text-sm sm:text-base h-6 w-6 rounded-full flex justify-center items-center'><IoMailUnreadOutline className='text-inherit ' /></span>,
+        link: '/dashboard/deposit',
+        icon: <MdAccountBalanceWallet className='text-inherit ' />
+    },
+    {
+        id: 282348,
+        title: 'Withdrawal',
+        // background: 'bg-slate-200',
+        element: <span className='border border-slate-500 bg-slate-200 text-slate-500 text-sm sm:text-base h-6 w-6 rounded-full flex justify-center items-center'><IoMailUnreadOutline className='text-inherit ' /></span>,
+        link: '/dashboard/withdrawal',
+        icon: <MdAttachMoney className='text-inherit ' />
+    },
+    {
         id: 282344,
         title: 'Savings',
         // background: 'bg-sky-100',
@@ -40,7 +57,7 @@ export const navLinks : NavLinkProps[] = [
         icon: <FaSackDollar className='text-inherit ' />
     },
     {
-        id: 282347,
+        id: 282349,
         title: 'Money Pool',
         // background: 'bg-indigo-200',
         element: <span className='border border-slate-500 bg-indigo-200 text-indigo-500 text-sm sm:text-base h-6 w-6 rounded-full flex justify-center items-center'><IoClipboardOutline className='text-inherit ' /></span>,

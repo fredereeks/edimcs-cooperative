@@ -1,6 +1,6 @@
 "use client"
 
-import { user } from '@/data/user'
+import { user } from '@/data'
 import React from 'react'
 import { IoSearchOutline } from 'react-icons/io5'
 

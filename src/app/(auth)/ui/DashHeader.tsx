@@ -7,7 +7,7 @@ import { IoMailUnreadOutline, IoLogOutOutline, IoMenuOutline, IoSunnyOutline, Io
 import { IoMoonOutline, IoCaretDown } from "react-icons/io5";
 import { handleClickProp } from '@/types';
 import Image from 'next/image';
-import { user } from '@/data/user';
+import { user } from '@/data';
 import { edimcs_blackpeople } from '@/assets/images';
 
 export default function DashHeader({ handleClick, darkMode, toggleDarkMode }: handleClickProp) {

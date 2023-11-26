@@ -1,5 +1,5 @@
 import { FootLinkProps } from '@/types'
-import { IoLogoFacebook, IoLogoInstagram, IoLogoTwitter } from 'react-icons/io'
+import { IoLogoFacebook, IoLogoInstagram, IoLogoTwitter, IoLogoWhatsapp } from 'react-icons/io'
 import { IoMailUnread } from 'react-icons/io5'
 
 
@@ -61,9 +61,9 @@ export const footerLinks : FootLinkProps[] = [
             },
             {
                 id: 823472333,
-                title: "Instagram",
-                url: "https://instagram.com/edimcs/",
-                icon: <IoLogoInstagram className="text-inherit" />
+                title: "Whatsapp",
+                url: "https://whatsapp.com/edimcs/",
+                icon: <IoLogoWhatsapp className="text-inherit" />
             },
             {
                 id: 823472334,

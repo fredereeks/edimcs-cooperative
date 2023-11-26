@@ -1,7 +1,7 @@
 "use client"
 
 import React, { useEffect, useMemo, useState } from 'react'
-import { DashHeader, DashFooter, DashSideBar } from '@/app/(auth)/components';
+import { DashHeader, DashFooter, DashSideBar } from '@/app/(auth)/ui';
 import { Toaster } from 'react-hot-toast'
 import 'aos/dist/aos.css';
 

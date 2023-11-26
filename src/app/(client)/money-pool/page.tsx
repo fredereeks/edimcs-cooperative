@@ -3,8 +3,9 @@ import Image from 'next/image'
 import Link from 'next/link'
 import React from 'react'
 import 'aos/dist/aos.css';
+import { Metadata } from 'next';
 
-export const metadata = {
+export const metadata: Metadata = {
   title: "EDIMCS :: Money Pool", 
   description: "EDIMCS money pool is a way Whether you are looking for a short-term savings plan, a medium or long-term savings plan. Hell, if you are looking for a money pool, we got you covered on all sides"
 }

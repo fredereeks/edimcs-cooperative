@@ -1,12 +1,20 @@
 import React from 'react'
-import { edimcs_cliff, edimcs_silhouette, edimcs_blackpeople, edimcs_calculator, edimcs_phonecalculator, edimcs_piggyvest } from '@/assets/images'
 import MemberList from './MemberList'
 import { MemberProps } from '@/types'
 import { memberData } from '@/data/members'
 
+const fetchMembers = async() => {
+  const member = await memberData
+    // const member = await prisma.loan.findMany({
+    //   where: {
+    //     loanerId: user?.id
+    //   }
+    // })
+    return member
+}
 
-
-export default function page() {
+export default async function page() {
+  const memberData: MemberProps[] = await fetchMembers();
 
   return (
     <main className="flex flex-col gap-4 px-2 sm:px-0 pt-5 pb-10">

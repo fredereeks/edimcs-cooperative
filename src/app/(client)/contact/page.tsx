@@ -3,6 +3,7 @@ import React from 'react'
 import { IoGlobeOutline, IoHomeOutline, IoPhoneLandscape } from 'react-icons/io5'
 import 'aos/dist/aos.css';
 import ContactForm from './ContactForm'
+import { Metadata } from 'next';
 
 const handleContact = async(formData: FormData) => {
   "use server"
@@ -25,7 +26,7 @@ const handleContact = async(formData: FormData) => {
   return null;
 }
 
-export const metadata = {
+export const metadata: Metadata = {
   title: "EDIMCS :: Contact", 
   description: "EDIMCS money pool is a way Whether you are looking for a short-term savings plan, a medium or long-term savings plan. Hell, if you are looking for a money pool, we got you covered on all sides"
 }

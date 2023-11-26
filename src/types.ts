@@ -11,10 +11,21 @@ export interface DashLayoutProps {
     children: React.ReactNode
 }
 
+export type DepositProps = {
+    id: string
+    amount: number
+    depositorId: string
+    depositor?: MemberProps | undefined
+    status: "Pending" | "Completed" | "Rejected"
+    verdict: "Pending" | "Accepted" | "Rejected"
+    createdAt: string
+    updatedAt: string
+}
+
 export interface FootLinkProps {
-    id: number;
-    title: string;
-    label: string;
+    id: number
+    title: string
+    label: string
     sublinks: SubLinkProps[] | []
 }
 
@@ -26,9 +37,9 @@ export type handleClickProp = {
 }
 
 export interface HeaderLinkProps {
-    id: number;
-    title: string;
-    url: string;
+    id: number
+    title: string
+    url: string
 }
 
 export interface LinkCardProps {
@@ -37,16 +48,31 @@ export interface LinkCardProps {
     fixed: boolean
 }
 
+// export type LoanProps = {
+//     id: string
+//     amount: number
+//     loanerId: string
+//     loaner?: MemberProps | undefined
+//     status: "Pending" | "Running" | "Completed" | "Rejected"
+//     verdict: "Pending" | "Granted" | "Rejected" | "Cancelled"
+//     interest: number
+//     payback?: number
+//     createdAt: string
+//     updatedAt: string
+//   }
+
 export type LoanProps = {
-    id: number
-    image: StaticImageData
-    name: string
+    id: string 
     amount: number
-    verdict: "Pending" | "Granted" | "Rejected"
-    status: "Pending" | "Running" | "Defaulted" | "Completed"
-    payback: number
+    interest: number
+    payback?: number
+    loaner?: MemberProps | undefined
+    loanerId: string | number
+    status: "Pending" | "Running" | "Completed" | "Rejected"
+    verdict: "Pending" | "Granted" | "Rejected" | "Cancelled"
     createdAt: string
-    balance: number
+    updatedAt: string
+    updatedBy?: string
 }
 
 export interface LoginFormDataProps {
@@ -77,9 +103,9 @@ export type AccountDetailsProps = {
 }
 
 export type MemberProps = {
-    id: number; image?: StaticImageData | string; firstname: string; middlename: string; lastname: string; email: string; status?: string; phone?: string | number; type?: "Admin" | "Member";
+    id: string; image?: StaticImageData | string; firstname: string; middlename: string; lastname: string; email: string; status?: string; phone?: string | number; type?: "Admin" | "Member";
     accountDetails?: AccountDetailsProps[] | undefined
-    address?: string | undefined; memberId: number | string; createdAt?: string; savings?: number; investment?: number; withdrawal?: number; balance?: number
+    address?: string | undefined; memberId: number | string; createdAt?: string; savings?: number; deposits?: number; withdrawal?: number; balance?: number
 }
 
 export interface NavLinkProps {
@@ -97,10 +123,11 @@ export interface SubLinkProps {
     icon: JSX.Element | string;
 }
 
-export interface SavingsProps{
-    id: string | number
+export type SavingsProps = {
+    id: string
     amount: number
-    saver?: MemberProps
+    interest?: number
+    saver?: MemberProps | undefined
     saverId: string | number
     status: "Pending" | "Approved" | "Rejected"
     createdAt: string
@@ -150,4 +177,17 @@ export interface TransactionProps {
     createdAt: string
     balance: number
     approvedBy: string
+}
+
+export type WithdrawalProps = {
+    id: string
+    amount: number
+    interest?: number
+    withdrawerId: string
+    withdrawer?: MemberProps | undefined
+    status: "Pending" | "Completed" | "Rejected"
+    verdict: "Pending" | "Accepted" | "Rejected"
+    createdAt: string
+    updatedAt: string
+    updatedBy?: string
 }
