@@ -55,9 +55,9 @@ export const footerLinks : FootLinkProps[] = [
             },
             {
                 id: 823472332,
-                title: "Twitter",
-                url: "https://twitter.com/edimcs/",
-                icon: <IoLogoTwitter className="text-inherit" />
+                title: "Instagram",
+                url: "https://instagram.com/edimcs/",
+                icon: <IoLogoInstagram className="text-inherit" />
             },
             {
                 id: 823472333,

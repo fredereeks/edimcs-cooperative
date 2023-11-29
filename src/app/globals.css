@@ -95,3 +95,9 @@ html,body{
     border-bottom: 1px solid #e9edf3;
   } */
 }
+
+@media screen and (max-width: 640px) {
+  .container{
+    min-width: 100% !important;
+  }
+}

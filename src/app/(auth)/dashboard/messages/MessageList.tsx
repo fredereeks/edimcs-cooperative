@@ -5,8 +5,8 @@ import Image from 'next/image'
 import React, { useRef, useState } from 'react'
 import { MessageProps } from '@/types'
 import Modal from '../../ui/Modal'
-import TextArea from '@/ui/TextArea'
-import { TextInput } from '@/ui'
+import TextArea from '@/components/TextArea'
+import { TextInput } from '@/components'
 import toast from 'react-hot-toast'
 
 export default function MessageList({ messageData }: { messageData: MessageProps[] }) {

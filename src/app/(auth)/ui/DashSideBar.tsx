@@ -7,6 +7,8 @@ import { navLinks } from '@/data'
 import { IoFileTrayStackedSharp } from 'react-icons/io5'
 import { ColorSchemeProp } from '@/types'
 import { user } from '@/data'
+import Image from 'next/image'
+import { edimcs_logo } from '@/assets/images'
 
 
 
@@ -62,7 +64,8 @@ export default function DashSideBar({ navShow, setNavShow }: { navShow: boolean;
             <section className={`${navShow ? 'left-3 fixed' : '-left-full md:left-3 fixed'} z-[60] rounded-xl py-5 px-4 flex flex-col h-[calc(100vh-35px)] top-[20px] mb-[20px] bg-white dark:bg-slate-700 shadow-md w-[210px] max-w-sm sm:min-w-[12rem] md:min-w-[14rem] transition-all duration-300`}>
                 <Link href={"/"} className="flex items-center gap-2 py-5 relative after:absolute after:left-1/2 after:-translate-x-1/2 after:top-full after:w-full after:h-[1px] after:bg-gradient-to-r after:from-slate-50 after:to-slate-50 after:via-slate-300 dark:after:from-slate-600 dark:after:to-slate-600 dark:after:via-slate-300">
                     <div className="h-8 w-8 flex justify-center items-center rounded-full overflow-hidden relative bg-primary">
-                        <IoFileTrayStackedSharp key={82346} className="text-sm text-white" />
+                        {/* <IoFileTrayStackedSharp key={82346} className="text-sm text-white" /> */}
+                        <Image src={edimcs_logo} alt='EDIMCS Logo' fill={true} className='object-cover'/>
                     </div>
                     <div className="flex flex-col flex-1">
                         <h3 className="text-slate-600 dark:text-slate-50 text-sm font-semibold whitespace-nowrap">EDIMCS</h3>

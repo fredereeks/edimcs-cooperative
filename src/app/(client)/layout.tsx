@@ -1,9 +1,9 @@
 // import type { Metadata } from 'next'
 import { Roboto } from 'next/font/google'
 import '../globals.css'
-import { AosProvider, Footer, Header } from '@/ui'
+import { AosProvider, Footer, Header } from '@/components'
 import { Toaster } from 'react-hot-toast'
-import SessionProvider from '@/ui/SessionProvider'
+import SessionProvider from '@/components/SessionProvider'
 
 const roboto = Roboto({ weight: ["100", "300", "400", "500", "700", "900"], subsets: ['latin'] })
 

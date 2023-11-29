@@ -1,14 +1,15 @@
 "use client"
 
 import React, { useEffect, useRef, useState } from 'react'
-import { TextInput } from '@/ui'
+import { TextInput } from '@/components'
 import Link from 'next/link'
 import { FaMoneyCheck } from 'react-icons/fa'
 import toast from 'react-hot-toast'
 // import { redirect } from 'next/navigation';
 import { useRouter } from 'next/navigation'
 // import { LoginFormDataProps } from '@/types'
-import { signIn, useSession } from 'next-auth/react'
+// import { signIn, useSession } from 'next-auth/react'
+import axios from "axios"
 
 
 
@@ -20,23 +21,38 @@ export default function LoginForm() {
     const [memberId, setMemberId] = useState<string>('')
     const formRef = useRef<HTMLFormElement>(null)
     const router = useRouter()
-    const { status } = useSession()
+    // const { status } = useSession()
 
-    useEffect(() => {
-        if (status === "authenticated") {
-            router.refresh()
-            router.push('/dashboard', { scroll: false })
-        }
-        //eslint-disable-next-line
-    }, [status])
+    // useEffect(() => {
+    //     if (status === "authenticated") {
+    //         router.refresh()
+    //         router.push('/dashboard', { scroll: false })
+    //     }
+    //     //eslint-disable-next-line
+    // }, [status])
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         setLoading(true)
+        console.log({baseURL: process.env.BASE_URL})
         toast.loading(`Please wait while we log you in`, { id: "8206" })
         try {
             console.log("Attempting a Login")
-            toast.success(`Welcome Back, ${memberId}`, { id: "8206" })
+            // toast.success(`Welcome Back, ${memberId}`, { id: "8206" })
+            const res = await fetch("http://localhost:6669/api/member/login", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({memberId, password})
+            })
+            const data = await res.json();
+            console.log({data})
+            if (data.error) toast.error(data.message, { id: "8206" })
+            else {
+                toast.success(data.message, { id: "8206" })
+                router.push("/dashboard")
+            }
             // const res = await signIn('credentials', { email, password, redirect: false, callbackUrl: '/auth/login' })
             // if (!res || res.ok !== true) {
             //     toast.error(`You have supplied an invalid Member ID and Password`, { id: "8206" })
@@ -49,7 +65,6 @@ export default function LoginForm() {
             // Check that ms sql server, ensure it is saying 'running', if not, right-click and click 'start'
             // For importation, 'under task', use import wizard
 
-            router.push("/dashboard")
         } catch (error) {
             toast.error(`Something went wrong. Due to ${error}`, { id: "8206" })
         } finally {

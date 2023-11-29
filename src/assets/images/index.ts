@@ -15,6 +15,17 @@ import edimcs_piggyvest from "./edimcs_piggyvest.jpg"
 import edimcs_silhouette from "./edimcs_silhouette.jpg"
 import logo from "./logo.png"
 
+import edimcs_boss_staff from "./edimcs_boss_staff.jpg"
+import edimcs_cardholder from "./edimcs_cardholder.jpg"
+import edimcs_director from "./edimcs_director.jpg"
+import edimcs_happy_bunch from "./edimcs_happy_bunch.jpg"
+import edimcs_happy_staff from "./edimcs_happy_staff.jpg"
+import edimcs_laptop_holder from "./edimcs_laptop_holder.jpg"
+import edimcs_logo from "./edimcs_logo.png"
+import edimcs_smily_staff from "./edimcs_smily_staff.jpg"
+import edimcs_staff from "./edimcs_staff.jpg"
+import edimcs_staff_laptop from "./edimcs_staff_laptop.jpg"
+
 
 export {
     edimcs_blackpeople,
@@ -33,4 +44,14 @@ export {
     edimcs_piggyvest,
     edimcs_silhouette,
     logo,
+    edimcs_boss_staff,
+    edimcs_cardholder,
+    edimcs_director,
+    edimcs_happy_bunch,
+    edimcs_happy_staff,
+    edimcs_laptop_holder,
+    edimcs_logo,
+    edimcs_smily_staff,
+    edimcs_staff,
+    edimcs_staff_laptop,
 }

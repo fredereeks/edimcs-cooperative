@@ -4,6 +4,8 @@ import { IoGlobeOutline, IoHomeOutline, IoPhoneLandscape } from 'react-icons/io5
 import 'aos/dist/aos.css';
 import ContactForm from './ContactForm'
 import { Metadata } from 'next';
+import Image from 'next/image';
+import { edimcs_laptop_holder, edimcs_smily_staff } from '@/assets/images';
 
 const handleContact = async(formData: FormData) => {
   "use server"
@@ -35,12 +37,13 @@ export default function page() {
   return (
     <main className="flex flex-col relative">
       <section className="flex flex-col relative before:hidden md:before:flex before-overlay before:bg-primary/20 after-overlay  after:bg-neutral-50 after:left-1/2">
+      <Image src={edimcs_smily_staff} alt='Money Saver Calculator' className='rounded-xl object-cover object-left-bottom opacity-50' fill={true} />
         <div data-aos-duration="1000" data-aos="fade-up-right" className="container mx-auto flex flex-col md:flex-row relative z-10">
           <aside className="py-20 flex flex-col justify-center flex-1">
             <h3 className="hidden md:flex text-slate-700 opacity-10 md:text-9xl leading-tight font-bold max-w-md sm:max-w-lg" data-aos-duration="1000" data-aos="fade-down-right">ED<br data-aos-duration="1000" data-aos="fade-up" data-aos-delay="2000" />IM<br data-aos-duration="1000" data-aos="fade-down-left" data-aos-delay="1000"  />CS.</h3>
           </aside>
           <aside className="py-20 md:pt-36 p-5 flex flex-col gap-4 flex-1 bg-neutral-50">
-            <h3 className="text-slate-700 text-4xl sm:text-5xl md:text-6xl leading-tight font-bold max-w-md sm:max-w-xl">A <span data-aos-duration="1000" data-aos="fade-up-right" data-aos-delay="2000" className="text-primary">Trusted</span> Household Name<span className="text-red-500">.</span></h3>
+            <h3 className="text-slate-700 text-4xl sm:text-5xl md:text-6xl leading-tight font-bold max-w-md sm:max-w-xl">We are a <span data-aos-duration="1000" data-aos="fade-up-right" data-aos-delay="2000" className="text-primary">Trusted</span> Household Name<span className="text-red-500">.</span></h3>
             <p data-aos-duration="1000" data-aos="fade-up" data-aos-delay="2000" className="text-slate-500 dark:text-slate-400 text-sm leading-loose max-w-lg">We are committed to helping you achieve your financial goals through a secure, dedicated and consistent saving habit.</p>
           </aside>
         </div>

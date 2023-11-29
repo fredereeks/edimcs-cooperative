@@ -1,5 +1,5 @@
 import { edimcs_blackpeople, edimcs_moneybox, edimcs_piggyvest } from '@/assets/images'
-import { TextInput } from '@/ui'
+import { TextInput } from '@/components'
 import { user } from '@/data';
 import { AccountDetailsProps } from '@/types';
 import Image from 'next/image'

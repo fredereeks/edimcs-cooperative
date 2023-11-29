@@ -1,4 +1,4 @@
-import { edimcs_blackpeople } from '@/assets/images'
+import { edimcs_blackpeople, edimcs_cardholder, edimcs_happy_staff } from '@/assets/images'
 import Image from 'next/image'
 import Link from 'next/link'
 import React from 'react'
@@ -54,9 +54,15 @@ export default function page() {
             <Link href={'/about#about-us'} className='text-sm text-slate-600 font-semibold flex'>Learn More <IoArrowForward className="text-inherit text-xs font-extrabold m-1" /></Link>
           </aside>
           <aside className="relative flex-1 flex justify-end">
-            <div className="relative min-h-[200px] sm:h-full p-10 w-3/4 overflow-hidden">
+            <figure className="relative min-h-[400px] sm:h-full p-10 w-full md:w-4/5 overflow-hidden">
+              <Image src={edimcs_cardholder} alt='Money Saver Calculator' className='rounded-xl object-cover' fill={true} />
+            </figure>
+            <figure className="rounded-xl shadow-lg shadow-slate-400 absolute z-10 -left-4 sm:left-2 -bottom-5 h-[150px] w-[150px] overflow-hidden">
               <Image src={edimcs_blackpeople} alt='Money Saver Calculator' className='rounded-xl object-cover' fill={true} />
-            </div>
+            </figure>
+            <figure className="rounded-xl shadow-lg shadow-slate-400 absolute z-10 sm:left-10 md:left-4/5 -right-4 bottom-[200px] md:bottom-4/5 lg:bottom-[200px] h-[150px] w-[150px] overflow-hidden">
+              <Image src={edimcs_happy_staff} alt='Money Saver Calculator' className='rounded-xl object-cover' fill={true} />
+            </figure>
           </aside>
         </div>
       </section>
@@ -111,10 +117,10 @@ export default function page() {
                 [8345832, 'Our Values', "To uphold the oriented cooperative value in business of fairness, integrity, Honesty, Hard Work and Teamwork, operating on processes involved around maintaining a balance between business and people’s and service above profile.", <FaScaleBalanced key={8345802} className="text-inherit" />],
               ].map((([id, title, text, icon], i) => (
                 <aside key={id.toString()} className={`${i === 0 ? 'bg-zinc-800 sm:col-span-2 md:col-span-1' : i === 1 ? 'bg-zinc-800/80' : 'bg-zinc-800/10'} p-7 flex flex-col gap-2`}>
-                  <span className={`text-3xl sm:text-4xl flex-shrink-0 pt-5 ${i === 0 ? 'text-slate-100' : i === 1 ? 'text-slate-300' : 'text-slate-700'}`}>{icon}</span>
+                  <span className={`text-4xl sm:text-5xl flex-shrink-0 pt-5 ${i === 0 ? 'text-slate-100' : i === 1 ? 'text-slate-300' : 'text-slate-700'}`}>{icon}</span>
                   <div className="py-5 flex flex-col gap-2">
-                    <h3 className={`text-lg sm:text-xl font-medium sm:font-semibold max-w-lg leading-tight ${i === 0 ? 'text-slate-100' : i === 1 ? 'text-slate-300' : 'text-slate-700'}`}>{title}</h3>
-                    <p style={{ lineHeight: 2 }} className={`text-xs sm:text-sm font-light leading-loose text-justify ${i === 0 ? 'text-slate-100' : i === 1 ? 'text-slate-300' : 'text-slate-700'}`}>{text}</p>
+                    <h3 className={`text-2xl sm:text-3xl font-medium sm:font-semibold max-w-lg leading-tight ${i === 0 ? 'text-slate-100' : i === 1 ? 'text-slate-300' : 'text-slate-700'}`}>{title}</h3>
+                    <p style={{ lineHeight: 2 }} className={`text-sm sm:text-base font-light leading-loose text-justify ${i === 0 ? 'text-slate-100' : i === 1 ? 'text-slate-300' : 'text-slate-700'}`}>{text}</p>
                   </div>
                 </aside>
               )))

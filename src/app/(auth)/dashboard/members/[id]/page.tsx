@@ -1,4 +1,5 @@
-export const dynamic = 'force-dynamic'
+export const dynamic = 'force-static', revalidate = 'force-cache'
+
 import { memberData } from '@/data/members'
 import React from 'react'
 import SingleMemberData from './SingleMemberData'
@@ -26,7 +27,8 @@ export default async function page({ params: { id } }: PageProp) {
 }
 
 
-export const generateStaticParams = async() => {
+export async function generateStaticParams(){
     const members = await memberData
-    return members.map(member => member.id.toString())
+    // members.map((post) => ({ slug: post._raw.flattenedPath }));
+    return members.map(member => ({ id:  member.id.toString() }))
 }

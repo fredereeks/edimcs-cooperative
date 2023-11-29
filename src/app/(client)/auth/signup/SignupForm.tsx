@@ -1,7 +1,7 @@
 "use client"
 
 import React, { useRef, useState } from 'react'
-import { TextInput } from '@/ui'
+import { TextInput } from '@/components'
 import { FaMoneyCheck } from 'react-icons/fa'
 import toast from 'react-hot-toast'
 // import { redirect } from 'next/navigation';
@@ -12,13 +12,13 @@ import Link from 'next/link'
 
 export default function SignupForm({ handleSignup }: { handleSignup: (formData: FormData) => Promise<LoginFormDataProps | null> }) {
     const [loading, setLoading] = useState<boolean>(false)
-    const formRef = useRef<HTMLFormElement>(null)
+    const formRef = useRef<HTMLFormElement | null>(null)
     const router = useRouter()
     const [password, setPassword] = useState<string>('')
     const [confirmPassword, setConfirmPassword] = useState<string>('')
 
-    const handleSubmit = async (formData: FormData) => {
-        console.log({password, confirmPassword})
+    const handleSubmit = async (e: React.FormEvent) => {
+        e.preventDefault()
         toast.loading(`Please wait while your account is being created`, { id: "8206" })
         if(password !== confirmPassword){
             toast.error(`Passwords Do NOT Match!`, { id: "8206" })
@@ -26,7 +26,22 @@ export default function SignupForm({ handleSignup }: { handleSignup: (formData: 
         }
         setLoading(true)
         try {
-            const data = await handleSignup(formData)
+            // const data = await handleSignup(formData)
+            const formData = new FormData(formRef?.current!)
+            const res = await fetch("http://localhost:6669/api/member/signup", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: formData
+            })
+            const data = await res.json();
+            console.log({data})
+            if (data.error) toast.error(data.message, { id: "8206" })
+            else {
+                toast.success(data.message, { id: "8206" })
+                router.push("/dashboard")
+            }
             toast.success(`${data?.message}`, { id: "8206" })
             router.push('/auth/login', { scroll: false })
         } catch (error) {
@@ -37,10 +52,10 @@ export default function SignupForm({ handleSignup }: { handleSignup: (formData: 
     }
     return (
         <>
-            <form ref={formRef} action={handleSubmit} className="py-5 flex flex-col gap-3 px-4 sm:px-0">
+            <form ref={formRef} onSubmit={handleSubmit} className="py-5 flex flex-col gap-3 px-4 sm:px-0">
                 <div className="flex flex-col gap-2">
-                    <TextInput label={'Member ID'} containerClassName={'text-slate-600'} key={823401} type='text' name='memberId' id='memberId' placeholder='Enter Member ID' required={true} />
-                    <TextInput label={'First Name'} containerClassName={'text-slate-600'} key={823402} type='text' name='firstname' id='firstname' placeholder='Enter First Name' required={true} />
+                    <TextInput label={'Member ID'} containerClassName={'text-slate-600'} key={823400} type='text' name='memberId' id='memberId' placeholder='Enter Member ID' required={true} />
+                    <TextInput label={'First Name'} containerClassName={'text-slate-600'} key={823401} type='text' name='firstname' id='firstname' placeholder='Enter First Name' required={true} />
                     <TextInput label={'Middle Name'} containerClassName={'text-slate-600'} key={823402} type='text' name='middlename' id='middlename' placeholder='Enter Middle Name' required={false} />
                     <TextInput label={'Last Name'} containerClassName={'text-slate-600'} key={823403} type='text' name='lastname' id='lastname' placeholder='Enter Last Name' required={true} />
                     <TextInput label={'Email'} containerClassName={'text-slate-600'} key={823404} type='email' name='email' id='email' placeholder='Enter Your Email' required={true} />

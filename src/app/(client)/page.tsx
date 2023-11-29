@@ -1,4 +1,4 @@
-import { edimcs_calculation, edimcs_calculator, edimcs_coinstack, edimcs_dollarbills, edimcs_gathering, edimcs_moneycount, edimcs_phonecalculator, edimcs_piggyvest } from '@/assets/images'
+import { edimcs_boss_staff, edimcs_calculation, edimcs_calculator, edimcs_coinstack, edimcs_dollarbills, edimcs_gathering, edimcs_happy_bunch, edimcs_laptop_holder, edimcs_moneycount, edimcs_phonecalculator, edimcs_piggyvest, edimcs_staff_laptop } from '@/assets/images'
 import Image from 'next/image'
 import Link from 'next/link'
 import { IoAirplaneOutline, IoKeyOutline, IoMailUnreadSharp, IoPeopleOutline, IoScaleOutline, IoTelescopeOutline } from 'react-icons/io5'
@@ -19,7 +19,7 @@ export default function Home() {
   return (
     <main className="flex min-h-screen flex-col">
       <article className="relative py-20 px-4 bg-slate-600 after:bg-gradient-t-b after:from-slate-500 after:to-primary after-overlay">
-        <Image src={edimcs_piggyvest} alt='Edimcs Money Calculator Image' fill={true} className="absolute w-1/2 left-1/2 top-0 opacity-50 object-cover" />
+        <Image src={edimcs_boss_staff} alt='Edimcs Money Calculator Image' fill={true} className="absolute w-1/2 left-1/2 top-0 object-cover grayscale opacity-25" />
         <div className="backdrop-blur-md relative z-20 container mx-auto py-20 h-screen max-h-screen grid sm:grid-cols-2 gap-4 text-white">
           <div className="flex flex-col gap-2 justify-center">
             <h2 data-aos-duration="2000" data-aos-delay="1000" data-aos="zoom-in-down" className="text-3xl sm:text-4xl font-semibold max-w-md sm:max-w-lg leading-tight">Saving you Money before you know it. Literally!</h2>
@@ -38,7 +38,7 @@ export default function Home() {
         <div className="container mx-auto flex flex-col gap-6 md:flex-row py-10 md:py-20">
           <div className="relative flex-1 flex justify-end">
             <div data-aos-duration="2000" data-aos="zoom-down-right" className="relative min-h-[250px] sm:h-[300px] md:h-full p-10 w-full overflow-hidden">
-              <Image src={edimcs_calculator} alt='Money Saver Calculator' className='rounded-xl object-cover' fill={true} />
+              <Image src={edimcs_boss_staff} alt='Money Saver Calculator' className='rounded-xl object-cover' fill={true} />
             </div>
           </div>
           <div data-aos-duration="2000" data-aos="zoom-in-up"  className="py-0 md:py-20 flex-1 flex flex-col gap-2 sm:justify-center text-justify">
@@ -77,7 +77,7 @@ export default function Home() {
           <h3 className="text-slate-700 text-4xl sm:text-5xl md:text-6xl leading-snug font-bold max-w-md sm:max-w-lg">Our Values Propositions<span className="text-red-500">.</span></h3>
           <div className="relative z-20 container mx-auto py-5 grid sm:grid-cols-2 gap-7">
             <div className="relative rounded-md drop-shadow-[0_0_16px_2px_#0000004] overflow-hidden h-full min-h-[20rem]">
-              <Image src={edimcs_coinstack} alt='Edimcs Money Calculator Image' fill={true} className="overlay left-0 top-0 object-cover" />
+              <Image src={edimcs_staff_laptop} alt='Edimcs Money Calculator Image' fill={true} className="overlay left-0 top-0 object-cover object-top" />
             </div>
             <div className="relative flex flex-col gap-6 py-5 sm:p-4">
               {
