@@ -8,7 +8,7 @@
   "scripts": {
     "dev": "next dev --turbo",
     "prebuild": "node prebuild.ts",
-    "build": "prisma generate && next build && nextjs-standalone-deployer.exe",
+    "build": "prisma generate && next build",
     "start": "next start",
     "lint": "next lint",
     "db-seed": "NODE_ENV=development prisma db seed"

@@ -54,11 +54,11 @@ export default function SignupForm({ handleSignup }: { handleSignup: (formData: 
         <>
             <form ref={formRef} onSubmit={handleSubmit} className="py-5 flex flex-col gap-3 px-4 sm:px-0">
                 <div className="flex flex-col gap-2">
-                    <TextInput label={'Member ID'} containerClassName={'text-slate-600'} key={823400} type='text' name='memberId' id='memberId' placeholder='Enter Member ID' required={true} />
                     <TextInput label={'First Name'} containerClassName={'text-slate-600'} key={823401} type='text' name='firstname' id='firstname' placeholder='Enter First Name' required={true} />
                     <TextInput label={'Middle Name'} containerClassName={'text-slate-600'} key={823402} type='text' name='middlename' id='middlename' placeholder='Enter Middle Name' required={false} />
                     <TextInput label={'Last Name'} containerClassName={'text-slate-600'} key={823403} type='text' name='lastname' id='lastname' placeholder='Enter Last Name' required={true} />
                     <TextInput label={'Email'} containerClassName={'text-slate-600'} key={823404} type='email' name='email' id='email' placeholder='Enter Your Email' required={true} />
+                    <TextInput label={'Phone Number'} containerClassName={'text-slate-600'} key={823400} type='text' name='phone' id='phone' placeholder='Enter Phone Number' required={true} />
                     <TextInput onChange={e => setPassword(e.currentTarget.value)} value={password} label={'Password'} containerClassName={'text-slate-600'} key={823405} type='password' name='password' id='password' minLength={6} placeholder='Enter Your Password' required={true} />
                     <TextInput onChange={e => setConfirmPassword(e.currentTarget.value)} value={confirmPassword} label={'Confirm Password'} containerClassName={'text-slate-600'} key={823406} type='password' name='password' id='confirm-password' minLength={6} placeholder='Confirm Password' required={true} />
                 </div>
