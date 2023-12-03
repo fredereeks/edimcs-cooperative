@@ -2,7 +2,6 @@
 
 import React, { useEffect, useState, useRef } from 'react'
 import Link from 'next/link'
-import { IoSearchOutline } from "react-icons/io5"
 import LinkCard from './LinkCard';
 import { headerLinks } from '@/data';
 import { usePathname } from 'next/navigation';
@@ -12,7 +11,6 @@ import { edimcs_logo } from '@/assets/images';
 export default function Header() {
 
     const [navShow, setNavShow] = useState(false);
-    const [searchShow, setSearchShow] = useState(false);
     const [fixed, setFixed] = useState(false);
     const location = usePathname();
     const headerRef = useRef(null);
@@ -48,7 +46,7 @@ export default function Header() {
                         <Image src={edimcs_logo} alt='EDIMCS Logo' fill={true} className='object-cover flex-shrink-0' />
                     </div>
                     <div className="flex flex-col">
-                        <h1 className={`${fixed ? 'text-slate-700' : 'text-slate-900'} text-2xl sm:text-3xl w-max font-black tracking-tight`}>EDIMCS<span className={`${fixed ? "text-red-500" : "text-slate-300"}`}>.</span></h1>
+                        <h1 className={`${fixed ? 'text-primary' : 'text-primary'} text-xl sm:text-2xl w-max font-black tracking-tight`}>EDIMCS<span className={`${fixed ? "text-red-500" : "text-slate-300"}`}>.</span></h1>
                         <p className={`text-sm sm:text-base -my-1 sm:-my-2 tracking-widest font-extrabold uppercase ${fixed ? "text-red-500" : "text-slate-300"}`}>SAVE MORE...</p>
                     </div>
                 </Link>

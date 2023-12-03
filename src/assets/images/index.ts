@@ -25,6 +25,7 @@ import edimcs_logo from "./edimcs_logo.png"
 import edimcs_smily_staff from "./edimcs_smily_staff.jpg"
 import edimcs_staff from "./edimcs_staff.jpg"
 import edimcs_staff_laptop from "./edimcs_staff_laptop.jpg"
+import edimcs_staff_lineup from "./edimcs_staff_lineup.jpg"
 
 
 export {
@@ -54,4 +55,5 @@ export {
     edimcs_smily_staff,
     edimcs_staff,
     edimcs_staff_laptop,
+    edimcs_staff_lineup,
 }

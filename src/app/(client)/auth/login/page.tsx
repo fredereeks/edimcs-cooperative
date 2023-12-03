@@ -1,7 +1,8 @@
 import React from 'react'
 import LoginForm from './LoginForm'
+import { Metadata } from 'next'
 
-export const metadata = {
+export const metadata: Metadata = {
   title: "EDIMCS :: Login", 
   description: "EDIMCS money pool is a way Whether you are looking for a short-term savings plan, a medium or long-term savings plan. Hell, if you are looking for a money pool, we got you covered on all sides"
 }

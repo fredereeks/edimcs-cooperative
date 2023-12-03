@@ -13,10 +13,9 @@ export const signUp = async (firstname: string, middlename: string, lastname: st
             }
         }
         else {
-            const user = await prisma.member.findUnique({
+            const user = await prisma.member.findFirst({
                 where: {
-                    email: email.toLowerCase(),
-                    memberId: memberId.toUpperCase()
+                    OR: [{ email: email.toLowerCase(), memberId: memberId.toUpperCase() }]
                 }
             })
             if (user) {

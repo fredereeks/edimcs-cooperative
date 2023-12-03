@@ -1,4 +1,4 @@
-import { edimcs_blackpeople, edimcs_cardholder, edimcs_happy_staff } from '@/assets/images'
+import { edimcs_blackpeople, edimcs_cardholder, edimcs_director, edimcs_happy_staff } from '@/assets/images'
 import Image from 'next/image'
 import Link from 'next/link'
 import React from 'react'
@@ -54,13 +54,13 @@ export default function page() {
             <Link href={'/about#about-us'} className='text-sm text-slate-600 font-semibold flex'>Learn More <IoArrowForward className="text-inherit text-xs font-extrabold m-1" /></Link>
           </aside>
           <aside className="relative flex-1 flex justify-end">
-            <figure className="relative min-h-[400px] sm:h-full p-10 w-full md:w-4/5 overflow-hidden">
-              <Image src={edimcs_cardholder} alt='Money Saver Calculator' className='rounded-xl object-cover' fill={true} />
+            <figure className="relative min-h-[400px] sm:h-full p-10 w-full md:w-full overflow-hidden">
+              <Image src={edimcs_director} alt='Money Saver Calculator' className='-scale-x-100 rounded-xl object-cover object-bottom' fill={true} />
             </figure>
-            <figure className="rounded-xl shadow-lg shadow-slate-400 absolute z-10 -left-4 sm:left-2 -bottom-5 h-[150px] w-[150px] overflow-hidden">
+            <figure className="rounded-xl shadow-lg shadow-slate-400 absolute z-10 right-0 -bottom-5 h-[150px] w-[150px] overflow-hidden">
               <Image src={edimcs_blackpeople} alt='Money Saver Calculator' className='rounded-xl object-cover' fill={true} />
             </figure>
-            <figure className="rounded-xl shadow-lg shadow-slate-400 absolute z-10 sm:left-10 md:left-4/5 -right-4 bottom-[200px] md:bottom-4/5 lg:bottom-[200px] h-[150px] w-[150px] overflow-hidden">
+            <figure className="rounded-xl shadow-lg shadow-slate-400 absolute z-10 sm:-left-5 md:left-4/5 -right-4 bottom-[200px] md:bottom-4/5 lg:bottom-[200px] h-[150px] w-[150px] overflow-hidden">
               <Image src={edimcs_happy_staff} alt='Money Saver Calculator' className='rounded-xl object-cover' fill={true} />
             </figure>
           </aside>

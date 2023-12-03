@@ -16,7 +16,6 @@ export default function DashSideBar({ navShow, setNavShow }: { navShow: boolean;
     const location = usePathname();
     const pathname = location === "/" || location === "/dashboard" ? "Dashboard" : location.replace("/dashboard/", "");
     const page = pathname[0].toUpperCase() + pathname.slice(1);
-    const banker = user?.accountDetails ? user?.accountDetails[0]?.banker : 'No Account Registered'
 
     const colorScheme: ColorSchemeProp[] = [
         {

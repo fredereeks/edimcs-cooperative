@@ -1,4 +1,4 @@
-import { edimcs_boss_staff, edimcs_calculation, edimcs_calculator, edimcs_coinstack, edimcs_dollarbills, edimcs_gathering, edimcs_happy_bunch, edimcs_laptop_holder, edimcs_moneycount, edimcs_phonecalculator, edimcs_piggyvest, edimcs_staff_laptop } from '@/assets/images'
+import { edimcs_boss_staff, edimcs_calculation, edimcs_calculator, edimcs_cardholder, edimcs_coinstack, edimcs_director, edimcs_dollarbills, edimcs_gathering, edimcs_happy_bunch, edimcs_laptop_holder, edimcs_moneycount, edimcs_phonecalculator, edimcs_piggyvest, edimcs_staff_laptop } from '@/assets/images'
 import Image from 'next/image'
 import Link from 'next/link'
 import { IoAirplaneOutline, IoKeyOutline, IoMailUnreadSharp, IoPeopleOutline, IoScaleOutline, IoTelescopeOutline } from 'react-icons/io5'
@@ -30,7 +30,7 @@ export default function Home() {
             </div>
           </div>
           <div data-aos-duration="2000" data-aos-delay="1000" data-aos="fade-left" className="relative h-full hidden sm:flex">
-            <Image src={edimcs_phonecalculator} alt='Edimcs Money Calculator Image' fill={true} className="overlay left-0 top-0 object-cover" />
+            <Image src={edimcs_cardholder} alt='Edimcs Money Calculator Image' fill={true} className="overlay left-0 top-0 object-cover" />
           </div>
         </div>
       </article>

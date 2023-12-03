@@ -4,9 +4,9 @@ import "tw-elements/dist/css/tw-elements.min.css";
 import 'aos/dist/aos.css';
 
 import DashLayout from '@/app/(auth)/ui/DashLayout'
-// import { redirect } from 'next/navigation'
+import { authOptions } from '@/lib/authOptions';
+import { redirect } from 'next/navigation'
 // import SessionProvider from "@/components/SessionProvider"
-import { authOptions } from  "@/api/route"
 import { getServerSession } from 'next-auth'
 
 
@@ -25,9 +25,9 @@ export default async function RootLayout({
   const session = await getServerSession(authOptions);
   // console.log({session, user: session?.user, authOptions})
 
-  // if(!session || !session.user){
-  //   redirect("/auth/login")
-  // }
+  if(!session || !session.user){
+    redirect("/auth/login")
+  }
 
   return (
     <html lang="en" data-theme="winter">

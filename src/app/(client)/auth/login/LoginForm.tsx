@@ -10,6 +10,8 @@ import { useRouter } from 'next/navigation'
 // import { LoginFormDataProps } from '@/types'
 // import { signIn, useSession } from 'next-auth/react'
 import axios from "axios"
+import { signIn, useSession } from 'next-auth/react'
+// import { authOptions } from '@/api/route'
 
 
 
@@ -21,52 +23,52 @@ export default function LoginForm() {
     const [memberId, setMemberId] = useState<string>('')
     const formRef = useRef<HTMLFormElement>(null)
     const router = useRouter()
-    // const { status } = useSession()
+    const { status } = useSession()
 
-    // useEffect(() => {
-    //     if (status === "authenticated") {
-    //         router.refresh()
-    //         router.push('/dashboard', { scroll: false })
-    //     }
-    //     //eslint-disable-next-line
-    // }, [status])
+    useEffect(() => {
+        if (status === "authenticated") {
+            router.refresh()
+            router.push('/dashboard', { scroll: false })
+        }
+        //eslint-disable-next-line
+    }, [status])
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         setLoading(true)
-        console.log({baseURL: process.env.BASE_URL})
-        toast.loading(`Please wait while we log you in`, { id: "8206" })
+        // console.log({baseURL: process.env.BASE_URL})
+        toast.loading(`Please wait while we attempt to log you in`, { id: "39274" })
         try {
             console.log("Attempting a Login")
-            // toast.success(`Welcome Back, ${memberId}`, { id: "8206" })
-            const res = await fetch("http://localhost:6669/api/member/login", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({memberId, password})
-            })
-            const data = await res.json();
-            console.log({data})
-            if (data.error) toast.error(data.message, { id: "8206" })
-            else {
-                toast.success(data.message, { id: "8206" })
-                router.push("/dashboard")
-            }
-            // const res = await signIn('credentials', { email, password, redirect: false, callbackUrl: '/auth/login' })
-            // if (!res || res.ok !== true) {
-            //     toast.error(`You have supplied an invalid Member ID and Password`, { id: "8206" })
-            // }
+            // toast.success(`Welcome Back, ${memberId}`, { id: "39274" })
+            // const res = await fetch("http://localhost:6669/api/member/login", {
+            //     method: "POST",
+            //     headers: {
+            //         "Content-Type": "application/json"
+            //     },
+            //     body: JSON.stringify({memberId, password})
+            // })
+            // const data = await res.json();
+            // const data = await signIn("credentials", {memberId,password})
+            // console.log({data})
+            // if (data?.error) toast.error(data?.message, { id: "39274" })
             // else {
-            //     router.refresh();
+            //     toast.success(data?.message, { id: "39274" })
+            //     router.push("/dashboard")
             // }
+            const res = await signIn('credentials', { memberId, password, redirect: false })
+            if (res?.ok) toast.success(`Welcome Back ${memberId}`, { id: "39274" })
+            else {
+                if(res?.error === "CredentialsSignin") toast.error("Invalid credentials supplied, please, try again", { id: "39274", duration: 4000 })
+                else toast.error(res?.error || "Invalid credentials supplied, please, try again", { id: "39274" })
+            }
             // server name is correct, go to server name and click on "browse", it will show you a list of options and find 'database engine', expand (if you have only one), select that and click 'ok' and try connecting, if multiple, try each.
             // SQL Server configuration Manager (from the start menu), click on 'SQL Server Services', the first one, not the one in the middle, the one in the left-navigation mgr.
             // Check that ms sql server, ensure it is saying 'running', if not, right-click and click 'start'
             // For importation, 'under task', use import wizard
 
         } catch (error) {
-            toast.error(`Something went wrong. Due to ${error}`, { id: "8206" })
+            toast.error(`Something went wrong. Due to ${error}`, { id: "39274" })
         } finally {
             setLoading(false)
         }

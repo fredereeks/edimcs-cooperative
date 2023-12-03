@@ -1,13 +1,33 @@
 import { edimcs_blackpeople, edimcs_moneybox, edimcs_piggyvest } from '@/assets/images'
 import { TextInput } from '@/components'
 import { user } from '@/data';
+import { authOptions } from '@/lib/authOptions';
+import prisma from '@/lib/prisma';
 import { AccountDetailsProps } from '@/types';
+import { getServerSession } from 'next-auth';
+import { signOut } from 'next-auth/react';
 import Image from 'next/image'
+import { redirect } from 'next/navigation';
 import React from 'react'
 
-export default function Profile() {
+
+const fetchUser = async(email: string) => {
+  const member = await prisma.member.findUnique({
+    where: { email }
+  })
+  if(!member) {
+    signOut()
+    redirect("/auth/signin");
+  }
+  return member 
+}
+
+export default async function Profile() {
+  const session = await getServerSession(authOptions)
+  const member = await fetchUser(session?.user?.email as string)
   
-  const accountDetails: AccountDetailsProps[] = user.accountDetails ? user.accountDetails : [{
+  // const accountDetails: AccountDetailsProps[] = member?.loanRating ? member.loanRating : [{
+  const accountDetails: AccountDetailsProps[] =  [{
     accountName: 'Not Set',
     accountNo: '00000000',
     accountOwner: 'An Important Member',

@@ -5,10 +5,10 @@ import { TextInput } from '@/components'
 import toast from 'react-hot-toast'
 import TextArea from '@/components/TextArea'
 import { FaEnvelope } from 'react-icons/fa6'
-import { LoginFormDataProps } from '@/types'
+import { handleContact } from '@/actions'
 
 
-export default function ContactForm({ handleContact }: { handleContact: (formData: FormData) => Promise<LoginFormDataProps | null> }) {
+export default function ContactForm() {
     const [loading, setLoading] = useState<boolean>(false)
     const formRef = useRef<HTMLFormElement>(null)
 

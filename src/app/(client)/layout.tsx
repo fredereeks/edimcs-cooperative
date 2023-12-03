@@ -3,7 +3,7 @@ import { Roboto } from 'next/font/google'
 import '../globals.css'
 import { AosProvider, Footer, Header } from '@/components'
 import { Toaster } from 'react-hot-toast'
-import SessionProvider from '@/components/SessionProvider'
+import { Provider } from '@/provider'
 
 const roboto = Roboto({ weight: ["100", "300", "400", "500", "700", "900"], subsets: ['latin'] })
 
@@ -21,7 +21,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${roboto.className} flex flex-col`}>
-        <SessionProvider>
+        <Provider>
           <Toaster />
           <Header />
           <AosProvider>
@@ -30,7 +30,7 @@ export default function RootLayout({
             </>
           </AosProvider>
           <Footer />
-        </SessionProvider>
+        </Provider>
       </body>
     </html>
   )

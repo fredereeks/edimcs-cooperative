@@ -2,16 +2,12 @@
   "name": "edimcs",
   "version": "0.1.0",
   "private": true,
-  "prisma": {
-    "seed": "ts-node --compiler-options {\"module\":\"CommonJS\"} prisma/seed.ts"
-  },
   "scripts": {
     "dev": "next dev --turbo",
     "prebuild": "node prebuild.ts",
     "build": "prisma generate && next build",
     "start": "next start",
-    "lint": "next lint",
-    "db-seed": "NODE_ENV=development prisma db seed"
+    "lint": "next lint"
   },
   "dependencies": {
     "@prisma/client": "^5.6.0",

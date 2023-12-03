@@ -62,7 +62,7 @@ export interface LinkCardProps {
 //   }
 
 export type LoanProps = {
-    id: string 
+    id: string
     amount: number
     interest: number
     payback?: number
@@ -102,10 +102,51 @@ export type AccountDetailsProps = {
     accountOwner?: string
 }
 
+export type InvestmentProps = {
+    id: string
+    type: "Silver" | "Gold" | "Premium"
+    status: "Pending" | "Running" | "Completed" | "Suspended"
+    investor: MemberProps
+    investorId: string
+    beneficiary?: MemberProps
+    beneficiaryId?: string
+    nextDueDate?: string
+    createdAt?: string
+    updatedAt?: string
+}
+
+
 export type MemberProps = {
     id: string; image?: StaticImageData | string; firstname: string; middlename: string; lastname: string; email: string; status?: string; phone?: string | number; type?: "Admin" | "Member";
     accountDetails?: AccountDetailsProps[] | undefined
     address?: string | undefined; memberId: number | string; createdAt?: string; savings?: number; deposits?: number; withdrawal?: number; balance?: number
+}
+
+export type MemberProp = {
+    id: string
+    firstname: string
+    middlename: string
+    lastname: string
+    email: string
+    memberId: string
+    password: string
+    image: string
+    phone?: string
+    address?: string
+    type?: "User" | "Admin"
+    status?: "Pending" | "Active" | "Pending"
+    token?: string
+    createdAt?: string
+    updatedAt?: string
+    updatedBy?: string
+    loanRating?: "Basic" | "Standard" | "Standard Plus" | "Premium"
+    accountDetails?: AccountDetailsProps[]
+    loans?: LoanProps[]
+    savings?: SavingsProps[]
+    sentMessages?: MessageProps[]
+    receivedMessages?: MessageProps[]
+    investments?: InvestmentProps[]
+    beneficiary?: InvestmentProps[]
 }
 
 export interface NavLinkProps {
