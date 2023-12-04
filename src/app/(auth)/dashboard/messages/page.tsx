@@ -5,6 +5,7 @@ import prisma from '@/lib/prisma';
 import { Metadata } from 'next'
 import nodeMailer from 'nodemailer'
 import { revalidatePath } from 'next/cache';
+import { MessageProps } from '@/types';
 
 export const metadata: Metadata = {
   title: 'CTTI e-learning Centre :: Messages',
@@ -29,7 +30,7 @@ const sendMessage = async (data: FormData) => {
     // }})
     await prisma.contact.create({
       data: {
-          firstname, middlename, lastname, phone, country, state, message, email
+          firstname, lastname, phone, message, email
       }
   })
     // console.log({contactMessage})
