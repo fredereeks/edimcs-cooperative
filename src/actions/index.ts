@@ -29,7 +29,6 @@ export const handleContact = async (data: FormData) => {
   "use server"
   try {
     const firstname = data.get("firstname")?.valueOf()?.toString() || "";
-    const middlename = data.get("middlename")?.valueOf()?.toString() || "";
     const lastname = data.get("lastname")?.valueOf()?.toString() || "";
     const email = data.get("email")?.valueOf()?.toString() || "";
     const phone = data.get("phone")?.valueOf()?.toString() || "";
@@ -52,7 +51,7 @@ export const handleContact = async (data: FormData) => {
                     <div className="flex gap-1">
                     div style="background: rgb(33, 150, 243); color: white; text-align: center; border-radius: 5px;" className="h-10 w-10 rounded-full bg-primary flex-shrink-0">Contact Details</div>
                         <div className="flex flex-col flex-1">
-                            <h4 style="color: #848484; font-weight: bold; font-size: 1.125rem; line-height: 1.6rem;" className="font-bold text-slate-600 text-lg">${firstname} ${middlename} ${lastname}</h4>
+                            <h4 style="color: #848484; font-weight: bold; font-size: 1.125rem; line-height: 1.6rem;" className="font-bold text-slate-600 text-lg">${firstname} ${lastname}</h4>
                             <p style="color: rgb(100,116,139); font-size: 0.75rem; line-height: 1rem;" className="text-xs text-slate-500">Email: ${email}</p>
                             <p style="color: rgb(100,116,139); font-size: 0.75rem; line-height: 1rem;" className="text-xs text-slate-500">Phone Number: ${phone}</p>
                         </div>
