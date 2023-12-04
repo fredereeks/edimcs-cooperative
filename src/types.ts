@@ -81,15 +81,17 @@ export interface LoginFormDataProps {
 }
 
 export type MessageProps = {
-    id: number
-    text: string
-    sender: string
-    senderStatus: string
-    receiver: string
-    receiverStatus: string
-    date: string
-    status: string
-    type: string
+    id: string
+    firstname: string
+    middlename: string
+    lastname: string
+    email: string
+    phone: string
+    message: string
+    status: "Read" | "Unread"
+    createdAt?: string | Date 
+    updatedAt?: string | Date 
+    updatedBy?: string
 }
 
 export type AccountDetailsProps = {

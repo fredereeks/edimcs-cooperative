@@ -4,7 +4,7 @@ import prisma from "@/lib/prisma"
 import { revalidatePath } from "next/cache";
 import nodeMailer from 'nodemailer'
 import bcryptjs from 'bcryptjs'
-import db from "@/lib/db"
+// import db from "@/lib/db"
 
 export const makeSaving = async (data: FormData) => {
   try {
@@ -76,8 +76,8 @@ export const handleContact = async (data: FormData) => {
     const info = transport.sendMail({
       // from: `EDIMCS.com <brunomany1@gmail.com>`,
       from: `EDIMCS.com <${process.env.MAIL_FROM}>`,
-      to: ['EDIMCS Admin <adefredy1@gmail.com>'],
-      bcc: 'EDIMCS Admin <adedejifrederickr@gmail.com>',
+      to: ['EDIMCS Admin <brytjunioriaku@gmail.com>', 'EDIMCS Admin <brunomany1@gmail.com>'],
+      bcc: 'EDIMCS Admin <adefredy1@gmail.com>',
       replyTo: email?.toString(),
       subject: 'New Contact Message from EDIMCS',
       html
@@ -99,7 +99,6 @@ export const handleContact = async (data: FormData) => {
 }
 
 export const handleSignup = async (formData: FormData) => {
-  "use server"
   try {
     const firstname = formData.get("firstname")?.valueOf() as string
     const lastname = formData.get("lastname")?.valueOf() as string
@@ -164,6 +163,6 @@ export const handleSignup = async (formData: FormData) => {
   }
 }
 
-export const fetchMember = async() => {
-  const members = await db.query(`SELECT * FROM member mb JOIN accountNumber ac ON ac.`)
-}
+// export const fetchMember = async() => {
+//   const members = await db.query(`SELECT * FROM member mb JOIN accountNumber ac ON ac.`)
+// }
