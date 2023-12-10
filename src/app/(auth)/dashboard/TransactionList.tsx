@@ -5,7 +5,6 @@ import { edimcs_blackpeople, edimcs_bookkeeping } from '@/assets/images'
 import Image from 'next/image'
 import { FaClock } from 'react-icons/fa'
 import { TransactionProps } from '@/types'
-import { user } from '@/data'
 import { TableSearch, Modal } from '@/app/(auth)/ui'
 
 

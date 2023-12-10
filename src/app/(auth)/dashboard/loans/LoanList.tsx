@@ -1,23 +1,24 @@
 'use client'
 
-import { LoanProps } from '@/types'
+import { LoanProps, MemberProps } from '@/types'
 import React, { useRef, useState } from 'react'
 import Modal from '@/app/(auth)/ui/Modal'
-import { IoClose } from 'react-icons/io5'
 import { FaCalendarAlt, FaClock } from 'react-icons/fa'
 import Image from 'next/image'
 
-import { user } from '@/data'
 import { FaSackDollar } from 'react-icons/fa6'
 import toast from 'react-hot-toast'
 import { useRouter } from 'next/navigation'
 import { TableSearch } from '../../ui'
 import { edimcs_dollarbills } from '@/assets/images'
 import Link from 'next/link'
+import moment from 'moment'
+import { MdAttachMoney } from 'react-icons/md'
+import { handleLoans, verdictAction } from '@/actions'
 
 // import {useForm} from 'react-hook-form'
 
-export default function LoanList({ loansData }: { loansData: LoanProps[] }) {
+export default function LoanList({ loansData, user }: { loansData: LoanProps[], user: MemberProps }) {
     const [allTableData, setAllTableData] = useState<LoanProps[] | []>(loansData)
     const [tableData, setTableData] = useState<LoanProps[] | []>(loansData)
     const modalRef = useRef<HTMLDialogElement | null>(null)
@@ -27,10 +28,14 @@ export default function LoanList({ loansData }: { loansData: LoanProps[] }) {
     const [interest, setInterest] = useState<number>(1)
     const [payback, setPayback] = useState<number>(500)
     const inputRef = useRef<HTMLInputElement | null>(null)
+    const amountRef = useRef<HTMLInputElement | null>(null)
+    console.log({loansData})
 
     const [selectedLoan, setSelectedLoan] = useState<LoanProps>()
     const [loading, setLoading] = useState<boolean>(false)
     const router = useRouter()
+    const loanRating = user?.loanRating
+    const maxLoanAmount = loanRating === "Basic" ? 100000 : loanRating === "Standard" ? 200000 : loanRating === "StandardPlus" ? 950000 : 5000000
 
 
     const showReview = (id: string) => {
@@ -59,10 +64,10 @@ export default function LoanList({ loansData }: { loansData: LoanProps[] }) {
         }
     }
 
-    const handleReview = async (id: string, status: string) => {
+    const handleReview = async (id: string, verdict: string) => {
         setLoading(true)
         try {
-            // const res = await verdictAction(id, status)
+            const res = await verdictAction("loan", id, verdict, ``)
             router.refresh()
             reviewRef.current?.close()
         } catch (error) {
@@ -122,8 +127,22 @@ export default function LoanList({ loansData }: { loansData: LoanProps[] }) {
         )
     }
 
+    
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
+        setLoading(true)
+        const formData = new FormData(formRef?.current!)
+        const res = await handleLoans(formData)
+        if (res.error) {
+            modalRef.current?.close()
+            toast.error(res?.message, { id: "8290", duration: 5000 })
+        }
+        else {
+            modalRef.current?.close()
+            toast.success(res?.message, { id: "8290", duration: 5000 })
+        }
+        setLoading(false)
+        router.refresh()
     }
 
     return (
@@ -133,7 +152,7 @@ export default function LoanList({ loansData }: { loansData: LoanProps[] }) {
                     <table className="w-full text-slate-500 dark:text-slate-400 text-xs sm:text-sm min-w-[20rem]">
                         <thead>
                             <tr>
-                                <th colSpan={user.type === "Admin" ? 6 : 5}>
+                                <th colSpan={user?.type === "Admin" ? 6 : 5}>
                                     <TableSearch title='LOAN' key={'72088234'} handleSearch={handleSearch} inputRef={inputRef}>
                                         <div className="md:ml-[5rem] flex gap-2">
                                             <button onClick={() => modalRef.current?.showModal()} className="text-white bg-primary px-4 py-2 rounded-md cursor-pointer text-xs font-light">Apply for Loan</button>
@@ -148,60 +167,67 @@ export default function LoanList({ loansData }: { loansData: LoanProps[] }) {
                                 <th className='font-light'>Loan Date</th>
                                 <th className='font-light'>Verdict</th>
                                 <th className='font-light'>Status</th>
-                                {user.type === "Admin" && <th className='font-light'>Action</th>}
+                                {user?.type === "Admin" && <th className='font-light'>Action</th>}
                             </tr>
                         </thead>
                         <tbody className='w-full'>
                             {
-                                tableData.map(loan => (
-                                    <tr key={loan.id} className='hover:bg-slate-50 dark:hover:bg-slate-900/30'>
-                                        <td>
-                                            <div onClick={() => showPreview(loan.id.toString())} className="max-w-sm w-max flex items-center gap-2 cursor-pointer">
-                                                <div className="h-7 sm:h-8 w-7 sm:w-8 flex justify-center items-center rounded-full overflow-hidden text-white dark:text-primary relative bg-primary dark:bg-slate-100">
-                                                    {user.type === "Member" ? <FaSackDollar className='text-sm sm:text-base text-inherit' /> : <Image src={loan?.loaner?.image || edimcs_dollarbills} alt={`${loan?.loaner?.firstname} ${loan?.loaner?.middlename} ${loan?.loaner?.lastname}`} fill={true} className="absolute left-0 top-0 object-cover w-full h-full" />}
+                                tableData.length ?
+                                    tableData.map(loan => (
+                                        <tr key={loan.id} className='hover:bg-slate-50 dark:hover:bg-slate-900/30'>
+                                            <td>
+                                                <div onClick={() => showPreview(loan.id.toString())} className="max-w-sm w-max flex items-center gap-2 cursor-pointer">
+                                                    <div className="h-7 sm:h-8 w-7 sm:w-8 flex justify-center items-center rounded-full overflow-hidden text-white dark:text-primary relative bg-primary dark:bg-slate-100">
+                                                        {user?.type === "Member" ? <FaSackDollar className='text-sm sm:text-base text-inherit' /> : <Image src={loan?.loaner?.image || edimcs_dollarbills} alt={`${loan?.loaner?.firstname} ${loan?.loaner?.middlename} ${loan?.loaner?.lastname}`} fill={true} className="absolute left-0 top-0 object-cover w-full h-full" />}
+                                                    </div>
+                                                    <div className='flex flex-col'>
+                                                        <h5 className="text-sm font-medium leading-tight whitespace-nowrap">{loan.loaner?.firstname} {loan.loaner?.middlename} {loan.loaner?.lastname}</h5>
+                                                        <h4 className="text-slate-400 text-xs py-[.1rem] sm:py-1">Total Loans: &#8358;{loan.loaner?.balance?.toLocaleString() || 0}</h4>
+                                                    </div>
                                                 </div>
-                                                <div className='flex flex-col'>
-                                                    <h5 className="text-sm font-medium leading-tight whitespace-nowrap">{loan.loaner?.firstname} {loan.loaner?.middlename} {loan.loaner?.lastname}</h5>
-                                                    <h4 className="text-slate-400 text-xs py-[.1rem] sm:py-1">Balance: &#8358;{loan.loaner?.balance?.toLocaleString()}</h4>
+                                            </td>
+                                            <td className="align-middle">
+                                                <div className="flex justify-center items-center align-middle mx-auto whitespace-nowrap">
+                                                    <div className={`${loan.verdict === "Rejected" ? 'bg-red-100 text-red-500' : loan.verdict === "Granted" ? 'bg-sky-100 text-sky-500' : 'bg-slate-100 text-slate-500'} text-xs py-[.1rem] sm:py-1 px-3 rounded-sm font-medium`}>&#8358;{loan.amount.toLocaleString()}</div>
                                                 </div>
-                                            </div>
-                                        </td>
-                                        <td className="align-middle">
-                                            <div className="flex justify-center items-center align-middle mx-auto whitespace-nowrap">
-                                                <div className={`${loan.verdict === "Rejected" ? 'bg-red-100 text-red-500' : loan.verdict === "Granted" ? 'bg-sky-100 text-sky-500' : 'bg-slate-100 text-slate-500'} text-xs py-[.1rem] sm:py-1 px-3 rounded-sm font-medium`}>&#8358;{loan.amount.toLocaleString()}</div>
-                                            </div>
-                                        </td>
-                                        <td className="align-middle">
-                                            <div className="flex justify-center items-center gap-[.2rem] align-middle text-slate-400 text-xs py-[.1rem] sm:py-1">
-                                                <FaClock className="text-inherit mt-[.1rem]" /> <p className="">{loan.createdAt}</p>
-                                            </div>
-                                        </td>
-                                        <td className="align-middle">
-                                            <div className="flex justify-center gap-2">
-                                                <div className={`${loan.verdict === "Rejected" ? 'bg-red-100 text-red-500' : loan.verdict === "Granted" ? 'bg-teal-100 text-teal-500' : 'bg-slate-100 text-slate-500'} text-xs py-[.1rem] sm:py-1 px-3 rounded-sm font-medium`}>{loan.verdict}</div>
-                                            </div>
-                                        </td>
-                                        <td className="align-middle">
-                                            <div className="flex justify-center gap-2">
-                                                <div className={`${loan.status === "Rejected" ? 'bg-red-100 text-red-500' : loan.status === "Running" ? 'bg-sky-100 text-sky-500' : 'bg-slate-100 text-slate-500'} text-xs py-[.1rem] sm:py-1 px-3 rounded-sm font-medium`}>{loan.status}</div>
-                                            </div>
-                                        </td>
-                                        {user.type === "Admin" &&
+                                            </td>
+                                            <td className="align-middle">
+                                                <div className="flex justify-center items-center gap-[.2rem] align-middle text-slate-400 text-xs py-[.1rem] sm:py-1">
+                                                    <FaClock className="text-inherit mt-[.1rem]" /> <p className="">{moment(loan?.createdAt).format("DD-MM-YYYY")}</p>
+                                                </div>
+                                            </td>
                                             <td className="align-middle">
                                                 <div className="flex justify-center gap-2">
-                                                    {loan.verdict === "Pending" && <button onClick={() => showReview(loan.id)} className="flex justify-center items-center gap-[.2rem] align-middle bg-success hover:bg-success/80 text-white dark:text-slate-900 px-3 rounded-sm cursor-pointer text-[.6rem] py-2 sm:py-1">Review</button>}
-                                                    {loan.verdict === "Granted" && (loan.amount - (loan?.payback || 0)) !== 0 && <button onClick={() => showReview(loan.id)} className="flex justify-center items-center gap-[.2rem] align-middle bg-sky-500 hover:bg-sky-500/80 text-white dark:text-slate-900 px-3 rounded-sm cursor-pointer text-[.6rem] py-2 sm:py-1 whitespace-nowrap">Add Payback</button>}
-
+                                                    <div className={`${loan.verdict === "Rejected" ? 'bg-red-100 text-red-500' : loan.verdict === "Granted" ? 'bg-teal-100 text-teal-500' : 'bg-slate-100 text-slate-500'} text-xs py-[.1rem] sm:py-1 px-3 rounded-sm font-medium`}>{loan.verdict}</div>
                                                 </div>
-                                            </td>}
+                                            </td>
+                                            <td className="align-middle">
+                                                <div className="flex justify-center gap-2">
+                                                    <div className={`${loan.status === "Suspended" ? 'bg-red-100 text-red-500' : loan.status === "Running" ? 'bg-sky-100 text-sky-500' : 'bg-slate-100 text-slate-500'} text-xs py-[.1rem] sm:py-1 px-3 rounded-sm font-medium`}>{loan.status}</div>
+                                                </div>
+                                            </td>
+                                            {user?.type === "Admin" &&
+                                                <td className="align-middle">
+                                                    <div className="flex justify-center gap-2">
+                                                        {loan.verdict === "Pending" && <button onClick={() => showReview(loan.id)} className="flex justify-center items-center gap-[.2rem] align-middle bg-success hover:bg-success/80 text-white dark:text-slate-900 px-3 rounded-sm cursor-pointer text-[.6rem] py-2 sm:py-1">Review</button>}
+                                                        {loan.verdict === "Granted" && (loan.amount - (loan?.payback || 0)) !== 0 && <button onClick={() => showReview(loan.id)} className="flex justify-center items-center gap-[.2rem] align-middle bg-sky-500 hover:bg-sky-500/80 text-white dark:text-slate-900 px-3 rounded-sm cursor-pointer text-[.6rem] py-2 sm:py-1 whitespace-nowrap">Add Payback</button>}
+
+                                                    </div>
+                                                </td>}
+                                        </tr>
+                                    ))
+                                    :
+                                    <tr>
+                                        <td colSpan={user?.type === "Admin" ? 6 : 5}>
+                                            <h4 className="text-slate-500 text-center dark:text-slate-300">No Record(s) Found</h4>
+                                        </td>
                                     </tr>
-                                ))
                             }
                         </tbody>
                     </table>
                 </div>
             </section>
-            <Modal modalRef={modalRef}>
+            {/* <Modal modalRef={modalRef}>
                 <form className="flex flex-col gap-2">
                     <h2 className="text-default text-xl sm:text-2xl font-bold text-center">ENLIGHTENMENT DRIVE INITIATIVE MULTI-PURPOSE CO-OPERATIVE SOCIETY</h2>
                     <h4 className="text-default text-sm sm:text-lg font-semibold text-center underline">LOAN APPLICATION FORM</h4>
@@ -229,9 +255,41 @@ export default function LoanList({ loansData }: { loansData: LoanProps[] }) {
                     </article>
                     <button type='submit' className="cursor-pointer rounded-md ml-4 text-thin text-xs text-white bg-primary hover:bg-blue-600 py-2 px-4 sm:py-3 sm:px-6 w-max select-none">Submit Application</button>
                 </form>
+            </Modal> */}
+            <Modal modalRef={modalRef}>
+                <div className='p-5 flex flex-col gap-4'>
+                    <span className="text-[.6rem] sm:text-[.75rem] text-primary bg-indigo-100 py-2 px-[.3rem] rounded-xs uppercase text-center">Loan Application Form </span>
+                    <div className="w-full flex items-center gap-2">
+                        <div className={`h-7 sm:h-8 w-7 sm:w-8 flex-shrink-0 flex justify-center items-center rounded-full overflow-hidden relative bg-primary dark:bg-slate-100 text-slate-100 dark:text-slate-600`}>
+                            <MdAttachMoney className='text-sm sm:text-base' />
+                        </div>
+                        <div className='flex-1 flex flex-col justify-center w-full'>
+                            <div className="flex justify-between items-center gap-4 text-slate-600">
+                                <div className="flex flex-col">
+                                    <h5 className="text-sm font-semibold leading-tight whitespace-nowrap flex items-center">{`${user?.firstname} ${user?.middlename} ${user?.lastname}`} </h5>
+                                    <p className="text-slate-400 text-xs py-[.1rem] sm:py-1">Your Current Balance: &#8358;{user?.balance?.toLocaleString()}</p>
+                                </div>
+                                <div className="flex justify-center items-center gap-[.2rem] align-middle dark:text-slate-100 text-[.6rem]">
+                                    <FaCalendarAlt className="text-inherit opacity-60" /> <p className="">{moment(new Date().getTime()).format("DD-MM-YYYY")}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <form ref={formRef} onSubmit={handleSubmit} className="flex flex-col font-normal">
+                        <div className="flex justify-between items-center gap-2 border-y border-y-slate-300 py-2 my-2 text-slate-700">
+                            <span className="text-xs font-light flex items-center justify-start flex-1">Amount Requesting:</span>
+                            <input type="hidden" name="loaner" value={user?.id} />
+                            <div className="flex overflow-x-hidden relative w-[8rem] max-w-[8rem] border border-gray-300 rounded-md px-2 py-0">
+                                <input type="number" required min={500} max={maxLoanAmount} ref={amountRef} name='amount' placeholder={`Minimum of ₦500`} className="relative outline-none py-2 pl-2 pr-4 text-gray-600 text-xs placeholder-opacity-70 font-normal flex w-[10rem] bg-transparent focus-within:bg-transparent focus:bg-transparent" />
+                            </div>
+                        </div>
+                        {user?.balance! < 500 ? <span className="text-[.6rem] sm:text-[.75rem] text-primary bg-indigo-100 dark:bg-indigo-100 p-2 px-[.3rem] rounded-xs uppercase text-center">Sorry, your acount is lower than ₦500 </span> :
+                            <button type="submit" className="py-2 px-4 sm:px-8 bg-primary text-white text-[.6rem] text-xs rounded-md hover:bg-danger/90 cursor-pointer" disabled={loading}>{loading ? 'Processing...' : 'Request Withdrawal'}</button>}
+                    </form>
+                </div>
             </Modal>
             {
-                user.type === "Admin" ? <>
+                user?.type === "Admin" ? <>
                     {/* Loan Verdict Form */}
                     <Modal modalRef={reviewRef}>
                         <div className='p-5 flex flex-col gap-4 text-slate-700'>
@@ -248,7 +306,7 @@ export default function LoanList({ loansData }: { loansData: LoanProps[] }) {
                                             <p className="text-slate-400 text-xs py-[.1rem] sm:py-1">Account Balance: &#8358;{selectedLoan?.loaner?.balance?.toLocaleString()}</p>
                                         </div>
                                         <div className="flex justify-center items-center gap-[.2rem] align-middle dark:text-slate-100 text-[.6rem]">
-                                            <FaCalendarAlt className="text-inherit opacity-60" /> <p className="">{selectedLoan?.createdAt}</p>
+                                            <FaCalendarAlt className="text-inherit opacity-60" /> <p className="">{moment(selectedLoan?.createdAt).format("DD-MM-YYYY")}</p>
                                         </div>
                                     </div>
                                 </div>
@@ -291,7 +349,7 @@ export default function LoanList({ loansData }: { loansData: LoanProps[] }) {
                                     <p className="text-slate-400 text-xs py-[.1rem] sm:py-1">Account Balance: &#8358;{selectedLoan?.loaner?.balance?.toLocaleString()}</p>
                                 </div>
                                 <div className="flex justify-center items-center gap-[.2rem] align-middle dark:text-slate-100 text-[.6rem]">
-                                    <FaCalendarAlt className="text-inherit opacity-60" /> <p className="">{selectedLoan?.createdAt}</p>
+                                    <FaCalendarAlt className="text-inherit opacity-60" /> <p className="">{moment(selectedLoan?.createdAt).format("DD-MM-YYYY")}</p>
                                 </div>
                             </div>
                         </div>

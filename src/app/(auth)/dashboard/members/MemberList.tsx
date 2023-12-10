@@ -6,12 +6,13 @@ import Image from 'next/image'
 import { FaCalendarAlt } from 'react-icons/fa'
 import { TextInput } from '@/components'
 import { MemberProps } from '@/types'
-import { user } from '@/data'
 import Link from 'next/link'
 import { TableSearch, Modal } from '@/app/(auth)/ui'
+import moment from 'moment'
 
 
 export default function MemberList({ memberData }: { memberData: MemberProps[] }) {
+    console.log({memberData})
     const [allTableData, setAllTableData] = useState<MemberProps[] | []>(memberData)
     const [tableData, setTableData] = useState<MemberProps[] | []>(memberData)
     const modalRef = useRef<HTMLDialogElement | null>(null)
@@ -25,7 +26,7 @@ export default function MemberList({ memberData }: { memberData: MemberProps[] }
             setTableData(allTableData)
         }
         else {
-            const result = tableData.filter(el => el.firstname.toLowerCase().includes(keyword) || el.middlename.toLowerCase().includes(keyword) || el.lastname.toLowerCase().includes(keyword) || el.memberId.toString().toLowerCase().includes(keyword) || el.createdAt?.toString().toLowerCase().includes(keyword) || el.email.toLowerCase().includes(keyword) || el.phone?.toString().toLowerCase().includes(keyword) || el.address?.toLowerCase().includes(keyword) || el.type?.toLowerCase().includes(keyword) || el.balance?.toString().toLowerCase().includes(keyword) || el.deposits?.toString().toLowerCase().includes(keyword) || el.withdrawal?.toString().toLowerCase().includes(keyword))
+            const result = tableData.filter(el => el.firstname.toLowerCase().includes(keyword) || el.middlename.toLowerCase().includes(keyword) || el.lastname.toLowerCase().includes(keyword) || el.memberId.toString().toLowerCase().includes(keyword) || el.createdAt?.toString().toLowerCase().includes(keyword) || el.email.toLowerCase().includes(keyword) || el.phone?.toString().toLowerCase().includes(keyword) || el.address?.toLowerCase().includes(keyword) || el.type?.toLowerCase().includes(keyword) || el.balance?.toString().toLowerCase().includes(keyword) || el.deposits?.reduce((oldValue,el) => el.amount + oldValue, 0)?.toString().toLowerCase().includes(keyword) || el.withdrawals?.reduce((oldValue,el) => el.amount + oldValue, 0)?.toString().toLowerCase().includes(keyword))
             setTableData(prev => [...result])
         }
     }
@@ -54,44 +55,50 @@ export default function MemberList({ memberData }: { memberData: MemberProps[] }
                         <tbody className='w-full'>
                             {
                                 tableData.length ?
-                                    tableData.map(member => (
-                                        <tr key={member?.id} className='hover:bg-slate-50 dark:hover:bg-slate-900/30'>
-                                            <td>
-                                                <Link href={`/dashboard/members/${member?.id}`} className="max-w-sm w-max flex items-center gap-2 cursor-pointer text-slate-700 dark:text-slate-50">
-                                                    <div className="h-7 sm:h-8 w-7 sm:w-8 flex justify-center items-center rounded-full overflow-hidden relative bg-primary dark:bg-slate-600">
-                                                        <Image src={member?.image || edimcs_bookkeeping} alt={`${member?.firstname} ${member?.firstname} ${member?.lastname}`} fill={true} className="absolute left-0 top-0 object-cover w-full h-full" />
+                                    tableData.map(member => {
+                                        const totalDeposit = member?.deposits?.reduce((oldTotal,el) => el.amount + oldTotal, 0) || 0
+                                        const totalSaving = member?.savings?.reduce((oldTotal,el) => el.amount + oldTotal, 0) || 0
+                                        const totalWithdrawal = member?.withdrawals?.reduce((oldTotal,el) => el.amount + oldTotal, 0) || 0
+                                        const totalBalance = (totalDeposit + totalSaving).toLocaleString()
+                                        return(
+                                            <tr key={member?.id} className='hover:bg-slate-50 dark:hover:bg-slate-900/30'>
+                                                <td>
+                                                    <Link href={`/dashboard/members/${member?.id}`} className="max-w-sm w-max flex items-center gap-2 cursor-pointer text-slate-700 dark:text-slate-50">
+                                                        <div className="h-7 sm:h-8 w-7 sm:w-8 flex justify-center items-center rounded-full overflow-hidden relative bg-primary dark:bg-slate-600">
+                                                            <Image src={member?.image || edimcs_bookkeeping} alt={`${member?.firstname} ${member?.firstname} ${member?.lastname}`} fill={true} className="absolute left-0 top-0 object-cover w-full h-full" />
+                                                        </div>
+                                                        <div>
+                                                            <h5 className="text-xs font-medium leading-tight whitespace-nowrap flex items-center">{member?.firstname} {member?.middlename} {member?.lastname} <span className="text-[.4rem] bg-slate-200/50 p-[.2rem] px-[.3rem] rounded-[2px] uppercase ml-2">{member?.type}</span></h5>
+                                                            <p className="text-[.6rem] font-medium opacity-70 leading-tight">{member?.memberId}</p>
+                                                        </div>
+                                                    </Link>
+                                                </td>
+                                                <td className="align-middle">
+                                                    <div className="flex justify-center items-center gap-[.2rem] align-middle text-slate-600 dark:text-slate-50 text-[.6rem] py-[.1rem] sm:py-1">
+                                                        <FaCalendarAlt className="text-inherit mt-[.1rem]" /> <p className="">{moment(member.createdAt).format("DD-MM-YYYY")}</p>
                                                     </div>
-                                                    <div>
-                                                        <h5 className="text-xs font-medium leading-tight whitespace-nowrap flex items-center">{member?.firstname} {member?.middlename} {member?.lastname} <span className="text-[.4rem] bg-slate-200/50 p-[.2rem] px-[.3rem] rounded-[2px] uppercase ml-2">{member?.type}</span></h5>
-                                                        <p className="text-[.6rem] font-medium opacity-70 leading-tight">{member?.memberId}</p>
+                                                </td>
+                                                <td className="align-middle">
+                                                    <div className="flex justify-center items-center align-middle mx-auto">
+                                                        <div className={`bg-teal-100 dark:bg-slate-50 text-teal-600 text-[.6rem] py-[.1rem] sm:py-1 px-3 rounded-sm font-medium`}>&#8358;{totalSaving.toLocaleString()}</div>
                                                     </div>
-                                                </Link>
-                                            </td>
-                                            <td className="align-middle">
-                                                <div className="flex justify-center items-center gap-[.2rem] align-middle text-slate-600 dark:text-slate-50 text-[.6rem] py-[.1rem] sm:py-1">
-                                                    <FaCalendarAlt className="text-inherit mt-[.1rem]" /> <p className="">{member?.createdAt}</p>
-                                                </div>
-                                            </td>
-                                            <td className="align-middle">
-                                                <div className="flex justify-center items-center align-middle mx-auto">
-                                                    <div className={`bg-teal-100 dark:bg-slate-50 text-teal-600 text-[.6rem] py-[.1rem] sm:py-1 px-3 rounded-sm font-medium`}>&#8358;{member?.savings?.toLocaleString()}</div>
-                                                </div>
-                                            </td>
-                                            <td className="align-middle">
-                                                <div className="flex justify-center items-center align-middle mx-auto">
-                                                    <div className={`bg-sky-100 dark:bg-slate-50 text-sky-600 text-[.6rem] py-[.1rem] sm:py-1 px-3 rounded-sm font-medium`}>&#8358;{member?.deposits?.toLocaleString()}</div>
-                                                </div>
-                                            </td>
-                                            <td className="align-middle">
-                                                <div className="flex justify-center items-center align-middle mx-auto">
-                                                    <div className={`bg-red-100 dark:bg-slate-50 text-red-600 text-[.6rem] py-[.1rem] sm:py-1 px-3 rounded-sm font-medium whitespace-nowrap`}>-&#8358;{member?.withdrawal?.toLocaleString()}</div>
-                                                </div>
-                                            </td>
-                                            <td className="align-middle">
-                                                <h4 className="flex justify-center items-center gap-[.2rem] align-middle text-slate-500 dark:text-slate-50 text-[.6rem] py-[.1rem] sm:py-1">&#8358;{member?.balance?.toLocaleString()}</h4>
-                                            </td>
-                                        </tr>
-                                    ))
+                                                </td>
+                                                <td className="align-middle">
+                                                    <div className="flex justify-center items-center align-middle mx-auto">
+                                                        <div className={`bg-sky-100 dark:bg-slate-50 text-sky-600 text-[.6rem] py-[.1rem] sm:py-1 px-3 rounded-sm font-medium`}>&#8358;{totalDeposit?.toLocaleString()}</div>
+                                                    </div>
+                                                </td>
+                                                <td className="align-middle">
+                                                    <div className="flex justify-center items-center align-middle mx-auto">
+                                                        <div className={`bg-red-100 dark:bg-slate-50 text-red-600 text-[.6rem] py-[.1rem] sm:py-1 px-3 rounded-sm font-medium whitespace-nowrap`}>-&#8358;{totalWithdrawal.toLocaleString()}</div>
+                                                    </div>
+                                                </td>
+                                                <td className="align-middle">
+                                                    <h4 className="flex justify-center items-center gap-[.2rem] align-middle text-slate-500 dark:text-slate-50 text-[.6rem] py-[.1rem] sm:py-1">&#8358;{totalBalance.toLocaleString()}</h4>
+                                                </td>
+                                            </tr>
+                                        )
+                                    })
                                     :
                                     <tr>
                                         <td colSpan={6}>
@@ -115,7 +122,7 @@ export default function MemberList({ memberData }: { memberData: MemberProps[] }
                                 <div className="flex flex-col">
                                     <h3 className="text-sm text-primary">{selectedMember?.firstname} {selectedMember?.middlename} {selectedMember?.lastname}</h3>
                                     <p className="text-[.6rem] text-slate-500">{selectedMember?.accountDetails && selectedMember?.accountDetails[0]?.banker}</p>
-                                    <p className="text-xs text-slate-500 font-semibold">{selectedMember?.accountDetails && selectedMember?.accountDetails[0].accountNo}</p>
+                                    <p className="text-xs text-slate-500 font-semibold">{selectedMember?.accountDetails && selectedMember?.accountDetails[0].accountnumber}</p>
                                 </div>
                             </div>
                         </div>

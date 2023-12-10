@@ -14,12 +14,16 @@ export interface DashLayoutProps {
 export type DepositProps = {
     id: string
     amount: number
-    depositorId: string
-    depositor?: MemberProps | undefined
-    status: "Pending" | "Completed" | "Rejected"
-    verdict: "Pending" | "Accepted" | "Rejected"
-    createdAt: string
-    updatedAt: string
+    interest: number
+    payback?: number
+    depositorId: string | null
+    depositor?: MemberProps | null
+    total?: string | number | null
+    status: "Pending" | "Running" | "Completed" | "Suspended"
+    verdict: "Pending" | "Granted" | "Rejected" | "Cancelled"
+    createdAt: string | Date
+    updatedAt: string | Date
+    updatedBy?: string | null
 }
 
 export interface FootLinkProps {
@@ -52,7 +56,7 @@ export interface LinkCardProps {
 //     id: string
 //     amount: number
 //     loanerId: string
-//     loaner?: MemberProps | undefined
+//     loaner?: MemberProps | null
 //     status: "Pending" | "Running" | "Completed" | "Rejected"
 //     verdict: "Pending" | "Granted" | "Rejected" | "Cancelled"
 //     interest: number
@@ -66,13 +70,14 @@ export type LoanProps = {
     amount: number
     interest: number
     payback?: number
-    loaner?: MemberProps | undefined
-    loanerId: string | number
-    status: "Pending" | "Running" | "Completed" | "Rejected"
+    loaner?: MemberProps | null
+    loanerId: string | null
+    total?: string | number | null
+    status: "Pending" | "Running" | "Completed" | "Suspended"
     verdict: "Pending" | "Granted" | "Rejected" | "Cancelled"
-    createdAt: string
-    updatedAt: string
-    updatedBy?: string
+    createdAt: string | Date
+    updatedAt: string | Date
+    updatedBy?: string | null
 }
 
 export interface LoginFormDataProps {
@@ -97,34 +102,55 @@ export type MessageProps = {
 export type AccountDetailsProps = {
     id: string
     banker: string
-    accountName: string
-    accountNo: string
+    accountnumber: string
     type: "Savings" | "Current" | "Fixed"
     owner?: MemberProps[]
-    accountOwner?: string
+    memberId?: string | null
 }
+
+// export type InvestmentProps = {
+//     id: string
+//     type: "Silver" | "Gold" | "Premium"
+//     amount: number
+//     interest: number
+//     payback?: number
+//     nextDueDate?: Date | null | string
+//     investor?: MemberProps | null
+//     investorId?: string | null
+//     beneficiary?: MemberProps | null
+//     beneficiaryId: string | null
+//     status: "Pending" | "Running" | "Completed" | "Suspended"
+//     verdict: "Pending" | "Granted" | "Rejected" | "Cancelled"
+//     createdAt: string | Date
+//     updatedAt: string | Date
+//     updatedBy?: string | null
+// }
 
 export type InvestmentProps = {
     id: string
     type: "Silver" | "Gold" | "Premium"
-    status: "Pending" | "Running" | "Completed" | "Suspended"
+    amount: number
+    interest: number
+    payback?: number
     investor: MemberProps
     investorId: string
-    beneficiary?: MemberProps
+    beneficiary?: MemberProps | null
     beneficiaryId?: string
-    nextDueDate?: string
-    createdAt?: string
-    updatedAt?: string
-}
+    status: "Pending" | "Running" | "Completed" | "Suspended"
+    verdict: "Pending" | "Granted" | "Rejected" | "Cancelled"
+    nextDueDate?: string | Date
+    createdAt: string | Date
+    updatedAt: string | Date
+    updatedBy?: string | Date
+  }
 
+// export type MembersProp = {
+//     id: string; image?: StaticImageData | string; firstname: string; middlename: string; lastname: string; email: string; status?: string; phone?: string | number; type?: "Admin" | "Member";
+//     accountDetails?: AccountDetailsProps[] | undefined
+//     address?: string | undefined; memberId: number | string; createdAt?: string; savings?: SavingsProps[]; deposits?: DepositProps[];  loans?: LoanProps[]; withdrawals?: WithdrawalProps[]; balance?: number
+// }
 
 export type MemberProps = {
-    id: string; image?: StaticImageData | string; firstname: string; middlename: string; lastname: string; email: string; status?: string; phone?: string | number; type?: "Admin" | "Member";
-    accountDetails?: AccountDetailsProps[] | undefined
-    address?: string | undefined; memberId: number | string; createdAt?: string; savings?: number; deposits?: number; withdrawal?: number; balance?: number
-}
-
-export type MemberProp = {
     id: string
     firstname: string
     middlename: string
@@ -135,13 +161,13 @@ export type MemberProp = {
     image: string
     phone?: string
     address?: string
-    type?: "User" | "Admin"
+    type?: "Member" | "Admin"
     status?: "Pending" | "Active" | "Pending"
     token?: string
-    createdAt?: string
-    updatedAt?: string
-    updatedBy?: string
-    loanRating?: "Basic" | "Standard" | "Standard Plus" | "Premium"
+    createdAt?: string | Date
+    updatedAt?: string | Date
+    updatedBy?: string | Date
+    loanRating?: "Basic" | "Standard" | "StandardPlus" | "Premium"
     accountDetails?: AccountDetailsProps[]
     loans?: LoanProps[]
     savings?: SavingsProps[]
@@ -149,6 +175,9 @@ export type MemberProp = {
     receivedMessages?: MessageProps[]
     investments?: InvestmentProps[]
     beneficiary?: InvestmentProps[]
+    deposits?: DepositProps[] 
+    withdrawals?: WithdrawalProps[]
+    balance?: number
 }
 
 export interface NavLinkProps {
@@ -169,13 +198,15 @@ export interface SubLinkProps {
 export type SavingsProps = {
     id: string
     amount: number
-    interest?: number
-    saver?: MemberProps | undefined
-    saverId: string | number
-    status: "Pending" | "Approved" | "Rejected"
-    createdAt: string
-    updatedAt: string
-    updatedBy?: string
+    interest?: number | null
+    saver?: MemberProps | null
+    saverId: string | null
+    total?: string | number | null
+    status: "Pending" | "Running" | "Completed" | "Suspended"
+    verdict: "Pending" | "Granted" | "Rejected" | "Cancelled"
+    createdAt: string | Date
+    updatedAt: string | Date
+    updatedBy?: string | null
 }
 
 export interface TextAreaProps {
@@ -186,6 +217,7 @@ export interface TextAreaProps {
     className?: string | undefined
     placeholder?: string | undefined
     maxLength?: number | undefined
+    defaultValue?: string | number
     name?: string | undefined
     id?: string | undefined
     onChange?: ChangeEventHandler<HTMLTextAreaElement> | undefined
@@ -203,6 +235,7 @@ export interface TextInputProps {
     minLength?: number | undefined
     max?: string | number | undefined
     value?: string | number
+    defaultValue?: string | number
     name?: string | undefined
     id?: string | undefined
     onChange?: ChangeEventHandler<HTMLInputElement> | undefined
@@ -225,12 +258,34 @@ export interface TransactionProps {
 export type WithdrawalProps = {
     id: string
     amount: number
-    interest?: number
-    withdrawerId: string
-    withdrawer?: MemberProps | undefined
-    status: "Pending" | "Completed" | "Rejected"
-    verdict: "Pending" | "Accepted" | "Rejected"
-    createdAt: string
-    updatedAt: string
-    updatedBy?: string
+    interest?: number | null
+    withdrawer?: MemberProps | null
+    withdrawerId: string | null
+    total?: string | number | null
+    status: "Pending" | "Running" | "Completed" | "Suspended"
+    verdict: "Pending" | "Granted" | "Rejected" | "Cancelled"
+    createdAt: string | Date
+    updatedAt: string | Date
+    updatedBy?: string | null
+}
+
+export type UserProps = {
+    id: string;
+    firstname: string;
+    middlename: string | null;
+    lastname: string;
+    email: string;
+    address: string | null;
+    password?: string;
+    phone?: string | null;
+    loanRating?: "Basic" | "Standard" | "StandardPlus" | "Premium"
+    balance: number;
+    type: "Member" | "Admin";
+    accountDetails: {
+        id: string;
+        banker: string;
+        accountnumber: string;
+        type: "Savings" | "Current" | "Fixed";
+        memberId: string | null;
+    }[];
 }

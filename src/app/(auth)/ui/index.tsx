@@ -3,6 +3,7 @@ import DashFooter from "./DashFooter";
 import DashHeader from "./DashHeader";
 import DashSideBar from "./DashSideBar";
 import Modal from "./Modal";
+import GlobalProvider from "./GlobalProvider";
 import TableSearch from "./TableSearch";
 
 export {
@@ -11,5 +12,6 @@ export {
     DashHeader,
     DashSideBar,
     Modal,
+    GlobalProvider,
     TableSearch,
 }

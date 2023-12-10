@@ -1,6 +1,5 @@
 "use client"
 
-import { user } from '@/data'
 import React from 'react'
 import { IoSearchOutline } from 'react-icons/io5'
 
@@ -9,7 +8,7 @@ export default function TableSearch({ handleSearch, inputRef, title, children }:
     return (
         <div className='w-full flex justify-between items-center pb-3 mb-2 border-b border-b-slate-200 dark:border-b-slate-500'>
             <div className="flex items-center gap-3">
-                <h4 className="uppercase text-lg font-semibold text-slate-600 dark:text-slate-300 text-left">{title} {user.type === "Admin" ? 'LIST' : 'RECORDS'}</h4>
+                <h4 className="uppercase text-lg font-semibold text-slate-600 dark:text-slate-300 text-left">{title}</h4>
                 {children}
             </div>
             <form onSubmit={handleSearch} className="flex items-center border border-slate-200 dark:border-slate-400/50 rounded-[5px] p-1 w-max max-w-sm text-slate-500 dark:text-slate-200 font-normal ml-auto">

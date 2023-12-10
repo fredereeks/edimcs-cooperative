@@ -78,7 +78,9 @@ export const authOptions: NextAuthOptions = {
                 ...session,
                 user: {
                     ...session.user,
-                    id: token.id
+                    id: token.id,
+                    type: token.type,
+                    fullname: token.fullname
                 }
             };
         },
@@ -91,8 +93,8 @@ export const authOptions: NextAuthOptions = {
                     email: currentUser.email,
                     image: currentUser.image,
                     fullname: `${currentUser.firstname} ${currentUser.middlename} ${currentUser.lastname}`,
-                    type: currentUser.type
-                }
+                    type: currentUser.type,
+                } as {id: string, email: string, image: string, fullname: string, type: string}
             }
 
             return token;

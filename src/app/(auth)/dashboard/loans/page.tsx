@@ -1,36 +1,17 @@
 import React from 'react'
 import LoanList from './LoanList'
-import { loansData } from '@/data/loans'
-import { user } from '@/data'
-import { LoanProps } from '@/types'
+import { LoanProps, MemberProps } from '@/types'
+import { fetchLoans, fetchUser } from '../../actions'
 
-const fetchLoans = async() => {
-  const loans = await loansData
-  if(user?.type === "Member") {
-    // const loans = await prisma.loan.findFirst({
-    //   where: {
-    //     loanerId: user?.id
-    //   }
-    // })
-    return loans.filter(loan => loan.loanerId === user?.id)
-  }
-  else {
-    // const loans = await prisma.loan.findMany({
-    //   where: {
-    //     loanerId: user?.id
-    //   }
-    // })
-    return loans
-  }
-}
 
 export default async function page() {
-  const loansData: LoanProps[] = await fetchLoans();
-  // console.log({loansData})
+  const user: MemberProps = await fetchUser()
+  const loansData: LoanProps[] = await fetchLoans(user?.type as string, user?.id as string);
+  console.log({loansData: loansData.map(el => el.loaner)})
 
   return (
     <main className="flex flex-col gap-4 px-2 sm:px-0 pt-5 pb-10">
-      <LoanList loansData={loansData} />
+      <LoanList loansData={loansData} user={user} /> 
     </main>
   )
 }

@@ -1,36 +1,16 @@
 import React from 'react'
 import WithdrawalList from './WithdrawalList'
-import { withdrawalData } from '@/data/withdrawals'
-import { user } from '@/data'
-import { WithdrawalProps } from '@/types'
-
-const fetchWithdrawals = async() => {
-  const withdrawals = await withdrawalData
-  if(user?.type === "Member") {
-    // const withdrawals = await prisma.withdrawal.findFirst({
-    //   where: {
-    //     withdrawerId: user?.id
-    //   }
-    // })
-    return withdrawals.filter(withdrawal => withdrawal.withdrawerId === user?.id)
-  }
-  else {
-    // const withdrawals = await prisma.withdrawal.findMany({
-    //   where: {
-    //     withdrawerId: user?.id
-    //   }
-    // })
-    return withdrawals
-  }
-}
+import { MemberProps } from '@/types'
+import { fetchUser, fetchWithdrawals } from '../../actions'
 
 export default async function page() {
-  const withdrawalData: WithdrawalProps[] = await fetchWithdrawals();
-  // console.log({withdrawalData})
+  const user: MemberProps | null = await fetchUser()
+  const withdrawalData = await fetchWithdrawals(user?.type as string, user?.id as string);
+  // const userDeposits = await fetchWithdrawal(user?.type as string, user?.id as string)
 
   return (
     <main className="flex flex-col gap-4 px-2 sm:px-0 pt-5 pb-10">
-      <WithdrawalList withdrawalData={withdrawalData} />
+      <WithdrawalList key={'171243'} user={user} withdrawalData={withdrawalData} />
     </main>
   )
 }

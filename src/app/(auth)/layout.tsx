@@ -6,8 +6,9 @@ import 'aos/dist/aos.css';
 import DashLayout from '@/app/(auth)/ui/DashLayout'
 import { authOptions } from '@/lib/authOptions';
 import { redirect } from 'next/navigation'
-// import SessionProvider from "@/components/SessionProvider"
+import SessionProvider from "@/components/SessionProvider"
 import { getServerSession } from 'next-auth'
+import { GlobalProvider } from './ui';
 
 
 
@@ -25,18 +26,20 @@ export default async function RootLayout({
   const session = await getServerSession(authOptions);
   // console.log({session, user: session?.user, authOptions})
 
-  if(!session || !session.user){
+  if (!session || !session.user) {
     redirect("/auth/login")
   }
 
   return (
     <html lang="en" data-theme="winter">
       <body className={`${inter.className} flex flex-col`}>
-        {/* <SessionProvider session={session}> */}
-          <DashLayout>
-            {children}
-          </DashLayout>
-        {/* </SessionProvider> */}
+        <SessionProvider session={session}>
+          <GlobalProvider>
+            <DashLayout>
+              {children}
+            </DashLayout>
+          </GlobalProvider>
+        </SessionProvider>
       </body>
     </html>
   )

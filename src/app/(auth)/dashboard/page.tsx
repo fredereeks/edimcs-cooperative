@@ -5,6 +5,8 @@ import { edimcs_blackpeople, edimcs_calculator, edimcs_cliff, edimcs_coinstack, 
 import { TransactionProps } from '@/types'
 import {DashCharts} from '../ui'
 import TransactionList from './TransactionList';
+import { fetchMembers, fetchUser } from '../actions'
+import prisma from '@/lib/prisma'
 
 export const metadata: Metadata = {
   title: 'EDIMCS :: Dashboard',
@@ -12,8 +14,26 @@ export const metadata: Metadata = {
   viewport: "width=device-width, initial-scale=1.0"
 }
 
-export default async function page() {
+const fetchDashContents = async() => {
+  const user = await fetchUser()
+  const [loan, deposit, withdrawal, savings] = await prisma.$transaction([
+    prisma.loan.groupBy({ by: ['verdict', 'createdAt'], orderBy: {createdAt: "desc"}, _count: {_all: true}}),
+    prisma.deposit.groupBy({ by: ['verdict', 'createdAt'], orderBy: {createdAt: "desc"}, _count: {_all: true}}),
+    prisma.withdrawal.groupBy({ by: ['verdict', 'createdAt'], orderBy: {createdAt: "desc"}, _count: {_all: true}}),
+    prisma.saving.groupBy({ by: ['verdict', 'createdAt'], orderBy: {createdAt: "desc"}, _count: {_all: true}}),
+  ])
+  const loanTotal = loan.filter(el => (el.verdict === "Granted")).reduce((total, el) => el.amount + total, 0)
+  const depositTotal = deposit.filter(el => (el.verdict === "Granted")).reduce((total, el) => el.amount + total, 0)
+  const withdrawalTotal = withdrawal.filter(el => (el.verdict === "Granted")).reduce((total, el) => el.amount + total, 0)
+  const savingsTotal = savings.filter(el => (el.verdict === "Granted")).reduce((total, el) => el.amount + total, 0)
+  console.log({loanTotal, depositTotal, withdrawalTotal, savingsTotal})
+  return({loanTotal, depositTotal, withdrawalTotal, savingsTotal})
+}
 
+export default async function page() {
+  const {loanTotal, depositTotal, withdrawalTotal, savingsTotal} = await fetchDashContents()
+  const memberTotal = await fetchMembers()
+  // console.log({memberTotal})
   // initTE({ Chart });
   const transactionData: TransactionProps[] | [] = [
     {
@@ -115,22 +135,22 @@ export default async function page() {
       <section className="scrollbar x-scrollbar bg-white dark:bg-[#dbf0f724] dark:shadow-black shadow-slate-200 shadow-md rounded-lg p-4 relative grid grid-cols-2 md:grid-cols-4 gap-4">
         <div className="stat place-items-center px-4">
           <div className="stat-title text-sm dark:text-slate-400">Loans</div>
-          <div className="stat-value text-xl sm:text-3xl md:text-2xl lg:text-3xl tracking-tighter dark:text-slate-200">500,000</div>
+          <div className="stat-value text-xl sm:text-3xl md:text-2xl lg:text-3xl tracking-tighter dark:text-slate-200">{loanTotal}</div>
           <div className="stat-desc text-xs dark:text-slate-500 whitespace-pre-wrap text-center">From Last Month</div>
         </div>
         <div className="stat place-items-center px-4">
           <div className="stat-title text-sm dark:text-slate-400">Savings</div>
-          <div className="stat-value text-xl sm:text-3xl md:text-2xl lg:text-3xl tracking-tighter dark:text-slate-200">68,820,027</div>
+          <div className="stat-value text-xl sm:text-3xl md:text-2xl lg:text-3xl tracking-tighter dark:text-slate-200">{savingsTotal}</div>
           <div className="stat-desc text-xs dark:text-slate-500 whitespace-pre-wrap text-center">From 35 Members</div>
         </div>
         <div className="stat place-items-center px-4">
-          <div className="stat-title text-sm dark:text-slate-400">Investments</div>
-          <div className="stat-value text-xl sm:text-3xl md:text-2xl lg:text-3xl tracking-tighter dark:text-slate-200">45,323,000</div>
+          <div className="stat-title text-sm dark:text-slate-400">Deposits</div>
+          <div className="stat-value text-xl sm:text-3xl md:text-2xl lg:text-3xl tracking-tighter dark:text-slate-200">{depositTotal}</div>
           <div className="stat-desc text-xs dark:text-slate-500 whitespace-pre-wrap text-center">Since last week</div>
         </div>
         <div className="stat place-items-center px-4">
           <div className="stat-title text-sm dark:text-slate-400">Total Members</div>
-          <div className="stat-value text-xl sm:text-3xl md:text-2xl lg:text-3xl tracking-tighter dark:text-slate-200">58</div>
+          <div className="stat-value text-xl sm:text-3xl md:text-2xl lg:text-3xl tracking-tighter dark:text-slate-200">{withdrawalTotal}</div>
           <div className="stat-desc text-xs dark:text-slate-500 whitespace-pre-wrap text-center">5+ since last week</div>
         </div>
       </section>

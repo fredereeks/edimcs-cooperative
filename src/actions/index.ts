@@ -97,15 +97,15 @@ export const handleContact = async (data: FormData) => {
   }
 }
 
-export const handleSignup = async (formData: FormData) => {
+export const handleSignup = async (data: FormData) => {
   try {
-    const firstname = formData.get("firstname")?.valueOf() as string
-    const lastname = formData.get("lastname")?.valueOf() as string
-    const email = formData.get("email")?.valueOf() as string
-    const middlename = formData.get("middlename")?.valueOf() as string
-    const password = formData.get("password")?.valueOf() as string
-    const phone = formData.get("phone")?.valueOf() as string
-    const loanRating = formData.get("loanRating")?.valueOf() as string
+    const firstname = data.get("firstname")?.valueOf() as string
+    const lastname = data.get("lastname")?.valueOf() as string
+    const email = data.get("email")?.valueOf() as string
+    const middlename = data.get("middlename")?.valueOf() as string
+    const password = data.get("password")?.valueOf() as string
+    const phone = data.get("phone")?.valueOf() as string
+    const loanRating = data.get("loanRating")?.valueOf() as string
     const memberId = `EDIMCS-${Math.random().toString().slice(4, 8)}${Date.now().toString().slice(8, 10)}`
     // const randomToken = Buffer.from(crypto.randomUUID()).toString('base64')
     const user = await prisma.member.findFirst({
@@ -162,6 +162,152 @@ export const handleSignup = async (formData: FormData) => {
   }
 }
 
-// export const fetchMember = async() => {
-//   const members = await db.query(`SELECT * FROM member mb JOIN accountNumber ac ON ac.`)
-// }
+// CREATE ACTIONS
+export const handleSavings = async (data: FormData) => {
+  const saverId = data.get("saver")?.valueOf() as string
+  const amount = Number(data.get("amount")?.valueOf())
+  const savings = await prisma.saving.create({
+    data: { amount, saverId }
+  })
+  if (savings) {
+    // revalidatePath("/dashboard/savings")
+    return { error: false, message: `New Savings Request of ₦${amount.toLocaleString()} Made. Awaiting admin approval` }
+  }
+  else {
+    return { error: true, message: "Something went wrong. We could not lodge your saving. Please, try again" }
+  }
+}
+
+export const handleLoans = async (data: FormData) => {
+  const loanerId = data.get("loaner")?.valueOf() as string
+  const amount = Number(data.get("amount")?.valueOf())
+  const loans = await prisma.loan.create({
+    data: { amount, loanerId }
+  })
+  if (loans) {
+    // revalidatePath("/dashboard/savings")
+    return { error: false, message: `New Loan Request of ₦${amount.toLocaleString()} Made. Awaiting admin approval` }
+  }
+  else {
+    return { error: true, message: "Something went wrong. We could not lodge your saving. Please, try again" }
+  }
+}
+
+export const handleDeposits = async (data: FormData) => {
+  const depositorId = data.get("depositor")?.valueOf() as string
+  const amount = Number(data.get("amount")?.valueOf())
+  const deposits = await prisma.deposit.create({
+    data: { amount, depositorId }
+  })
+  if (deposits) {
+    // revalidatePath("/dashboard/savings")
+    return { error: false, message: `New Deposit Request of ₦${amount.toLocaleString()} Made. Awaiting admin approval` }
+  }
+  else {
+    return { error: true, message: "Something went wrong. We could not lodge your saving. Please, try again" }
+  }
+}
+
+export const handleWithdrawal = async (data: FormData) => {
+  const withdrawerId = data.get("withdrawer")?.valueOf() as string
+  const amount = Number(data.get("amount")?.valueOf())
+  const withdrawals = await prisma.withdrawal.create({
+    data: { amount, withdrawerId }
+  })
+  if (withdrawals) {
+    // revalidatePath("/dashboard/savings")
+    return { error: false, message: `New Deposit Request of ₦${amount.toLocaleString()} Made. Awaiting admin approval` }
+  }
+  else {
+    return { error: true, message: "Something went wrong. We could not lodge your saving. Please, try again" }
+  }
+}
+
+// PUT ACTIONS
+export const updateProfile = async (data: FormData) => {
+  try {
+    const id = data.get("id")?.valueOf() as string
+    const firstname = data.get("firstname")?.valueOf() as string
+    const middlename = data.get("middlename")?.valueOf()?.toString() || ""
+    const lastname = data.get("lastname")?.valueOf() as string
+    const phone = data.get("phone")?.valueOf() as string
+    const address = data.get("address")?.valueOf() as string
+    const email = data.get("email")?.valueOf() as string
+    const confirmPassword = data.get("confirm-password")?.valueOf() as string
+    const plainPassword = data.get("password")?.valueOf() as string
+    const currentPassword = data.get("extra")?.valueOf() as string
+    // Confirm Password
+    const matchPassword = bcryptjs.compareSync(confirmPassword, currentPassword)
+    if (!matchPassword) return { error: true, message: "Invalid user confirmation password supplied. This must match your current password" }
+    else {
+      const findSimilarUser = await prisma.member.findUnique({
+        where: { email: email.toLowerCase(), phone, NOT: { id } },
+      })
+      if (findSimilarUser) return { error: true, message: "Sorry. There is a member with that email or phone number. Please, try another" }
+      const salt = await bcryptjs.genSalt(10)
+      const password = plainPassword.trim() === "" ? currentPassword : await bcryptjs.hash(plainPassword, salt)
+      await prisma.member.update({
+        where: { id },
+        data: {
+          firstname, middlename, lastname, phone, email: email.toLowerCase(), password, address
+        }
+      })
+      revalidatePath("/dashboard/profile")
+    }
+    return { error: false, message: `Profile Updated Successfully.` }
+  } catch (err) {
+    return { error: true, message: "Something went wrong while attempting to make your request, please, try again." }
+  }
+}
+export const updateAccountDetails = async (data: FormData) => {
+  try {
+    const id = data.get("id")?.valueOf().toString()!
+    const banker = data.get("banker")?.valueOf() as string
+    const accountnumber = data.get("accountnumber")?.valueOf() as string
+    const type = data.get("type")?.valueOf()?.toString() || ""
+    const confirmPassword = data.get("confirm-password")?.valueOf() as string
+    const currentPassword = data.get("extra")?.valueOf() as string
+    // Confirm Password
+    const matchPassword = bcryptjs.compareSync(confirmPassword, currentPassword)
+    if (!matchPassword) return { error: true, message: "Invalid user confirmation password supplied. This must match your current password" }
+    else {
+      await prisma.accountNumber.upsert({
+        where: {
+          memberId: id
+        },
+        create: {
+          accountnumber, memberId: id, type: type === "Savings" ? "Savings" : type === "Current" ? "Current" : "Fixed", banker,
+        },
+        update: { accountnumber, memberId: id, type: type === "Savings" ? "Savings" : type === "Current" ? "Current" : "Fixed", banker, }
+      })
+      revalidatePath("/dashboard/profile")
+    }
+    return { error: false, message: `Account Updated Successfully.` }
+  } catch (err) {
+    return { error: true, message: "Something went wrong while attempting to make your request, please, try again." }
+  }
+}
+
+// STATUS ACTIONS
+export const statusAction = async (table: string, id: string, status: string, extra?: string) => {
+  try { 
+    const transaction = await prisma.$executeRaw`UPDATE ${table} SET status = ${status} ${extra} WHERE id = ${id}`;
+    console.log({transaction})
+    return { error: false, message: `${table[0].toUpperCase()}${table.slice(1)} verdict has been successfully` }
+  }
+  catch (err) {
+    return { error: true, message: "Something went wrong while attempting to make your request, please, try again." }
+  }
+}
+// VERDICT ACTIONS
+export const verdictAction = async (table: string, id: string, verdict: string, extra?: string) => {
+  try { 
+    const status = verdict === "Rejected" || verdict === "Cancelled" ? "Rejected" : "Completed"
+    const transaction = await prisma.$executeRaw`UPDATE ${table} SET verdict = ${verdict}, status = ${status}${extra} WHERE id = ${id}`;
+    console.log({transaction})
+    return { error: false, message: `${table[0].toUpperCase()}${table.slice(1)} verdict has been successfully` }
+  }
+  catch (err) {
+    return { error: true, message: "Something went wrong while attempting to make your request, please, try again." }
+  }
+}
