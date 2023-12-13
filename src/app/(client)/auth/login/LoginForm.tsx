@@ -77,7 +77,7 @@ export default function LoginForm() {
         <>
             <form ref={formRef} onSubmit={handleSubmit} className="py-5 flex flex-col gap-3 px-4 sm:px-0">
                 <div className="flex flex-col gap-2">
-                    <TextInput onChange={e => setMemberId(e.currentTarget.value)} label={'Member ID'} containerClassName={'text-slate-400'} key={823406} type='text' name='memberId' id='memberId' value={memberId} placeholder='Enter Your Member ID' required={true} />
+                    <TextInput onChange={e => setMemberId(e.currentTarget.value)} label={'Member ID/Phone No.'} containerClassName={'text-slate-400'} key={823406} type='text' name='memberId' id='memberId' value={memberId} placeholder='Enter Your Member ID' required={true} />
                     <TextInput onChange={e => setPassword(e.currentTarget.value)} label={'Password'} containerClassName={'text-slate-400'} key={823407} type='password' name='password' id='password' value={password} placeholder='********' minLength={6} required={true} />
                 </div>
                 <button type="submit" disabled={loading} className="rounded-full py-2 px-5 md:px-8 w-max bg-primary text-white text-sm text-center flex-1 cursor-pointer flex items-center gap-2 mt-2"><FaMoneyCheck className="text-sm text-inherit" />{loading ? <div className="flex gap-2"><span className="loading loading-spinner loading-xs"></span> Processing...</div> : 'Login'}</button>

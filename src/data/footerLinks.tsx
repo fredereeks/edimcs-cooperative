@@ -30,8 +30,8 @@ export const footerLinks : FootLinkProps[] = [
             },
             {
                 id: 823472323,
-                title: "Investment Pool",
-                url: "/investment-pool",
+                title: "Money Pool",
+                url: "/money-pool",
                 icon: ""
             },
             {
@@ -50,19 +50,19 @@ export const footerLinks : FootLinkProps[] = [
             {
                 id: 823472331,
                 title: "Facebook",
-                url: "https://facebook.com/edimcs/",
+                url: "https://www.facebook.com/profile.php?id=61553709279648&mibextid=ZbWKwL",
                 icon: <IoLogoFacebook className="text-inherit" />,
             },
             {
                 id: 823472332,
                 title: "Instagram",
-                url: "https://instagram.com/edimcs/",
+                url: "https://instagram.com/edimcs_ng?igshid=OGQ5ZDc2ODk2ZA",
                 icon: <IoLogoInstagram className="text-inherit" />
             },
             {
                 id: 823472333,
                 title: "Whatsapp",
-                url: "https://whatsapp.com/edimcs/",
+                url: "https://wa.link/t01thy",
                 icon: <IoLogoWhatsapp className="text-inherit" />
             },
             {

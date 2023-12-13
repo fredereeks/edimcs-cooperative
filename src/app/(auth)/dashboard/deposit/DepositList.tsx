@@ -60,13 +60,21 @@ export default function DepositList({ depositData, user }: { depositData: Deposi
         }
     }
 
-    const handleReview = async (id: string, status: string) => {
+    const handleReview = async (id: string, verdict: string) => {
         setLoading(true)
+        const depositInterest = selectedDeposit?.amount! * (interest)/100
         try {
-            const res = await verdictAction(table, id, status)
+            const res = await verdictAction("deposit", id, verdict, depositInterest, selectedDeposit?.amount!)
+            if(res.error){
+                reviewRef.current?.close()
+                toast.error(res?.message, {id: "8290", duration: 5000})
+            }
+            else{
+                reviewRef.current?.close()
+                toast.success(res?.message, {id: "8290", duration: 5000})
+            }
+            setLoading(false)
             router.refresh()
-            reviewRef.current?.close()
-            toast.success(``)
         } catch (error) {
             toast.error(`Unable to process your request. Please, check your connection and try again`)
         }
@@ -164,7 +172,7 @@ export default function DepositList({ depositData, user }: { depositData: Deposi
                                                     </div>
                                                     <div className='flex flex-col'>
                                                         <h5 className="text-sm font-medium leading-tight whitespace-nowrap">{deposit.depositor?.firstname} {deposit.depositor?.middlename} {deposit.depositor?.lastname}</h5>
-                                                        <h4 className="text-slate-400 text-xs py-[.1rem] sm:py-1">Balance: &#8358;{user?.balance?.toLocaleString()}</h4>
+                                                        <h4 className="text-slate-400 text-xs py-[.1rem] sm:py-1">Balance: &#8358;{deposit?.depositor?.balance?.toLocaleString()}</h4>
                                                     </div>
                                                 </div>
                                             </td>
@@ -237,8 +245,8 @@ export default function DepositList({ depositData, user }: { depositData: Deposi
                                 selectedDeposit?.verdict === "Pending" ?
                                     <>
                                         <div className="flex gap-2 justify-end">
-                                            <button onClick={() => handleReview(selectedDeposit?.id, "Approve")} className="flex justify-center items-center gap-[.2rem] align-middle bg-success hover:bg-success/80 text-white px-5 rounded-sm cursor-pointer text-[.6rem] py-[.4rem]" disabled={loading}>Approve</button>
-                                            <button onClick={() => handleReview(selectedDeposit?.id, "Reject")} className="flex justify-center items-center gap-[.2rem] align-middle bg-danger hover:bg-danger/80 text-white px-5 rounded-sm cursor-pointer text-[.6rem] py-[.4rem]" disabled={loading}>Reject</button>
+                                            <button onClick={() => handleReview(selectedDeposit?.id, "Granted")} className="flex justify-center items-center gap-[.2rem] align-middle bg-success hover:bg-success/80 text-white px-5 rounded-sm cursor-pointer text-[.6rem] py-[.4rem]" disabled={loading}>Approve</button>
+                                            <button onClick={() => handleReview(selectedDeposit?.id, "Rejected")} className="flex justify-center items-center gap-[.2rem] align-middle bg-danger hover:bg-danger/80 text-white px-5 rounded-sm cursor-pointer text-[.6rem] py-[.4rem]" disabled={loading}>Reject</button>
                                         </div> </> : ""
                             }
                         </div>

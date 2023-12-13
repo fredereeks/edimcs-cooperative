@@ -36,6 +36,7 @@ enum MemberType {
 
 enum MemberRating {
   Basic
+  BasicPlus
   Standard
   StandardPlus
   Premium
@@ -49,8 +50,9 @@ enum Status {
 
 enum TransStatus {
   Pending
+  Running
   Completed
-  Rejected
+  Suspended
 }
 
 enum TransVerdict {
@@ -70,7 +72,7 @@ model Member {
   memberId         String          @unique @db.VarChar(15)
   password         String          @db.VarChar(100)
   image            String?         @db.Text()
-  phone            String?         @db.VarChar(15)
+  phone            String?         @unique @db.VarChar(15)
   address          String?         @db.VarChar(200)
   type             MemberType      @default(Member)
   status           Status          @default(Pending)
@@ -89,6 +91,7 @@ model Member {
   investments      Investment[]    @relation("investment")
   beneficiary      Investment[]    @relation("beneficiary")
   balance          Int             @default(0)
+  // Transactions     Transactions[]
 
   @@index([id, memberId])
 }
@@ -97,6 +100,7 @@ model AccountNumber {
   id            String      @id @default(uuid())
   banker        String      @db.VarChar(100)
   accountnumber String      @db.VarChar(20)
+  bvn           Int?        @db.Int
   type          accountType @default(Savings)
   owner         Member?     @relation(fields: [memberId], references: [id])
   memberId      String?     @unique
@@ -117,7 +121,7 @@ model Contact {
 model Deposit {
   id          String       @id @default(uuid())
   amount      Int          @db.Int
-  interest    Int?         @db.MediumInt
+  interest    Int?         @default(0) @db.MediumInt
   depositor   Member?      @relation(fields: [depositorId], references: [id])
   depositorId String
   status      TransStatus  @default(Pending)
@@ -131,7 +135,7 @@ model Investment {
   id            String         @id @default(uuid())
   amount        Int            @db.Int
   payback       Int?           @db.Int
-  interest      Int            @db.Int
+  interest      Int?           @db.MediumInt
   type          InvestmentType @default(Silver)
   status        TransStatus    @default(Pending)
   verdict       TransVerdict   @default(Pending)
@@ -146,28 +150,30 @@ model Investment {
 }
 
 model Loan {
-  id        String         @id @default(uuid())
-  amount    Int            @db.Int
-  loaner    Member?        @relation(fields: [loanerId], references: [id])
+  id        String       @id @default(uuid())
+  amount    Int          @db.MediumInt
+  interest  Int?         @default(0) @db.MediumInt
+  payback   Int?         @default(0) @db.MediumInt
+  loaner    Member?      @relation(fields: [loanerId], references: [id])
   loanerId  String?
-  status    ActivityStatus @default(Pending)
-  verdict   TransVerdict   @default(Pending)
-  createdAt DateTime       @default(now())
-  updatedAt DateTime       @default(now()) @updatedAt
-  updatedBy String?        @db.VarChar(50)
+  status    TransStatus  @default(Pending)
+  verdict   TransVerdict @default(Pending)
+  createdAt DateTime     @default(now())
+  updatedAt DateTime     @default(now()) @updatedAt
+  updatedBy String?      @db.VarChar(50)
 }
 
 model Saving {
-  id        String         @id @default(uuid())
-  amount    Int            @db.Int
-  interest  Int?           @db.MediumInt
-  saver     Member?        @relation(fields: [saverId], references: [id])
+  id        String       @id @default(uuid())
+  amount    Int          @db.Int
+  interest  Int?         @default(0) @db.MediumInt
+  saver     Member?      @relation(fields: [saverId], references: [id])
   saverId   String
-  status    ActivityStatus @default(Pending)
-  verdict   TransVerdict   @default(Pending)
-  createdAt DateTime       @default(now())
-  updatedAt DateTime       @default(now()) @updatedAt
-  updatedBy String?        @db.VarChar(50)
+  status    TransStatus  @default(Pending)
+  verdict   TransVerdict @default(Pending)
+  createdAt DateTime     @default(now())
+  updatedAt DateTime     @default(now()) @updatedAt
+  updatedBy String?      @db.VarChar(50)
 }
 
 model Message {
@@ -186,7 +192,7 @@ model Message {
 model Withdrawal {
   id           String       @id @default(uuid())
   amount       Int          @db.Int
-  interest     Int?         @db.MediumInt
+  interest     Int?         @default(0) @db.MediumInt
   withdrawer   Member?      @relation(fields: [withdrawerId], references: [id])
   withdrawerId String
   status       TransStatus  @default(Pending)
@@ -197,17 +203,17 @@ model Withdrawal {
 }
 
 // model Transactions {
-//   id                String          @id @default(uuid())
-//   amount            String
-//   member            Member          @relation("sender", fields: [memberId], references: [id])
-//   memberId          String
-//   type              String 
-//   receiverId        String
-//   statusToReceiver  String
-//   createdAt         DateTime        @default(now())
-//   updatedAt         DateTime        @default(now()) @updatedAt
+//   id               String   @id @default(uuid())
+//   amount           String
+//   interest         Int?     @db.MediumInt
+//   member           Member   @relation("sender", fields: [memberId], references: [id])
+//   memberId         String
+//   type             String
+//   receiverId       String
+//   statusToReceiver String
+//   createdAt        DateTime @default(now())
+//   updatedAt        DateTime @default(now()) @updatedAt
 // }
-
 
 // ===CTTI
 
@@ -216,10 +222,12 @@ enum UserType {
   Instructor
   Admin
 }
+
 enum ReadStatus {
   Read
   Unread
 }
+
 model Enquiry {
   id         String     @id @default(cuid())
   firstname  String
@@ -239,7 +247,6 @@ model Enquiry {
   updatedAt  DateTime   @default(now()) @updatedAt
   updatedBy  String?
 }
-
 
 model ContactMessage {
   id         String     @id @default(cuid())

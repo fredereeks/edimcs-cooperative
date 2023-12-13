@@ -43,8 +43,8 @@ export default function Home() {
           </div>
           <div data-aos-duration="2000" data-aos="zoom-in-up"  className="py-0 md:py-20 flex-1 flex flex-col gap-2 sm:justify-center text-justify">
             <h3 className="text-slate-700 text-4xl sm:text-5xl lg:text-6xl text-left leading-snug font-bold max-w-md sm:max-w-lg w-full relative left-1/2 -translate-x-1/2 pb-4">A <span className="text-red-500">Cooperative</span> with a Pedigree.</h3>
-            <p  style={{ lineHeight: 1.9 }} className="text-slate-500 text-xs sm:text-sm leading-loose font-light max-w-md sm:max-w-lg w-full relative left-1/2 -translate-x-1/2">Enlightenment Drive Initiative Co-operative Society (EDIMCS)  largest cooperative organization among cooperatives in Nigeria and in the world, with the goal of achieving a first-world Nigeria with empowerment and housing for low-income and small and medium enterprises as our primary goal.</p>
-            <p style={{ lineHeight: 1.9 }} className="text-slate-500 text-xs sm:text-sm leading-loose font-light max-w-md sm:max-w-lg w-full relative left-1/2 -translate-x-1/2">Our aim at EDIMCS is to level up the playing field in the cooperative industry through the power of team, cooperation, and networking.</p>
+            <p  style={{ lineHeight: 1.9 }} className="text-slate-700 text-base sm:text-lg leading-loose font-light max-w-md sm:max-w-lg w-full relative left-1/2 -translate-x-1/2">Enlightenment Drive Initiative Co-operative Society (EDIMCS) is one of the largest cooperative organizations in Nigeria and in the world, with the goal of achieving a first-world Nigeria with empowerment and housing for low-income and small and medium enterprises as our primary goal.</p>
+            <p style={{ lineHeight: 1.9 }} className="text-slate-700 text-base sm:text-lg leading-loose font-light max-w-md sm:max-w-lg w-full relative left-1/2 -translate-x-1/2">Our aim at EDIMCS is to level up the playing field in the cooperative industry through the power of team, cooperation, and networking.</p>
           </div>
         </div>
       </section>

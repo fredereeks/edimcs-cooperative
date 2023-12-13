@@ -12,7 +12,7 @@ import { useRouter } from 'next/navigation'
 import { TableSearch } from '../../ui'
 import { edimcs_dollarbills } from '@/assets/images'
 import moment from 'moment'
-import { handleWithdrawal } from '@/actions'
+import { handleWithdrawal, verdictAction } from '@/actions'
 
 export default function WithdrawalList({ withdrawalData, user }: { withdrawalData: WithdrawalProps[], user: MemberProps }) {
     const [allTableData, setAllTableData] = useState<WithdrawalProps[] | []>(withdrawalData)
@@ -56,12 +56,21 @@ export default function WithdrawalList({ withdrawalData, user }: { withdrawalDat
         }
     }
 
-    const handleReview = async (id: string, status: string) => {
+    const handleReview = async (id: string, verdict: string) => {
         setLoading(true)
+        const withdrawalInterest = selectedWithdrawal?.amount! * (charges)/100
         try {
-            // const res = await verdictAction(id, status)
+            const res = await verdictAction("withdrawal", id, verdict, withdrawalInterest, selectedWithdrawal?.amount!)
+            if(res.error){
+                reviewRef.current?.close()
+                toast.error(res?.message, {id: "8290", duration: 5000})
+            }
+            else{
+                reviewRef.current?.close()
+                toast.success(res?.message, {id: "8290", duration: 5000})
+            }
+            setLoading(false)
             router.refresh()
-            reviewRef.current?.close()
         } catch (error) {
             toast.error(`Unable to process your request. Please, check your connection and try again`)
         }
@@ -108,6 +117,10 @@ export default function WithdrawalList({ withdrawalData, user }: { withdrawalDat
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
+        if(user?.balance! < 500 || user?.balance! < Number(amountRef?.current?.value)){
+            toast.error('Your balance is insufficient for the amount requested. Please, make a deposit or savings first')
+            return;
+        }
         setLoading(true)
         const formData = new FormData(formRef?.current!)
         const res = await handleWithdrawal(formData)
@@ -157,7 +170,7 @@ export default function WithdrawalList({ withdrawalData, user }: { withdrawalDat
                                                     </div>
                                                     <div className='flex flex-col'>
                                                         <h5 className="text-sm font-medium leading-tight whitespace-nowrap">{withdrawal.withdrawer?.firstname} {withdrawal.withdrawer?.middlename} {withdrawal.withdrawer?.lastname}</h5>
-                                                        <h4 className="text-slate-400 text-xs py-[.1rem] sm:py-1">Balance: &#8358;{user?.balance?.toLocaleString()}</h4>
+                                                        <h4 className="text-slate-400 text-xs py-[.1rem] sm:py-1">Balance: &#8358;{withdrawal.withdrawer?.balance?.toLocaleString()}</h4>
                                                     </div>
                                                 </div>
                                             </td>
@@ -230,8 +243,8 @@ export default function WithdrawalList({ withdrawalData, user }: { withdrawalDat
                                 selectedWithdrawal?.verdict === "Pending" ?
                                     <>
                                         <div className="flex gap-2 justify-end">
-                                            <button onClick={() => handleReview(selectedWithdrawal?.id, "Approve")} className="flex justify-center items-center gap-[.2rem] align-middle bg-success hover:bg-success/80 text-white px-5 rounded-sm cursor-pointer text-[.6rem] py-[.4rem]" disabled={loading}>Approve</button>
-                                            <button onClick={() => handleReview(selectedWithdrawal?.id, "Reject")} className="flex justify-center items-center gap-[.2rem] align-middle bg-danger hover:bg-danger/80 text-white px-5 rounded-sm cursor-pointer text-[.6rem] py-[.4rem]" disabled={loading}>Reject</button>
+                                            <button onClick={() => handleReview(selectedWithdrawal?.id, "Granted")} className="flex justify-center items-center gap-[.2rem] align-middle bg-success hover:bg-success/80 text-white px-5 rounded-sm cursor-pointer text-[.6rem] py-[.4rem]" disabled={loading}>Approve</button>
+                                            <button onClick={() => handleReview(selectedWithdrawal?.id, "Rejected")} className="flex justify-center items-center gap-[.2rem] align-middle bg-danger hover:bg-danger/80 text-white px-5 rounded-sm cursor-pointer text-[.6rem] py-[.4rem]" disabled={loading}>Reject</button>
                                         </div> </> : ""
                             }
                         </div>

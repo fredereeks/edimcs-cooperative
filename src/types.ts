@@ -103,6 +103,7 @@ export type AccountDetailsProps = {
     id: string
     banker: string
     accountnumber: string
+    bvn: number
     type: "Savings" | "Current" | "Fixed"
     owner?: MemberProps[]
     memberId?: string | null

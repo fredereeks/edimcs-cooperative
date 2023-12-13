@@ -8,12 +8,13 @@ import { redirect } from 'next/navigation';
 import React from 'react'
 // import { fetchUser } from '../../actions';
 import ProfileForm from './ProfileForm';
+import { Metadata } from 'next';
 
 const fetchUser = async (email: string) => {
   "use server"
   const user = await prisma.member.findUnique({
     where: { email },
-    include: { accountDetails: true}
+    include: { accountDetails: true }
   })
   if (!user) {
     signOut()
@@ -21,6 +22,12 @@ const fetchUser = async (email: string) => {
   }
   // console.log({user})
   return user as MemberProps
+}
+
+
+export const metadata: Metadata = {
+  title: 'EDIMCS :: Profile',
+  description: "EDIMCS stands for Enlightenment Drive Initiative Co-operative Society. We are the largest cooperative organization among cooperatives in Nigeria and in the world; with the goal of achieving a first-world Nigeria with empowerment and housing for low-income and small and medium enterprises as our primary goal",
 }
 
 export default async function Profile() {

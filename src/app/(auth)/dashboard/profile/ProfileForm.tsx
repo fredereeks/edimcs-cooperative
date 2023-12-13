@@ -5,7 +5,7 @@ import { MemberProps } from '@/types';
 import { useRouter } from 'next/navigation';
 import React, { useState, useRef } from 'react'
 import toast from 'react-hot-toast';
-import { edimcs_moneybox, edimcs_piggyvest } from '@/assets/images'
+import { edimcs_logo, edimcs_moneybox, edimcs_piggyvest, logo } from '@/assets/images'
 import { TextInput } from '@/components'
 import Image from 'next/image'
 
@@ -78,7 +78,7 @@ export default function ProfileForm({ user }: { user: MemberProps }) {
             </section>
             <section className={`flex-col pt-5 pb-10 ${showAccountForm ? 'hidden' : 'flex'}`}>
                 <div className="flex flex-col gap-6">
-                    <form ref={uploadFormRef} onSubmit={handleFormUpload} className="flex flex-col gap-4 p-4">
+                    {/* <form ref={uploadFormRef} onSubmit={handleFormUpload} className="flex flex-col gap-4 p-4">
                         <h4 className="text-xs text-slate-500 opacity-80">Your Profile Picture</h4>
                         <div className="flex gap-4 md:gap-6">
                             <label htmlFor="profilePicture" className="relative h-14 w-14 md:h-16 md:w-16 flex-shrink-0 rounded-full overflow-hidden cursor-pointer">
@@ -93,7 +93,7 @@ export default function ProfileForm({ user }: { user: MemberProps }) {
                                 <p className="text-[.65rem] text-center text-slate-500">Your profile picture enables users recognize you on EDIMCS</p>
                             </div>
                         </div>
-                    </form>
+                    </form> */}
                     <form ref={formRef} onSubmit={handleSubmit} className="px-4 sm:px-0 w-full sm:w-10/12 sm:scale-90 grid sm:grid-cols-2 gap-4 sm:gap-y-6 sm:justify-center relative after:bg-slate-300 after:-top-4 after:h-[.51px] after:w-11/12 after:left-1/2 after:-translate-x-1/2 after:absolute">
                         <input type="hidden" name="id" defaultValue={user?.id} />
                         <input type="hidden" name="extra" defaultValue={user?.password} />
@@ -140,7 +140,7 @@ export default function ProfileForm({ user }: { user: MemberProps }) {
                         <h4 className="text-xs text-slate-500 opacity-80">Your Account Details</h4>
                         <div className="flex gap-4 md:gap-6">
                             <div className="relative h-14 w-14 md:h-16 md:w-16 flex-shrink-0 rounded-full overflow-hidden">
-                                <Image src={user?.image || edimcs_piggyvest} alt={`${user?.firstname} ${user?.middlename} ${user?.lastname}`} fill={true} className='object-cover' />
+                                <Image src={user?.image || edimcs_logo} alt={`${user?.firstname} ${user?.middlename} ${user?.lastname}`} fill={true} className='object-cover' />
                             </div>
                             <div className="flex flex-col gap-1 w-max justify-center">
                                 <div className="flex flex-col">
@@ -155,7 +155,7 @@ export default function ProfileForm({ user }: { user: MemberProps }) {
                         <input type="hidden" name="id" defaultValue={user?.id} />
                         <input type="hidden" name="extra" defaultValue={user?.password} />
                         <TextInput disabled key={6264} id='account' name='account' label='Account Name' defaultValue={`${user?.firstname} ${user?.middlename} ${user?.lastname}`} minLength={11} required={true} containerClassName={'text-xs sm:col-span-2'} className='bg-slate-200' />
-                        <TextInput key={6265} id='banker' name='banker' label='Bank Name' defaultValue={user?.accountDetails && user?.accountDetails[0]?.banker} minLength={10} required={true} containerClassName={'text-xs sm:col-span-2'} />
+                        <TextInput key={6265} id='banker' name='banker' label='Bank Name' defaultValue={user?.accountDetails && user?.accountDetails[0]?.banker} minLength={10} required={true} containerClassName={'text-xs'} />
                         <TextInput key={6266} id='accountnumber' name='accountnumber' label='Account Number' defaultValue={user?.accountDetails && user?.accountDetails[0]?.accountnumber} minLength={10} required={true} containerClassName={'text-xs'} />
                         <div className={`flex flex-col gap-1`}>
                             <label htmlFor={"type"} className="text-gray-500 text-sm">Account Type</label>
@@ -165,7 +165,8 @@ export default function ProfileForm({ user }: { user: MemberProps }) {
                                 <option className='normal-text text-sm bg-white font-sans' defaultValue={"Fixed"}>Fixed </option>
                             </select>
                         </div>
-                        <TextInput key={6267} id='confirm-password' type='password' name='confirm-password' label='Confirm Password' placeholder={'Enter Password to Confirm Changes'} minLength={3} required={true} containerClassName={'text-xs sm:col-span-2'} />
+                        <TextInput key={6267} id='bvn' name='bvn' label='BVN' defaultValue={user?.accountDetails && user?.accountDetails[0]?.bvn} minLength={11} max={11} required={true} containerClassName={'text-xs'} />
+                        <TextInput key={6268} id='confirm-password' type='password' name='confirm-password' label='Confirm Password' placeholder={'Enter Password to Confirm Changes'} minLength={3} required={true} containerClassName={'text-xs sm:col-span-2'} />
                         {/* <TextInput key={6268} id='address' name='address' label='Address' defaultValue={user?.'6, Sirakoro Street, Adjecent Kilimanjaro Eatery, Wuse II'} minLength={3} required={true} containerClassName={'text-xs sm:col-span-2'} /> */}
                         <button type='submit' className="cursor-pointer rounded-md text-thin text-xs text-white bg-primary hover:bg-blue-600 py-2 px-4 sm:py-3 sm:px-6 w-max select-none">Update Account Details</button>
 

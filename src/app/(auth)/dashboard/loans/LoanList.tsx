@@ -14,7 +14,7 @@ import { edimcs_dollarbills } from '@/assets/images'
 import Link from 'next/link'
 import moment from 'moment'
 import { MdAttachMoney } from 'react-icons/md'
-import { handleLoans, verdictAction } from '@/actions'
+import { handleLoanRepayment, handleLoans, verdictAction } from '@/actions'
 
 // import {useForm} from 'react-hook-form'
 
@@ -25,11 +25,11 @@ export default function LoanList({ loansData, user }: { loansData: LoanProps[], 
     const reviewRef = useRef<HTMLDialogElement | null>(null)
     const previewRef = useRef<HTMLDialogElement | null>(null)
     const formRef = useRef<HTMLFormElement | null>(null)
+    const repaymentFormRef = useRef<HTMLFormElement | null>(null)
     const [interest, setInterest] = useState<number>(1)
     const [payback, setPayback] = useState<number>(500)
     const inputRef = useRef<HTMLInputElement | null>(null)
     const amountRef = useRef<HTMLInputElement | null>(null)
-    console.log({loansData})
 
     const [selectedLoan, setSelectedLoan] = useState<LoanProps>()
     const [loading, setLoading] = useState<boolean>(false)
@@ -66,10 +66,19 @@ export default function LoanList({ loansData, user }: { loansData: LoanProps[], 
 
     const handleReview = async (id: string, verdict: string) => {
         setLoading(true)
+        const loanInterest = selectedLoan?.amount! * (interest)/100
         try {
-            const res = await verdictAction("loan", id, verdict, ``)
+            const res = await verdictAction("loan", id, verdict, loanInterest)
+            if(res.error){
+                reviewRef.current?.close()
+                toast.error(res?.message, {id: "8290", duration: 5000})
+            }
+            else{
+                reviewRef.current?.close()
+                toast.success(res?.message, {id: "8290", duration: 5000})
+            }
+            setLoading(false)
             router.refresh()
-            reviewRef.current?.close()
         } catch (error) {
             toast.error(`Unable to process your request. Please, check your connection and try again`)
         }
@@ -90,6 +99,10 @@ export default function LoanList({ loansData, user }: { loansData: LoanProps[], 
     }
 
     const ShowComputedValues = () => {
+        const balance = selectedLoan?.amount! - selectedLoan?.payback!
+        const loanInterest = selectedLoan?.amount! * (selectedLoan?.interest!)/100
+        const variableInterest = selectedLoan?.amount! * (interest!)/100
+        const amountToReceive = selectedLoan?.amount! - variableInterest
         return (
             <>
                 {selectedLoan?.status === "Pending" ? <div className="flex justify-between items-center gap-2 py-1">
@@ -97,11 +110,12 @@ export default function LoanList({ loansData, user }: { loansData: LoanProps[], 
                     <div className="flex overflow-x-hidden relative w-[3rem] max-w-[3rem] border border-gray-300 rounded-md px-2 py-0">
                         <input value={interest} onChange={e => setInterest(Number(e.target.value))} type="number" required min={0} max={10} name='interest' placeholder={`Enter an Interest Rate NOT greater than 10`} className="relative outline-none py-2 pl-2 pr-4  text-gray-600 text-xs placeholder-opacity-70 font-normal flex w-[6rem] bg-transparent focus-within:bg-transparent focus:bg-transparent" />
                     </div>
-                </div> : selectedLoan?.status === "Running" ? <form ref={formRef} action={'dialog'} onSubmit={handleSubmit} className="relative flex flex-col"> <div className="flex justify-between items-center gap-2 py-1">
+                </div> : selectedLoan?.status === "Running" ? <form ref={repaymentFormRef} onSubmit={handleRepayment} className="relative flex flex-col"> <div className="flex justify-between items-center gap-2 py-1">
                     <span className="text-xs font-light flex items-center justify-start flex-1">Add Loan Payback Amount:</span>
                     <div className="flex gap-1">
+                        <input type="hidden" name="loaner" value={selectedLoan?.id} />
                         <div className="flex overflow-x-hidden relative w-[5rem] max-w-[5rem] border border-gray-300 rounded-md px-2 py-0">
-                            <input value={payback} onChange={e => setPayback(Number(e.target.value))} type="number" required min={500} max={selectedLoan?.amount + (selectedLoan?.payback || 0)} name='interest' placeholder={`Enter an Interest Rate NOT greater than 10`} className="relative outline-none py-2 pl-2 pr-4  text-gray-600 text-xs placeholder-opacity-70 font-normal flex w-[7rem] bg-transparent focus-within:bg-transparent focus:bg-transparent" />
+                            <input value={payback} onChange={e => setPayback(Number(e.target.value))} type="number" required min={500} max={selectedLoan?.amount - (selectedLoan?.payback || 0)} name='payback' placeholder={`Enter an Interest Rate NOT greater than 10`} className="relative outline-none py-2 pl-2 pr-4  text-gray-600 text-xs placeholder-opacity-70 font-normal flex w-[7rem] bg-transparent focus-within:bg-transparent focus:bg-transparent" />
                         </div>
                         <button type="submit" className="py-2 px-3 sm:px-8 bg-primary text-white text-[.6rem] text-xs rounded-md hover:bg-primary/90 cursor-pointer" disabled={loading}>Record Payment</button>
                     </div>
@@ -112,27 +126,47 @@ export default function LoanList({ loansData, user }: { loansData: LoanProps[], 
                 </div>
                 <div className="flex justify-between items-center gap-2 py-1 text-slate-700">
                     <span className="text-xs font-light flex items-center justify-start">Interest:</span>
-                    {selectedLoan?.status === "Pending" ? <h3 className="text-right text-sm font-medium">&#8358;{(Number(selectedLoan?.amount || 1) * (interest / 100)).toLocaleString()}</h3> : selectedLoan?.status === "Running" ? <h3 className="text-right text-sm font-medium">&#8358;{(Number(selectedLoan?.interest)).toLocaleString()}</h3> : ""}
+                    {selectedLoan?.status === "Running" ? <h3 className="text-right text-sm font-medium">&#8358;{(selectedLoan?.interest).toLocaleString()}</h3> : selectedLoan?.status === "Pending" ? <h3 className="text-right text-sm font-medium">&#8358;{(Number(selectedLoan?.amount) * Number(interest)/100).toLocaleString()}</h3> : ""}
                 </div>
                 <div className="flex justify-between items-center gap-2 py-1 text-slate-700">
-                    <span className="text-xs font-light flex items-center justify-start">Total Expected Payment:</span>
-                    {selectedLoan?.status === "Pending" ? <h3 className="text-right text-lg font-semibold">&#8358;{(Number(selectedLoan?.amount || 1) + (Number(selectedLoan?.amount || 1) * (interest / 100))).toLocaleString()}</h3> : selectedLoan?.status === "Running" ? <h3 className="text-right text-lg font-semibold">&#8358;{(Number(selectedLoan?.amount || 1) + (Number(selectedLoan?.interest))).toLocaleString()}</h3> : ""}
+                    <span className="text-xs font-light flex items-center justify-start">{selectedLoan?.status === "Pending" ? 'Amount to Receive' : 'Amount Received'}:</span>
+                    {selectedLoan?.status === "Pending" ? <h3 className="text-right text-sm font-semibold">&#8358;{(amountToReceive).toLocaleString()}</h3> : selectedLoan?.status === "Running" ? <h3 className="text-right text-lg font-semibold">&#8358;{(amountToReceive).toLocaleString()}</h3> : ""}
                 </div>
                 <div className="flex justify-between items-center gap-2 py-1 text-slate-700">
                     <span className="text-xs font-light flex items-center justify-start">Amount Repaid:</span>
                     <h3 className="text-right text-sm font-semibold">&#8358;{selectedLoan?.payback?.toLocaleString() || 0}</h3>
+                </div>
+                <div className="flex justify-between items-center gap-2 py-1 text-pink-500">
+                    <span className="text-xs font-light flex items-center justify-start">Balance:</span>
+                    <h3 className="text-right text-base font-semibold">&#8358;{balance.toLocaleString() || 0}</h3>
                 </div>
             </>
 
         )
     }
 
-    
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         setLoading(true)
         const formData = new FormData(formRef?.current!)
         const res = await handleLoans(formData)
+        if (res.error) {
+            modalRef.current?.close()
+            toast.error(res?.message, { id: "8290", duration: 5000 })
+        }
+        else {
+            modalRef.current?.close()
+            toast.success(res?.message, { id: "8290", duration: 5000 })
+        }
+        setLoading(false)
+        router.refresh()
+    }
+    
+    const handleRepayment = async (e: React.FormEvent) => {
+        e.preventDefault();
+        setLoading(true)
+        const formData = new FormData(repaymentFormRef?.current!)
+        const res = await handleLoanRepayment(formData)
         if (res.error) {
             modalRef.current?.close()
             toast.error(res?.message, { id: "8290", duration: 5000 })
@@ -152,7 +186,7 @@ export default function LoanList({ loansData, user }: { loansData: LoanProps[], 
                     <table className="w-full text-slate-500 dark:text-slate-400 text-xs sm:text-sm min-w-[20rem]">
                         <thead>
                             <tr>
-                                <th colSpan={user?.type === "Admin" ? 6 : 5}>
+                                <th colSpan={user?.type === "Admin" ? 7 : 6}>
                                     <TableSearch title='LOAN' key={'72088234'} handleSearch={handleSearch} inputRef={inputRef}>
                                         <div className="md:ml-[5rem] flex gap-2">
                                             <button onClick={() => modalRef.current?.showModal()} className="text-white bg-primary px-4 py-2 rounded-md cursor-pointer text-xs font-light">Apply for Loan</button>
@@ -164,6 +198,7 @@ export default function LoanList({ loansData, user }: { loansData: LoanProps[], 
                             <tr className='text-slate-600 dark:text-slate-50 text-xs text-center'>
                                 <th className='font-light text-left'>Member Details</th>
                                 <th className='font-light'>Loan Amount</th>
+                                <th className='font-light'>Amount Received</th>
                                 <th className='font-light'>Loan Date</th>
                                 <th className='font-light'>Verdict</th>
                                 <th className='font-light'>Status</th>
@@ -182,13 +217,18 @@ export default function LoanList({ loansData, user }: { loansData: LoanProps[], 
                                                     </div>
                                                     <div className='flex flex-col'>
                                                         <h5 className="text-sm font-medium leading-tight whitespace-nowrap">{loan.loaner?.firstname} {loan.loaner?.middlename} {loan.loaner?.lastname}</h5>
-                                                        <h4 className="text-slate-400 text-xs py-[.1rem] sm:py-1">Total Loans: &#8358;{loan.loaner?.balance?.toLocaleString() || 0}</h4>
+                                                        <h4 className="text-slate-400 text-xs py-[.1rem] sm:py-1">Balance: &#8358;{loan.loaner?.balance?.toLocaleString()}</h4>
                                                     </div>
                                                 </div>
                                             </td>
                                             <td className="align-middle">
                                                 <div className="flex justify-center items-center align-middle mx-auto whitespace-nowrap">
                                                     <div className={`${loan.verdict === "Rejected" ? 'bg-red-100 text-red-500' : loan.verdict === "Granted" ? 'bg-sky-100 text-sky-500' : 'bg-slate-100 text-slate-500'} text-xs py-[.1rem] sm:py-1 px-3 rounded-sm font-medium`}>&#8358;{loan.amount.toLocaleString()}</div>
+                                                </div>
+                                            </td>
+                                            <td className="align-middle">
+                                                <div className="flex justify-center items-center align-middle mx-auto whitespace-nowrap">
+                                                    <div className={`${loan.verdict === "Rejected" ? 'bg-red-100 text-red-500' : loan.verdict === "Granted" ? 'bg-sky-100 text-sky-500' : 'bg-slate-100 text-slate-500'} text-xs py-[.1rem] sm:py-1 px-3 rounded-sm font-medium`}>&#8358;{(loan.amount - loan.interest).toLocaleString()}</div>
                                                 </div>
                                             </td>
                                             <td className="align-middle">
@@ -211,7 +251,6 @@ export default function LoanList({ loansData, user }: { loansData: LoanProps[], 
                                                     <div className="flex justify-center gap-2">
                                                         {loan.verdict === "Pending" && <button onClick={() => showReview(loan.id)} className="flex justify-center items-center gap-[.2rem] align-middle bg-success hover:bg-success/80 text-white dark:text-slate-900 px-3 rounded-sm cursor-pointer text-[.6rem] py-2 sm:py-1">Review</button>}
                                                         {loan.verdict === "Granted" && (loan.amount - (loan?.payback || 0)) !== 0 && <button onClick={() => showReview(loan.id)} className="flex justify-center items-center gap-[.2rem] align-middle bg-sky-500 hover:bg-sky-500/80 text-white dark:text-slate-900 px-3 rounded-sm cursor-pointer text-[.6rem] py-2 sm:py-1 whitespace-nowrap">Add Payback</button>}
-
                                                     </div>
                                                 </td>}
                                         </tr>
@@ -284,7 +323,7 @@ export default function LoanList({ loansData, user }: { loansData: LoanProps[], 
                             </div>
                         </div>
                         {user?.balance! < 500 ? <span className="text-[.6rem] sm:text-[.75rem] text-primary bg-indigo-100 dark:bg-indigo-100 p-2 px-[.3rem] rounded-xs uppercase text-center">Sorry, your acount is lower than ₦500 </span> :
-                            <button type="submit" className="py-2 px-4 sm:px-8 bg-primary text-white text-[.6rem] text-xs rounded-md hover:bg-danger/90 cursor-pointer" disabled={loading}>{loading ? 'Processing...' : 'Request Withdrawal'}</button>}
+                            <button type="submit" className="py-2 px-4 sm:px-8 bg-primary text-white text-[.6rem] text-xs rounded-md hover:bg-primary/90 cursor-pointer" disabled={loading}>{loading ? 'Processing...' : 'Submit Loan Request'}</button>}
                     </form>
                 </div>
             </Modal>
@@ -318,8 +357,8 @@ export default function LoanList({ loansData, user }: { loansData: LoanProps[], 
                                 selectedLoan?.verdict === "Pending" ?
                                     <>
                                         <div className="flex gap-2 justify-end">
-                                            <button onClick={() => handleReview(selectedLoan?.id, "Approve")} className="flex justify-center items-center gap-[.2rem] align-middle bg-success hover:bg-success/80 text-white px-5 rounded-sm cursor-pointer text-[.6rem] py-[.4rem]" disabled={loading}>Approve</button>
-                                            <button onClick={() => handleReview(selectedLoan?.id, "Reject")} className="flex justify-center items-center gap-[.2rem] align-middle bg-danger hover:bg-danger/80 text-white px-5 rounded-sm cursor-pointer text-[.6rem] py-[.4rem]" disabled={loading}>Reject</button>
+                                            <button onClick={() => handleReview(selectedLoan?.id, "Granted")} className="flex justify-center items-center gap-[.2rem] align-middle bg-success hover:bg-success/80 text-white px-5 rounded-sm cursor-pointer text-[.6rem] py-[.4rem]" disabled={loading}>Approve</button>
+                                            <button onClick={() => handleReview(selectedLoan?.id, "Rejected")} className="flex justify-center items-center gap-[.2rem] align-middle bg-danger hover:bg-danger/80 text-white px-5 rounded-sm cursor-pointer text-[.6rem] py-[.4rem]" disabled={loading}>Reject</button>
                                         </div> </> : ""
                             }
                             {

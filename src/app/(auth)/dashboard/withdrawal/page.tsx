@@ -2,6 +2,12 @@ import React from 'react'
 import WithdrawalList from './WithdrawalList'
 import { MemberProps } from '@/types'
 import { fetchUser, fetchWithdrawals } from '../../actions'
+import { Metadata } from 'next'
+
+export const metadata: Metadata = {
+  title: 'EDIMCS :: Withdrawal',
+  description: "EDIMCS stands for Enlightenment Drive Initiative Co-operative Society. We are the largest cooperative organization among cooperatives in Nigeria and in the world; with the goal of achieving a first-world Nigeria with empowerment and housing for low-income and small and medium enterprises as our primary goal",
+}
 
 export default async function page() {
   const user: MemberProps | null = await fetchUser()

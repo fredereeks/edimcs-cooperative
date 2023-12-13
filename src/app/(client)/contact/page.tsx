@@ -44,7 +44,7 @@ export default function page() {
                 <div className="py-5 flex flex-col gap-2">
                   <h3 data-aos-duration="1000" data-aos="fade-down-right" data-aos-delay="1000"  className={`text-lg sm:text-xl font-medium sm:font-semibold max-w-lg leading-tight text-slate-800/90`}>Contact Lines</h3>
                   <div className="flex flex-col">
-                    <Link data-aos-duration="1000" data-aos="zoom-in-right"  href={`tel: +2348036137796`} style={{ lineHeight: 2 }} className={`text-xs sm:text-sm font-light leading-tight text-left text-slate-900`}>+2348036137796.</Link>
+                    {/* <Link data-aos-duration="1000" data-aos="zoom-in-right"  href={`tel: +2348036137796`} style={{ lineHeight: 2 }} className={`text-xs sm:text-sm font-light leading-tight text-left text-slate-900`}>+2348036137796.</Link> */}
                     <Link data-aos-duration="1000" data-aos="fade-down-right"  href={`tel: +2349068405778`} style={{ lineHeight: 2 }} className={`text-xs sm:text-sm font-light leading-tight text-left text-slate-900`}>+2349068405778.</Link>
                   </div>
                 </div>

@@ -37,7 +37,7 @@ export default function page() {
         <div className="container mx-auto grid sm:grid-cols-2 md:grid-cols-3 gap-5 justify-center">
           {
             [
-              [772506230, <Image src={edimcs_coins} alt='Savings Plan' fill={true} key={772506231} className="object-cover" />, "Basic Plan", "Never get penalized when decidiing it's not for you. We let you change your mind at an time", 10000, 5000000],
+              [772506230, <Image src={edimcs_coins} alt='Savings Plan' fill={true} key={772506231} className="object-cover" />, "Basic Plan", "Never get penalized when decidiing it's not for you. We let you change your mind at any time", 10000, 5000000],
               [772506232, <Image src={edimcs_piggyvest} alt='Savings Plan' fill={true} key={772506233} className="object-cover" />, "Premium Plan", "We provide you with different options of savings and let you choose the one that best suites your needs.", 50000, 5000000],
               [772506234, <Image src={edimcs_moneybox} alt='Savings Plan' fill={true} key={772506235} className="object-cover" />, "Platinum Plan", "Our priority is keeping your money safe from multi-factor authentication to FDIC-insured accounts.", 100000, 10000000],
             ].map(([id, image, title, text, starting, goal]) => (

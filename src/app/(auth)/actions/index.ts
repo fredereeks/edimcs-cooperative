@@ -2,7 +2,7 @@
 
 import { authOptions } from "@/lib/authOptions";
 import prisma from "@/lib/prisma"
-import { DepositProps, LoanProps, MemberProps, SavingsProps, UserProps, WithdrawalProps } from "@/types";
+import { DepositProps, LoanProps, MemberProps, SavingsProps, WithdrawalProps } from "@/types";
 import { getServerSession } from "next-auth";
 
 export const fetchUser = async () => {
@@ -14,12 +14,7 @@ export const fetchUser = async () => {
         },
         select: { id: true, firstname: true, middlename: true, lastname: true, image: true, memberId: true, address: true, email: true, phone: true, type: true, loanRating: true, accountDetails: true, savings: { where: { verdict: "Granted" } }, deposits: { where: { verdict: "Granted" } } },
     })
-    const totalSavings = member?.savings?.reduce((old, item) => item.amount + old, 0) || 0
-    const totalDeposits = member?.deposits?.reduce((old, item) => item.amount + old, 0) || 0
-    const fullMember = ({ ...member, balance: totalSavings + totalDeposits })
-    // return member =  ({...member, total: member?.reduce((old, item) => item.amount + old, 0)}))
-    // console.log({fullMember})
-    return fullMember as MemberProps
+    return member as MemberProps
 }
 
 export const fetchDeposits = async (type: string, id: string) => {
@@ -27,14 +22,14 @@ export const fetchDeposits = async (type: string, id: string) => {
         const deposits = await prisma.deposit.findMany({
             where: { depositorId: id }, include: { depositor: true }, orderBy: { createdAt: "desc" }
         })
-        return deposits?.filter(deposit => deposit.depositorId === id) as DepositProps[]
+        return deposits?.map(el => ({ ...el, total: deposits?.filter(el => el.verdict === "Granted" || el.status === "Running").reduce((old, item) => item.amount + old, 0) })) as DepositProps[]
     }
     else {
         const deposits = await prisma.deposit.findMany({
             include: { depositor: true }, orderBy: { createdAt: "desc" }
         })
         // console.log({adminDeposit: deposits})
-        return deposits as DepositProps[]
+        return deposits?.map(el => ({ ...el, total: deposits?.filter(el => el.verdict === "Granted" || el.status === "Running").reduce((old, item) => item.amount + old, 0) })) as DepositProps[]
     }
 }
 
@@ -68,14 +63,12 @@ export const fetchLoans = async (type: string, id: string) => {
             where: { loanerId: id }, include: { loaner: true }, orderBy: { createdAt: "desc" }
         })
         return loans?.map(el => ({ ...el, total: loans?.filter(el => el.verdict === "Granted" || el.status === "Running").reduce((old, item) => item.amount + old, 0) })) as LoanProps[]
-        // return loans?.filter(loan => loan.loanerId === id) as LoanProps[]
     }
     else {
         const loans = await prisma.loan.findMany({
             include: { loaner: true }, orderBy: { createdAt: "desc" }
         })
         return loans?.map(el => ({ ...el, total: loans?.filter(el => el.verdict === "Granted" || el.status === "Running").reduce((old, item) => item.amount + old, 0) })) as LoanProps[]
-        // return loans as LoanProps[]
     }
 }
 

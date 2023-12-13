@@ -1,11 +1,11 @@
 // import type { Metadata } from 'next'
-import { Roboto } from 'next/font/google'
+import { Mulish } from 'next/font/google'
 import '../globals.css'
 import { AosProvider, Footer, Header } from '@/components'
 import { Toaster } from 'react-hot-toast'
 import { Provider } from '@/provider'
 
-const roboto = Roboto({ weight: ["100", "300", "400", "500", "700", "900"], subsets: ['latin'] })
+const mulish = Mulish({ weight: ["200", "300", "400", "500", "600", "700", "800", "900"], subsets: ['latin'] })
 
 // export const metadata: Metadata = {
 //   title: 'EDIMCS :: Cooperative Society',
@@ -20,7 +20,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={`${roboto.className} flex flex-col`}>
+      <body className={`${mulish.className} flex flex-col`}>
         <Provider>
           <Toaster />
           <Header />

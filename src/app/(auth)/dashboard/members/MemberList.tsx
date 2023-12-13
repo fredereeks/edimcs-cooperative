@@ -9,6 +9,9 @@ import { MemberProps } from '@/types'
 import Link from 'next/link'
 import { TableSearch, Modal } from '@/app/(auth)/ui'
 import moment from 'moment'
+import { memberStatusAction, memberUpgradeAction } from '@/actions'
+import { useRouter } from 'next/navigation'
+import toast from 'react-hot-toast'
 
 
 export default function MemberList({ memberData }: { memberData: MemberProps[] }) {
@@ -18,6 +21,7 @@ export default function MemberList({ memberData }: { memberData: MemberProps[] }
     const modalRef = useRef<HTMLDialogElement | null>(null)
     const inputRef = useRef<HTMLInputElement | null>(null)
     const [selectedMember, setSelectedMember] = useState<MemberProps>()
+    const router = useRouter()
 
     const handleSearch = (e: React.FormEvent) => {
         e.preventDefault()
@@ -31,6 +35,36 @@ export default function MemberList({ memberData }: { memberData: MemberProps[] }
         }
     }
 
+    const handleUpgrade = async(id: string, type: string) => {
+        try {
+            const res = await memberUpgradeAction(id, type)
+            if(res.error){
+                toast.error(res?.message, {id: "8290", duration: 5000})
+            }
+            else{
+                toast.success(res?.message, {id: "8290", duration: 5000})
+            }
+            router.refresh()
+        } catch (error) {
+            toast.error(`Unable to process your request. Please, check your connection and try again`)
+        }
+    }
+
+    const handleStatus = async(id: string, type: string) => {
+        try {
+            const res = await memberStatusAction(id, type)
+            if(res.error){
+                toast.error(res?.message, {id: "8290", duration: 5000})
+            }
+            else{
+                toast.success(res?.message, {id: "8290", duration: 5000})
+            }
+            router.refresh()
+        } catch (error) {
+            toast.error(`Unable to process your request. Please, check your connection and try again`)
+        }
+    }
+
     return (
         <>
             <section className="relative flex flex-col gap-2 p-4 bg-white  dark:bg-[#dbf0f724] shadow-slate-200 dark:shadow-black shadow-md rounded-lg">
@@ -38,27 +72,29 @@ export default function MemberList({ memberData }: { memberData: MemberProps[] }
                     <table className="w-full text-slate-500 dark:text-slate-200 text-xs sm:text-sm min-w-[20rem]">
                         <thead className='pb-2 border-b border-b-slate-200 dark:border-b-slate-500'>
                             <tr>
-                                <th colSpan={6}>
+                                <th colSpan={7}>
                                     <TableSearch title='MEMBERS' key={'72088234'} handleSearch={handleSearch} inputRef={inputRef}>
                                     </TableSearch>
                                 </th>
                             </tr>
-                            <tr className='text-slate-600 dark:text-slate-50'>
-                                <th className='whitespace-nowrap px-4 font-light text-xs text-left'>Member Details</th>
-                                <th className='whitespace-nowrap px-4 font-light text-xs text-center'>Date Registered</th>
-                                <th className='whitespace-nowrap px-2 font-light text-xs text-center'>Total Savings</th>
-                                <th className='whitespace-nowrap px-2 font-light text-xs text-center'>Total Deposits</th>
-                                <th className='whitespace-nowrap px-2 font-light text-xs text-center'>Total Withdrawals</th>
-                                <th className='whitespace-nowrap px-2 font-light text-xs text-center'>Current Balance</th>
+                            <tr className='text-slate-600 dark:text-slate-50 text-sm'>
+                                <th className='whitespace-nowrap px-4 font-light text-left'>Member Details</th>
+                                <th className='whitespace-nowrap px-4 font-light text-center'>Date Registered</th>
+                                <th className='whitespace-nowrap px-2 font-light text-center'>Total Savings</th>
+                                <th className='whitespace-nowrap px-2 font-light text-center'>Total Deposits</th>
+                                <th className='whitespace-nowrap px-2 font-light text-center'>Total Withdrawals</th>
+                                <th className='whitespace-nowrap px-2 font-light text-center'>Total Loans</th>
+                                <th className='whitespace-nowrap px-2 font-light text-center'>Current Balance</th>
                             </tr>
                         </thead>
                         <tbody className='w-full'>
                             {
                                 tableData.length ?
                                     tableData.map(member => {
-                                        const totalDeposit = member?.deposits?.reduce((oldTotal,el) => el.amount + oldTotal, 0) || 0
-                                        const totalSaving = member?.savings?.reduce((oldTotal,el) => el.amount + oldTotal, 0) || 0
-                                        const totalWithdrawal = member?.withdrawals?.reduce((oldTotal,el) => el.amount + oldTotal, 0) || 0
+                                        const totalDeposit = member?.deposits?.filter(el => el.verdict === "Granted").reduce((oldTotal,el) => el.amount + oldTotal, 0) || 0
+                                        const totalSaving = member?.savings?.filter(el => el.verdict === "Granted").reduce((oldTotal,el) => el.amount + oldTotal, 0) || 0
+                                        const totalWithdrawal = member?.withdrawals?.filter(el => el.verdict === "Granted").reduce((oldTotal,el) => el.amount + oldTotal, 0) || 0
+                                        const totalLoans = member?.loans?.filter(el => el.verdict === "Granted").reduce((oldTotal,el) => el.amount + oldTotal, 0) || 0
                                         const totalBalance = (totalDeposit + totalSaving).toLocaleString()
                                         return(
                                             <tr key={member?.id} className='hover:bg-slate-50 dark:hover:bg-slate-900/30'>
@@ -68,33 +104,38 @@ export default function MemberList({ memberData }: { memberData: MemberProps[] }
                                                             <Image src={member?.image || edimcs_bookkeeping} alt={`${member?.firstname} ${member?.firstname} ${member?.lastname}`} fill={true} className="absolute left-0 top-0 object-cover w-full h-full" />
                                                         </div>
                                                         <div>
-                                                            <h5 className="text-xs font-medium leading-tight whitespace-nowrap flex items-center">{member?.firstname} {member?.middlename} {member?.lastname} <span className="text-[.4rem] bg-slate-200/50 p-[.2rem] px-[.3rem] rounded-[2px] uppercase ml-2">{member?.type}</span></h5>
-                                                            <p className="text-[.6rem] font-medium opacity-70 leading-tight">{member?.memberId}</p>
+                                                            <h5 className="text-sm font-medium leading-tight whitespace-nowrap flex items-center">{member?.firstname} {member?.middlename} {member?.lastname} <span className="text-[.6rem] bg-slate-200/50 p-[.2rem] px-[.3rem] rounded-[2px] uppercase ml-2">{member?.type}</span></h5>
+                                                            <p className="text-xs font-medium opacity-70 leading-tight">{member?.memberId}</p>
                                                         </div>
                                                     </Link>
                                                 </td>
                                                 <td className="align-middle">
-                                                    <div className="flex justify-center items-center gap-[.2rem] align-middle text-slate-600 dark:text-slate-50 text-[.6rem] py-[.1rem] sm:py-1">
+                                                    <div className="flex justify-center items-center gap-[.2rem] align-middle text-slate-600 dark:text-slate-50 text-xs py-[.1rem] sm:py-1">
                                                         <FaCalendarAlt className="text-inherit mt-[.1rem]" /> <p className="">{moment(member.createdAt).format("DD-MM-YYYY")}</p>
                                                     </div>
                                                 </td>
                                                 <td className="align-middle">
                                                     <div className="flex justify-center items-center align-middle mx-auto">
-                                                        <div className={`bg-teal-100 dark:bg-slate-50 text-teal-600 text-[.6rem] py-[.1rem] sm:py-1 px-3 rounded-sm font-medium`}>&#8358;{totalSaving.toLocaleString()}</div>
+                                                        <div className={`bg-teal-100 dark:bg-slate-50 text-teal-600 text-xs py-[.1rem] sm:py-1 px-3 rounded-sm font-medium`}>&#8358;{totalSaving.toLocaleString()}</div>
                                                     </div>
                                                 </td>
                                                 <td className="align-middle">
                                                     <div className="flex justify-center items-center align-middle mx-auto">
-                                                        <div className={`bg-sky-100 dark:bg-slate-50 text-sky-600 text-[.6rem] py-[.1rem] sm:py-1 px-3 rounded-sm font-medium`}>&#8358;{totalDeposit?.toLocaleString()}</div>
+                                                        <div className={`bg-sky-100 dark:bg-slate-50 text-sky-600 text-xs py-[.1rem] sm:py-1 px-3 rounded-sm font-medium`}>&#8358;{totalDeposit?.toLocaleString()}</div>
                                                     </div>
                                                 </td>
                                                 <td className="align-middle">
                                                     <div className="flex justify-center items-center align-middle mx-auto">
-                                                        <div className={`bg-red-100 dark:bg-slate-50 text-red-600 text-[.6rem] py-[.1rem] sm:py-1 px-3 rounded-sm font-medium whitespace-nowrap`}>-&#8358;{totalWithdrawal.toLocaleString()}</div>
+                                                        <div className={`bg-red-100 dark:bg-slate-50 text-red-600 text-xs py-[.1rem] sm:py-1 px-3 rounded-sm font-medium whitespace-nowrap`}>-&#8358;{totalWithdrawal.toLocaleString()}</div>
                                                     </div>
                                                 </td>
                                                 <td className="align-middle">
-                                                    <h4 className="flex justify-center items-center gap-[.2rem] align-middle text-slate-500 dark:text-slate-50 text-[.6rem] py-[.1rem] sm:py-1">&#8358;{totalBalance.toLocaleString()}</h4>
+                                                    <div className="flex justify-center items-center align-middle mx-auto">
+                                                        <div className={`bg-sky-100 dark:bg-slate-50 text-sky-600 text-xs py-[.1rem] sm:py-1 px-3 rounded-sm font-medium`}>&#8358;{totalLoans?.toLocaleString()}</div>
+                                                    </div>
+                                                </td>
+                                                <td className="align-middle">
+                                                    <h4 className="flex justify-center items-center gap-[.2rem] align-middle text-slate-500 dark:text-slate-50 text-xs py-[.1rem] sm:py-1">&#8358;{totalBalance.toLocaleString()}</h4>
                                                 </td>
                                             </tr>
                                         )

@@ -9,6 +9,7 @@ type UserType = {
   type?: string | null | undefined
   id?: string | null | undefined
   fullname?: string | null | undefined
+  balance?: number | null | undefined
 } | undefined
 
 export const GlobalContext = createContext<UserType>({})

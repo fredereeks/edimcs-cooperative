@@ -1,6 +1,6 @@
 "use client"
 
-import React, { Dispatch, SetStateAction, useContext, useEffect } from 'react'
+import React, { Dispatch, SetStateAction, useEffect } from 'react'
 import { usePathname } from 'next/navigation'
 import Link from 'next/link'
 import { navLinks } from '@/data'
@@ -15,7 +15,7 @@ export default function DashSideBar({ navShow, setNavShow }: { navShow: boolean;
     const pathname = location === "/" || location === "/dashboard" ? "Dashboard" : location.replace("/dashboard/", "");
     const page = pathname[0].toUpperCase() + pathname.slice(1);
     // const session: UserType | undefined = useSession()?.data?.user ? useSession()?.data?.user : {id: '8234', email: 'string', type: 'string', fullname: 'string', image: null}
-   const user  = useContext(GlobalContext)
+   const user  = React.useContext(GlobalContext)
 
     const colorScheme: ColorSchemeProp[] = [
         {
@@ -80,7 +80,7 @@ export default function DashSideBar({ navShow, setNavShow }: { navShow: boolean;
                             </div>
                             <div className="flex flex-col justify-center">
                                  <h4 className="text-primary font-semibold text-xs text-[.7rem] dark:opacity-80">{user?.fullname || 'EDIMCS Member'}</h4>
-                                <p className="text-slate-900 dark:text-slate-900 text-xs opacity-60 dark:opacity-100 font-light">{user?.type}</p> 
+                                <p className="text-slate-900 dark:text-slate-900 text-xs opacity-60 dark:opacity-100 font-light">{user?.balance?.toLocaleString()}</p> 
                             </div>
                         </aside>
                     </div>

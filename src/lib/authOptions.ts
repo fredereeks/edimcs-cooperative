@@ -25,7 +25,7 @@ export const authOptions: NextAuthOptions = {
                 if (!credentials) return null;
                 const { memberId, password } = credentials;
 
-                let member = await prisma.member.findFirst({ where: { memberId: memberId.toUpperCase() } }) || await prisma.member.findFirst({ where: { email: memberId.toLowerCase() } })
+                let member = await prisma.member.findUnique({ where: { memberId: memberId.toUpperCase() } }) || await prisma.member.findUnique({ where: { phone: memberId.toString() } })
                 if (!member) return null
                 // const matchPassword = await bcryptjs.compare(password, member.password)
                 // console.log({ member, password, memberPass: member.password, matchPassword })
@@ -38,7 +38,7 @@ export const authOptions: NextAuthOptions = {
                     throw new Error("Oh No! Your account has been suspended. If you believe this is an error, contact the admin")
                 }
                 else {
-
+                    member = {...member, password: ""}
                     return member
                 }
                 // return {
@@ -94,6 +94,7 @@ export const authOptions: NextAuthOptions = {
                     image: currentUser.image,
                     fullname: `${currentUser.firstname} ${currentUser.middlename} ${currentUser.lastname}`,
                     type: currentUser.type,
+                    balance: currentUser.balance
                 } as {id: string, email: string, image: string, fullname: string, type: string}
             }
 

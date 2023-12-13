@@ -4,6 +4,7 @@ import prisma from "@/lib/prisma"
 import { revalidatePath } from "next/cache";
 import nodeMailer from 'nodemailer'
 import bcryptjs from 'bcryptjs'
+import { MemberRating, MemberType, TransStatus, TransVerdict } from "@prisma/client";
 // import db from "@/lib/db"
 
 export const makeSaving = async (data: FormData) => {
@@ -104,7 +105,8 @@ export const handleSignup = async (data: FormData) => {
     const email = data.get("email")?.valueOf() as string
     const middlename = data.get("middlename")?.valueOf() as string
     const password = data.get("password")?.valueOf() as string
-    const phone = data.get("phone")?.valueOf() as string
+    const rawPhone = data.get("phone")?.valueOf() as string
+    const phone = rawPhone.replaceAll(" ", "")
     const loanRating = data.get("loanRating")?.valueOf() as string
     const memberId = `EDIMCS-${Math.random().toString().slice(4, 8)}${Date.now().toString().slice(8, 10)}`
     // const randomToken = Buffer.from(crypto.randomUUID()).toString('base64')
@@ -264,6 +266,7 @@ export const updateAccountDetails = async (data: FormData) => {
     const id = data.get("id")?.valueOf().toString()!
     const banker = data.get("banker")?.valueOf() as string
     const accountnumber = data.get("accountnumber")?.valueOf() as string
+    const bvn = data.get("bvn")?.valueOf() as number
     const type = data.get("type")?.valueOf()?.toString() || ""
     const confirmPassword = data.get("confirm-password")?.valueOf() as string
     const currentPassword = data.get("extra")?.valueOf() as string
@@ -276,9 +279,9 @@ export const updateAccountDetails = async (data: FormData) => {
           memberId: id
         },
         create: {
-          accountnumber, memberId: id, type: type === "Savings" ? "Savings" : type === "Current" ? "Current" : "Fixed", banker,
+          accountnumber, bvn, memberId: id, type: type === "Savings" ? "Savings" : type === "Current" ? "Current" : "Fixed", banker,
         },
-        update: { accountnumber, memberId: id, type: type === "Savings" ? "Savings" : type === "Current" ? "Current" : "Fixed", banker, }
+        update: { accountnumber, bvn, memberId: id, type: type === "Savings" ? "Savings" : type === "Current" ? "Current" : "Fixed", banker, }
       })
       revalidatePath("/dashboard/profile")
     }
@@ -288,26 +291,132 @@ export const updateAccountDetails = async (data: FormData) => {
   }
 }
 
-// STATUS ACTIONS
-export const statusAction = async (table: string, id: string, status: string, extra?: string) => {
-  try { 
-    const transaction = await prisma.$executeRaw`UPDATE ${table} SET status = ${status} ${extra} WHERE id = ${id}`;
-    console.log({transaction})
-    return { error: false, message: `${table[0].toUpperCase()}${table.slice(1)} verdict has been successfully` }
+export const handleLoanRepayment = async (data: FormData) => {
+  const loanerId = data.get("loaner")?.valueOf() as string
+  const payback = Number(data.get("payback")?.valueOf())
+  const loan = await prisma.loan.update({
+    where: { id: loanerId },
+    data: { payback: {increment: payback } },
+  })
+  if (loan) {
+    if(loan.amount === loan.payback) {
+      // CLEAR LOAN IF RE-PAYMENT IS COMPLETE
+      await prisma.loan.update({
+        where: {id: loanerId},
+        data: {status: "Completed"}
+      })
+    }
+    // revalidatePath("/dashboard/savings")
+    return { error: false, message: `New Loan Repayment of ₦${payback.toLocaleString()} Made Successfully.` }
+  }
+  else {
+    return { error: true, message: "Something went wrong. We could not lodge your saving. Please, try again" }
+  }
+}
+
+// MEMBER TYPE ACTIONS
+export const memberStatusAction = async (id: string, type: string) => {
+  try {
+    await prisma.member.update({
+      where: {id}, data: {type: MemberType[type as keyof typeof MemberType]}
+    })
+    return { error: false, message: `This User is now ${type === "Member" ? 'a' : 'an'} ${type[0].toUpperCase()}${type.slice(1)}` }
+  }
+  catch (err) {
+    return { error: true, message: "Something went wrong while attempting to make your request, please, try again." }
+  }
+}
+// MEMBER UPGRADE ACTIONS
+export const memberUpgradeAction = async (id: string, type: string) => {
+  try {
+    await prisma.member.update({
+      where: {id}, data: {loanRating: MemberRating[type as keyof typeof MemberRating]}
+    })
+    return { error: false, message: `This Member Loan Entitlement has now been changed to ${type[0].toUpperCase()}${type.slice(1)}` }
   }
   catch (err) {
     return { error: true, message: "Something went wrong while attempting to make your request, please, try again." }
   }
 }
 // VERDICT ACTIONS
-export const verdictAction = async (table: string, id: string, verdict: string, extra?: string) => {
-  try { 
-    const status = verdict === "Rejected" || verdict === "Cancelled" ? "Rejected" : "Completed"
-    const transaction = await prisma.$executeRaw`UPDATE ${table} SET verdict = ${verdict}, status = ${status}${extra} WHERE id = ${id}`;
-    console.log({transaction})
-    return { error: false, message: `${table[0].toUpperCase()}${table.slice(1)} verdict has been successfully` }
+export const verdictAction = async (table: string, id: string, verdict: string, interest: number, amount?:number) => {
+  try {
+    let status = verdict === "Granted" && table === "loan" ? "Running" : verdict === "Granted" && table !== "loan" ? "Completed" : "Suspended"
+    let transaction;
+    if (table === "loan") {
+      if (verdict === "Granted") {
+        transaction = await prisma.loan.update({
+          where: { id },
+          data: {
+            verdict: TransVerdict[verdict as keyof typeof TransVerdict], status: TransStatus[status as keyof typeof TransStatus], interest, 
+            // loaner: { update: { balance: { increment: (interest + amount!) } } }
+          }
+        })
+      }
+      else {
+        transaction = await prisma.loan.update({
+          where: { id },
+          data: { verdict: TransVerdict[verdict as keyof typeof TransVerdict], status: TransStatus[status as keyof typeof TransStatus] }
+        })
+      }
+    }
+    else if (table === "deposit") {
+      if (verdict === "Granted") {
+        transaction = await prisma.deposit.update({
+          where: { id },
+          data: {
+            verdict: TransVerdict[verdict as keyof typeof TransVerdict], status: TransStatus[status as keyof typeof TransStatus], interest, depositor: {
+              update: { balance: { increment: (interest + amount!) } }
+            }
+          }
+        })
+      }
+      else {
+        transaction = await prisma.deposit.update({
+          where: { id },
+          data: { verdict: TransVerdict[verdict as keyof typeof TransVerdict], status: TransStatus[status as keyof typeof TransStatus], interest }
+        })
+      }
+    }
+    else if (table === "saving") {
+      if (verdict === "Granted") {
+        transaction = await prisma.saving.update({
+          where: { id },
+          data: {
+            verdict: TransVerdict[verdict as keyof typeof TransVerdict], status: TransStatus[status as keyof typeof TransStatus], interest, saver: {
+              update: { balance: { increment: (interest + amount!) } }
+            }
+          }
+        })
+      }
+      else {
+        transaction = await prisma.saving.update({
+          where: { id },
+          data: { verdict: TransVerdict[verdict as keyof typeof TransVerdict], status: TransStatus[status as keyof typeof TransStatus], interest }
+        })
+      }
+    }
+    else {
+      if (verdict === "Granted") {
+        transaction = await prisma.withdrawal.update({
+          where: { id },
+          data: {
+            verdict: TransVerdict[verdict as keyof typeof TransVerdict], status: TransStatus[status as keyof typeof TransStatus], interest, withdrawer: {
+              update: { balance: { decrement: (interest + amount!) } }
+            }
+          }
+        })
+      }
+      else {
+        transaction = await prisma.withdrawal.update({
+          where: { id },
+          data: { verdict: TransVerdict[verdict as keyof typeof TransVerdict], status: TransStatus[status as keyof typeof TransStatus], interest }
+        })
+      }
+    }
+    return { error: false, message: `${table[0].toUpperCase()}${table.slice(1)} has been successfully ${verdict}` }
   }
   catch (err) {
-    return { error: true, message: "Something went wrong while attempting to make your request, please, try again." }
+    return { error: true, message: `Something went wrong while attempting to make your request, please, try again. ${err}` }
   }
 }
