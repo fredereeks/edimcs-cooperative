@@ -1,3 +1,5 @@
+export const dynamic = 'force-dynamic', revalidate = 10
+
 import { Inter } from 'next/font/google'
 import '../globals.css'
 import "tw-elements/dist/css/tw-elements.min.css";

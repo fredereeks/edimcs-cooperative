@@ -4,6 +4,7 @@ import React from 'react'
 import SingleMemberData from './SingleMemberData'
 import { MemberProps } from '@/types'
 import prisma from '@/lib/prisma'
+import { fetchUser } from '@/app/(auth)/actions'
 
 type PageProp = {
     params: {
@@ -20,9 +21,10 @@ const fetchMember = async (id: string) => {
 
 export default async function page({ params: { id } }: PageProp) {
     const member: MemberProps = await fetchMember(id);
+    const user: MemberProps = await fetchUser()
     return (
         <main className="relative">
-            <SingleMemberData member={member} />
+            <SingleMemberData member={member} user={user} />
         </main>
     )
 }

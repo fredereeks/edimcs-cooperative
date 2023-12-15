@@ -15,9 +15,6 @@ import moment from 'moment'
 import { handleDeposits, verdictAction } from '@/actions'
 
 
-// import {useForm} from 'react-hook-form'
-const table = "deposit"
-
 export default function DepositList({ depositData, user }: { depositData: DepositProps[], user: MemberProps }) {
     const [allTableData, setAllTableData] = useState<DepositProps[] | []>(depositData)
     const [tableData, setTableData] = useState<DepositProps[] | []>(depositData)
@@ -32,6 +29,10 @@ export default function DepositList({ depositData, user }: { depositData: Deposi
     const [selectedDeposit, setSelectedDeposit] = useState<DepositProps>()
     const [loading, setLoading] = useState<boolean>(false)
     const router = useRouter()
+
+    const refreshData = () => {
+        router.replace(location.pathname);
+      };
 
 
     const showReview = (id: string) => {
@@ -74,7 +75,8 @@ export default function DepositList({ depositData, user }: { depositData: Deposi
                 toast.success(res?.message, {id: "8290", duration: 5000})
             }
             setLoading(false)
-            router.refresh()
+            router.push("/dashboard/deposits")
+            refreshData()
         } catch (error) {
             toast.error(`Unable to process your request. Please, check your connection and try again`)
         }
@@ -133,7 +135,7 @@ export default function DepositList({ depositData, user }: { depositData: Deposi
             toast.success(res?.message, { id: "8290", duration: 5000 })
         }
         setLoading(false)
-        router.refresh()
+        router.push("/dashboard/deposits")
     }
 
     return (

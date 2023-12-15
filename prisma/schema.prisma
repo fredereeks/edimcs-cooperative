@@ -34,6 +34,11 @@ enum MemberType {
   Admin
 }
 
+enum MemberRanking {
+  Super
+  Normal
+}
+
 enum MemberRating {
   Basic
   BasicPlus
@@ -75,6 +80,7 @@ model Member {
   phone            String?         @unique @db.VarChar(15)
   address          String?         @db.VarChar(200)
   type             MemberType      @default(Member)
+  access           MemberRanking   @default(Normal)
   status           Status          @default(Pending)
   token            String?         @db.VarChar(40)
   createdAt        DateTime        @default(now())
@@ -216,6 +222,22 @@ model Withdrawal {
 // }
 
 // ===CTTI
+enum BatchType {
+  Morning
+  Afternoon
+  Evening
+}
+
+enum MainStatus {
+  Pending
+  Active
+  Suspended
+}
+
+enum ReadStatus {
+  Read
+  Unread
+}
 
 enum UserType {
   User
@@ -223,9 +245,75 @@ enum UserType {
   Admin
 }
 
-enum ReadStatus {
-  Read
-  Unread
+model Category {
+  id          String   @id @default(cuid())
+  name        String
+  courses     Course[]
+  description String?
+  // description String? @db.VarChar(200) @default("We provide you expert instructors, guides,materials and resources to propel you into becoming a professional beyond the periphery while spliting the learning process easily consummable bits for a smooth and progressive understanding.")
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @default(now()) @updatedAt
+  updatedBy   String?
+
+  @@unique([name])
+}
+
+model ContactMessage {
+  id         String     @id @default(cuid())
+  firstname  String
+  middlename String?
+  lastname   String
+  email      String
+  phone      String
+  country    String?
+  state      String?
+  message    String     @db.LongText()
+  status     ReadStatus @default(Unread)
+  createdAt  DateTime   @default(now())
+  updatedAt  DateTime   @default(now()) @updatedAt
+  updatedBy  String?
+}
+
+model Course {
+  id            String       @id @default(cuid())
+  title         String       @db.VarChar(100)
+  image         String?
+  price         Int?
+  duration      String
+  description   String?
+  // description String? @db.VarChar(200) @default("We provide you with guides, instructors, materials and resources to propel you into becoming a programming-and-development professional beyond the periphery while splitting the learning process easily consumable bits for a smooth and progressive understanding. By the end of the course, students will be able to boast a solid knowledge")
+  category      Category     @relation(fields: [categoryId], references: [id])
+  categoryId    String
+  requisite     Json?
+  contents      Json?
+  status        MainStatus   @default(Active)
+  batches       Batch[]
+  // enquiry       Enquiry[]
+  instructorsId String?
+  rating        Rating[]
+  users         User?        @relation(fields: [userId], references: [id])
+  userId        String?
+  createdAt     DateTime     @default(now())
+  updatedAt     DateTime     @default(now()) @updatedAt
+  updatedBy     String?
+  Instructor    Instructor[]
+}
+
+model Instructor {
+  id       String  @id @default(cuid())
+  user     User?   @relation(fields: [userId], references: [id])
+  userId   String
+  course   Course? @relation(fields: [courseId], references: [id])
+  courseId String? @unique
+}
+
+model Batch {
+  id        String    @id @default(cuid())
+  startDate DateTime
+  month     String
+  type      BatchType @default(Morning)
+  course    Course?   @relation(fields: [courseId], references: [id])
+  courseId  String
 }
 
 model Enquiry {
@@ -248,18 +336,39 @@ model Enquiry {
   updatedBy  String?
 }
 
-model ContactMessage {
-  id         String     @id @default(cuid())
+model User {
+  id          String       @id @default(cuid())
+  firstname   String
+  middlename  String?
+  lastname    String
+  email       String       @unique
+  phone       String       @unique
+  password    String
+  image       String?
+  address     String?      @db.MediumText()
+  country     String?
+  state       String?
+  status      MainStatus   @default(Pending)
+  type        UserType     @default(User)
+  course      Instructor[]
+  enrolledFor Course[]
+  token       String?      @db.VarChar(40)
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @default(now()) @updatedAt
+  updatedBy   String?
+}
+
+model Rating {
+  id         String   @id @default(cuid())
   firstname  String
   middlename String?
   lastname   String
   email      String
-  phone      String
-  country    String?
-  state      String?
-  message    String     @db.LongText()
-  status     ReadStatus @default(Unread)
-  createdAt  DateTime   @default(now())
-  updatedAt  DateTime   @default(now()) @updatedAt
+  course     Course   @relation(fields: [courseId], references: [id])
+  courseId   String
+  value      Int
+  text       String   @db.VarChar(300)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @default(now()) @updatedAt
   updatedBy  String?
 }

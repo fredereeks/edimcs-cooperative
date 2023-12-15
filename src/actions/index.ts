@@ -4,7 +4,7 @@ import prisma from "@/lib/prisma"
 import { revalidatePath } from "next/cache";
 import nodeMailer from 'nodemailer'
 import bcryptjs from 'bcryptjs'
-import { MemberRating, MemberType, TransStatus, TransVerdict } from "@prisma/client";
+import { MemberRating, MemberType, Status, TransStatus, TransVerdict } from "@prisma/client";
 // import db from "@/lib/db"
 
 export const makeSaving = async (data: FormData) => {
@@ -261,6 +261,41 @@ export const updateProfile = async (data: FormData) => {
     return { error: true, message: "Something went wrong while attempting to make your request, please, try again." }
   }
 }
+export const updateMemberProfile = async (data: FormData) => {
+  try {
+    const id = data.get("id")?.valueOf() as string
+    const loanRating = data.get("loanRating")?.valueOf() as string
+    const status = data.get("status")?.valueOf() as string
+    const type = data.get("type")?.valueOf() as string
+    const firstname = data.get("firstname")?.valueOf() as string
+    const middlename = data.get("middlename")?.valueOf()?.toString() || ""
+    const lastname = data.get("lastname")?.valueOf() as string
+    const phone = data.get("phone")?.valueOf() as string
+    const address = data.get("address")?.valueOf() as string
+    const email = data.get("email")?.valueOf() as string
+    const confirmPassword = data.get("confirm-password")?.valueOf() as string
+    const currentPassword = data.get("extra")?.valueOf() as string
+    // Confirm Password
+    const matchPassword = bcryptjs.compareSync(confirmPassword, currentPassword)
+    if (!matchPassword) return { error: true, message: "Invalid Admin confirmation password supplied. This must match your current password" }
+    else {
+      const findSimilarUser = await prisma.member.findFirst({
+        where: {email: email.toLowerCase(), OR: [{ phone }], NOT: { id } },
+      })
+      if (findSimilarUser) return { error: true, message: "Sorry. There is another member with that email or phone number. Please, try another" }
+      await prisma.member.update({
+        where: { id },
+        data: {
+          firstname, middlename, lastname, phone, email: email.toLowerCase(), address, loanRating: MemberRating[loanRating as keyof typeof MemberRating],  type: MemberType[type as keyof typeof MemberType], status: Status[status as keyof typeof Status]
+        }
+      })
+      revalidatePath("/dashboard/member")
+    }
+    return { error: false, message: `Member Profile Updated Successfully.` }
+  } catch (err) {
+    return { error: true, message: "Something went wrong while attempting to modify Member's Profile, please, try again." }
+  }
+}
 export const updateAccountDetails = async (data: FormData) => {
   try {
     const id = data.get("id")?.valueOf().toString()!
@@ -359,6 +394,7 @@ export const verdictAction = async (table: string, id: string, verdict: string, 
           data: { verdict: TransVerdict[verdict as keyof typeof TransVerdict], status: TransStatus[status as keyof typeof TransStatus] }
         })
       }
+      revalidatePath("/dashboard/withdrawals")
     }
     else if (table === "deposit") {
       if (verdict === "Granted") {
@@ -377,6 +413,7 @@ export const verdictAction = async (table: string, id: string, verdict: string, 
           data: { verdict: TransVerdict[verdict as keyof typeof TransVerdict], status: TransStatus[status as keyof typeof TransStatus], interest }
         })
       }
+      revalidatePath("/dashboard/deposits")
     }
     else if (table === "saving") {
       if (verdict === "Granted") {
@@ -395,6 +432,7 @@ export const verdictAction = async (table: string, id: string, verdict: string, 
           data: { verdict: TransVerdict[verdict as keyof typeof TransVerdict], status: TransStatus[status as keyof typeof TransStatus], interest }
         })
       }
+      revalidatePath("/dashboard/savings")
     }
     else {
       if (verdict === "Granted") {
@@ -413,10 +451,33 @@ export const verdictAction = async (table: string, id: string, verdict: string, 
           data: { verdict: TransVerdict[verdict as keyof typeof TransVerdict], status: TransStatus[status as keyof typeof TransStatus], interest }
         })
       }
+      revalidatePath("/dashboard/withdrawals")
     }
     return { error: false, message: `${table[0].toUpperCase()}${table.slice(1)} has been successfully ${verdict}` }
   }
   catch (err) {
     return { error: true, message: `Something went wrong while attempting to make your request, please, try again. ${err}` }
+  }
+}
+
+// DELETE ACTIONS
+export const deleteAction = async (data: FormData) => {
+  const id = data.get("deleteId")?.valueOf() as string
+  try {
+    await prisma.$transaction([
+      prisma.member.delete({ where: {id} }),
+      prisma.loan.deleteMany({ where: {loanerId: id} }),
+      prisma.deposit.deleteMany({ where: {depositorId: id} }),
+      prisma.withdrawal.deleteMany({ where: {withdrawerId: id} }),
+      prisma.saving.deleteMany({ where: {saverId: id} }),
+      prisma.message.deleteMany({where: {OR: [{receiverId: id, senderId: id}]}})
+    ])
+    return { error: false, message: `Member has been successfully` }
+  }
+  catch (err) {
+    return { error: true, message: `Something went wrong while attempting to make your request, please, try again. ${err}` }
+  }
+  finally{
+    revalidatePath("/dashboard/members")
   }
 }

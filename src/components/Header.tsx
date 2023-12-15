@@ -50,7 +50,7 @@ export default function Header() {
                         <p className={`text-sm sm:text-base -my-1 sm:-my-2 tracking-widest font-extrabold uppercase ${fixed ? "text-red-500" : "text-slate-300"}`}>SAVE MORE...</p>
                     </div>
                 </Link>
-                <nav className={`absolute z-[990] left-0 md:left-0 overflow-hidden md:relative flex-1 flex flex-col md:flex-row md:items-center shadow-md transition-all duration-300 ${navShow ? 'max-h-[1000%] top-full md:top-0' : 'max-h-0 md:max-h-[1000%] -top-[130%]'} md:top-0 w-screen md:w-max md:shadow-none bg-white md:bg-transparent md:mx-0`}>
+                <nav className={`absolute z-[990] md:static flex-1 flex flex-col md:flex-row md:items-center top-full shadow-md transition-all duration-300 ${navShow ? 'left-0' : 'left-[100vw]'} w-screen md:w-max md:shadow-none bg-white md:bg-transparent mx-0`}>
                     <ul className="list-none flex-1 flex flex-col md:flex-row md:items-center md:justify-center gap-0 md:gap-4 px-0">
                         {headerLinks.map((link) => (
                             <LinkCard fixed={fixed} key={link.id} {...link} />

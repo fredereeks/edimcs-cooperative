@@ -117,6 +117,7 @@ export default function WithdrawalList({ withdrawalData, user }: { withdrawalDat
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
+        console.log({balance: user?.balance!})
         if(user?.balance! < 500 || user?.balance! < Number(amountRef?.current?.value)){
             toast.error('Your balance is insufficient for the amount requested. Please, make a deposit or savings first')
             return;

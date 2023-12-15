@@ -1,9 +1,7 @@
-export const dynamic = 'force-static', revalidate = 'force-cache'
+export const dynamic = 'force-static', revalidate = '60'
 
 import React from 'react'
 import MemberList from './MemberList'
-import { MemberProps } from '@/types'
-import prisma from '@/lib/prisma'
 import { fetchMembers } from '../../actions'
 import { Metadata } from 'next'
 

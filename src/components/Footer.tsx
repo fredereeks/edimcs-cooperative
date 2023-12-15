@@ -28,7 +28,7 @@ export default function Footer() {
           <small className="text-slate-400">&copy; Copyright. {new Date().getFullYear()} EDIMCS. All Rights Reserved.</small>
           <div className="flex gap-4 w-max">
             <Link href={"/privacy-policy"} className="text-xs sm:text-sm flex gap-1 items-center text-slate-400 hover:text-slate-200">Privacy Policy</Link>
-            <Link href={"/site-map.xml"} className="text-xs sm:text-sm flex gap-1 items-center text-slate-400 hover:text-slate-200">Sitemap</Link>
+            <Link href={"/sitemap.xml"} className="text-xs sm:text-sm flex gap-1 items-center text-slate-400 hover:text-slate-200">Sitemap</Link>
           </div>
         {/* </div> */}
       </div>

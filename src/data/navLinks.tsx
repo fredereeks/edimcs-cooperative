@@ -28,7 +28,7 @@ export const navLinks : NavLinkProps[] = [
         title: 'Deposit',
         // background: 'bg-slate-200',
         element: <span className='border border-slate-500 bg-slate-200 text-slate-500 text-sm sm:text-base h-6 w-6 rounded-full flex justify-center items-center'><IoMailUnreadOutline className='text-inherit ' /></span>,
-        link: '/dashboard/deposit',
+        link: '/dashboard/deposits',
         icon: <MdAccountBalanceWallet className='text-inherit ' />
     },
     {
@@ -36,7 +36,7 @@ export const navLinks : NavLinkProps[] = [
         title: 'Withdrawal',
         // background: 'bg-slate-200',
         element: <span className='border border-slate-500 bg-slate-200 text-slate-500 text-sm sm:text-base h-6 w-6 rounded-full flex justify-center items-center'><IoMailUnreadOutline className='text-inherit ' /></span>,
-        link: '/dashboard/withdrawal',
+        link: '/dashboard/withdrawals',
         icon: <MdAttachMoney className='text-inherit ' />
     },
     {

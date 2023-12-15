@@ -35,7 +35,7 @@ export default function LoanList({ loansData, user }: { loansData: LoanProps[], 
     const [loading, setLoading] = useState<boolean>(false)
     const router = useRouter()
     const loanRating = user?.loanRating
-    const maxLoanAmount = loanRating === "Basic" ? 100000 : loanRating === "Standard" ? 200000 : loanRating === "StandardPlus" ? 950000 : 5000000
+    const maxLoanAmount = loanRating === "Basic" ? 100000 : loanRating === "BasicPlus" ? 200000 : loanRating === "Standard" ? 300000 : loanRating === "StandardPlus" ? 950000 : 5000000
 
 
     const showReview = (id: string) => {
@@ -168,11 +168,11 @@ export default function LoanList({ loansData, user }: { loansData: LoanProps[], 
         const formData = new FormData(repaymentFormRef?.current!)
         const res = await handleLoanRepayment(formData)
         if (res.error) {
-            modalRef.current?.close()
+            reviewRef.current?.close()
             toast.error(res?.message, { id: "8290", duration: 5000 })
         }
         else {
-            modalRef.current?.close()
+            reviewRef.current?.close()
             toast.success(res?.message, { id: "8290", duration: 5000 })
         }
         setLoading(false)
@@ -306,7 +306,7 @@ export default function LoanList({ loansData, user }: { loansData: LoanProps[], 
                             <div className="flex justify-between items-center gap-4 text-slate-600">
                                 <div className="flex flex-col">
                                     <h5 className="text-sm font-semibold leading-tight whitespace-nowrap flex items-center">{`${user?.firstname} ${user?.middlename} ${user?.lastname}`} </h5>
-                                    <p className="text-slate-400 text-xs py-[.1rem] sm:py-1">Your Current Balance: &#8358;{user?.balance?.toLocaleString()}</p>
+                                    <p className="text-slate-400 text-xs py-[.1rem] sm:py-1">Your Current Balance: &#8358;{user?.balance?.toLocaleString() || 0}</p>
                                 </div>
                                 <div className="flex justify-center items-center gap-[.2rem] align-middle dark:text-slate-100 text-[.6rem]">
                                     <FaCalendarAlt className="text-inherit opacity-60" /> <p className="">{moment(new Date().getTime()).format("DD-MM-YYYY")}</p>
@@ -394,7 +394,7 @@ export default function LoanList({ loansData, user }: { loansData: LoanProps[], 
                         </div>
                     </div>
                     <div className="flex justify-between items-center border border-slate-200 border-l-0 border-r-0 py-4">
-                        <h3 className="-my-2 text-slate-700 text-center text-lg font-bold"><span className="text-xs font-light flex items-center">Amount Requested:</span> &#8358;{selectedLoan?.amount.toLocaleString()}</h3>
+                        <h3 className="-my-2 text-slate-700 text-center text-lg font-bold"><span className="text-xs font-light flex items-center">Loan Requested:</span> &#8358;{selectedLoan?.amount.toLocaleString()}</h3>
                         <h3 className="-my-2 text-slate-700 text-center text-lg font-bold"><span className="text-xs font-light flex items-center">Amount Repaid:</span> &#8358;{selectedLoan?.payback?.toLocaleString() || 0}</h3>
                     </div>
                 </div>

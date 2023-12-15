@@ -1,10 +1,10 @@
-import { edimcs_blackpeople, edimcs_cardholder, edimcs_director, edimcs_happy_staff } from '@/assets/images'
+import { edimcs_boss_staff, edimcs_director, edimcs_happy_staff } from '@/assets/images'
 import Image from 'next/image'
 import Link from 'next/link'
 import React from 'react'
 import parse from 'html-react-parser'
 import { AiFillCompass, AiOutlineIdcard, AiOutlineKey } from 'react-icons/ai'
-import { IoAirplaneOutline, IoArrowForward, IoScaleOutline, IoTelescopeOutline } from 'react-icons/io5'
+import { IoAirplaneOutline, IoArrowForward, IoTelescopeOutline } from 'react-icons/io5'
 import { FaScaleBalanced } from 'react-icons/fa6'
 import { Metadata } from 'next'
 
@@ -58,8 +58,8 @@ export default function page() {
             <figure className="relative min-h-[400px] sm:h-full p-10 w-full md:w-full overflow-hidden">
               <Image src={edimcs_director} alt='Money Saver Calculator' className='-scale-x-100 rounded-xl object-cover object-bottom' fill={true} />
             </figure>
-            <figure className="rounded-xl shadow-lg shadow-slate-400 absolute z-10 right-0 -bottom-5 h-[150px] w-[150px] overflow-hidden">
-              <Image src={edimcs_blackpeople} alt='Money Saver Calculator' className='rounded-xl object-cover' fill={true} />
+            <figure className="rounded-xl -scale-x-100 shadow-lg shadow-slate-400 absolute z-10 right-0 -bottom-5 h-[150px] w-[150px] overflow-hidden">
+              <Image src={edimcs_boss_staff} alt='Money Saver Calculator' className='rounded-xl object-cover' fill={true} />
             </figure>
             <figure className="rounded-xl shadow-lg shadow-slate-400 absolute z-10 sm:-left-5 md:left-4/5 -right-4 bottom-[200px] md:bottom-4/5 lg:bottom-[200px] h-[150px] w-[150px] overflow-hidden">
               <Image src={edimcs_happy_staff} alt='Money Saver Calculator' className='rounded-xl object-cover' fill={true} />

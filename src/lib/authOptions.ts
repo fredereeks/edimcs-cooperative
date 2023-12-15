@@ -38,7 +38,7 @@ export const authOptions: NextAuthOptions = {
                     throw new Error("Oh No! Your account has been suspended. If you believe this is an error, contact the admin")
                 }
                 else {
-                    member = {...member, password: ""}
+                    // member = {...member, password: ""}
                     return member
                 }
                 // return {

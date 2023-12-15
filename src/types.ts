@@ -44,12 +44,23 @@ export interface HeaderLinkProps {
     id: number
     title: string
     url: string
+    sublinks?:
+    {
+        id: number
+        title: string
+        url: string
+    }[]
 }
 
 export interface LinkCardProps {
     title: string
     url: string
-    fixed: boolean
+    fixed: boolean,
+    sublinks?: {
+        id: number
+        title: string
+        url: string
+    }[]
 }
 
 // export type LoanProps = {
@@ -94,8 +105,8 @@ export type MessageProps = {
     phone: string
     message: string
     status: "Read" | "Unread"
-    createdAt?: string | Date 
-    updatedAt?: string | Date 
+    createdAt?: string | Date
+    updatedAt?: string | Date
     updatedBy?: string
 }
 
@@ -143,7 +154,7 @@ export type InvestmentProps = {
     createdAt: string | Date
     updatedAt: string | Date
     updatedBy?: string | Date
-  }
+}
 
 // export type MembersProp = {
 //     id: string; image?: StaticImageData | string; firstname: string; middlename: string; lastname: string; email: string; status?: string; phone?: string | number; type?: "Admin" | "Member";
@@ -168,7 +179,7 @@ export type MemberProps = {
     createdAt?: string | Date
     updatedAt?: string | Date
     updatedBy?: string | Date
-    loanRating?: "Basic" | "Standard" | "StandardPlus" | "Premium"
+    loanRating?: "Basic" | "BasicPlus" | "Standard" | "StandardPlus" | "Premium"
     accountDetails?: AccountDetailsProps[]
     loans?: LoanProps[]
     savings?: SavingsProps[]
@@ -176,7 +187,7 @@ export type MemberProps = {
     receivedMessages?: MessageProps[]
     investments?: InvestmentProps[]
     beneficiary?: InvestmentProps[]
-    deposits?: DepositProps[] 
+    deposits?: DepositProps[]
     withdrawals?: WithdrawalProps[]
     balance?: number
 }

@@ -4,16 +4,22 @@ import { authOptions } from "@/lib/authOptions";
 import prisma from "@/lib/prisma"
 import { DepositProps, LoanProps, MemberProps, SavingsProps, WithdrawalProps } from "@/types";
 import { getServerSession } from "next-auth";
+import { signOut } from "next-auth/react";
+import { redirect } from "next/navigation";
 
 export const fetchUser = async () => {
     const session = await getServerSession(authOptions);
     const user = session?.user;
-    const member = await prisma.member.findUnique({
+    const member = await prisma.member.findFirst({
         where: {
             email: user?.email!
         },
-        select: { id: true, firstname: true, middlename: true, lastname: true, image: true, memberId: true, address: true, email: true, phone: true, type: true, loanRating: true, accountDetails: true, savings: { where: { verdict: "Granted" } }, deposits: { where: { verdict: "Granted" } } },
+        select: { id: true, firstname: true, middlename: true, lastname: true, image: true, memberId: true, password: true, address: true, email: true, phone: true, type: true, status: true, balance: true, loanRating: true, accountDetails: true, savings: { where: { verdict: "Granted" } }, deposits: { where: { verdict: "Granted" } } },
     })
+    if(!member || member.status === "Disabled") {
+        signOut()
+        // redirect("/auth/login")
+    }
     return member as MemberProps
 }
 
@@ -54,6 +60,7 @@ export const fetchMembers = async () => {
     const members = await prisma.member.findMany({
         include: { accountDetails: true, deposits: true, loans: true, savings: true, withdrawals: true }, orderBy: { createdAt: "desc" }
     })
+    // if(!members) redirect("/auth/login")
     return members as MemberProps[]
 }
 
