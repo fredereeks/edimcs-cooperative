@@ -1,10 +1,7 @@
 import type { Metadata } from 'next'
 import React, { ReactElement } from 'react'
-import { edimcs_blackpeople, edimcs_calculator, edimcs_cliff, edimcs_coinstack, edimcs_moneybox } from '@/assets/images'
 
-import { TransactionProps } from '@/types'
 import {DashCharts} from '../ui'
-import TransactionList from './TransactionList';
 import { fetchMembers, fetchUser } from '../actions'
 import prisma from '@/lib/prisma'
 

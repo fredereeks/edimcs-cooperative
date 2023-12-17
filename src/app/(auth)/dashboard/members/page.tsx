@@ -1,4 +1,4 @@
-export const dynamic = 'force-static', revalidate = '60'
+// export const dynamic = 'force-static', revalidate = '60'
 
 import React from 'react'
 import MemberList from './MemberList'

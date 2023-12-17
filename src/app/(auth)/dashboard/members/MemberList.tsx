@@ -14,7 +14,6 @@ import toast from 'react-hot-toast'
 
 
 export default function MemberList({ memberData }: { memberData: MemberProps[] }) {
-    console.log({memberData})
     const [allTableData, setAllTableData] = useState<MemberProps[] | []>(memberData)
     const [tableData, setTableData] = useState<MemberProps[] | []>(memberData)
     const modalRef = useRef<HTMLDialogElement | null>(null)

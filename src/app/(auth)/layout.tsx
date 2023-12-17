@@ -1,4 +1,4 @@
-export const dynamic = 'force-dynamic', revalidate = 10
+// export const dynamic = 'force-dynamic', revalidate = 10
 
 import { Inter } from 'next/font/google'
 import '../globals.css'

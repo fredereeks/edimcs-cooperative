@@ -1,4 +1,4 @@
-export const dynamic = 'force-static', revalidate = 'force-cache'
+// export const dynamic = 'force-static', revalidate = 'force-cache'
 
 import React from 'react'
 import SingleMemberData from './SingleMemberData'
