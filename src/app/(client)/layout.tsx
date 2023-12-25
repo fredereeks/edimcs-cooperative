@@ -4,6 +4,7 @@ import '../globals.css'
 import { AosProvider, Footer, Header } from '@/components'
 import { Toaster } from 'react-hot-toast'
 import { Provider } from '@/provider'
+import { EdgeStoreProvider } from '@/lib/edgestore'
 
 const mulish = Mulish({ weight: ["200", "300", "400", "500", "600", "700", "800", "900"], subsets: ['latin'] })
 
@@ -25,9 +26,11 @@ export default function RootLayout({
           <Toaster />
           <Header />
           <AosProvider>
-            <>
-              {children}
-            </>
+            <EdgeStoreProvider>
+              <>
+                {children}
+              </>
+            </EdgeStoreProvider>
           </AosProvider>
           <Footer />
         </Provider>

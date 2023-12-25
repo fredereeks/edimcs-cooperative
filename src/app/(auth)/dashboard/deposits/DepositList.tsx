@@ -13,6 +13,7 @@ import { TableSearch } from '../../ui'
 import { edimcs_dollarbills } from '@/assets/images'
 import moment from 'moment'
 import { handleDeposits, verdictAction } from '@/actions'
+import { handleExport } from '@/lib/handleExport'
 
 
 export default function DepositList({ depositData, user }: { depositData: DepositProps[], user: MemberProps }) {
@@ -138,6 +139,17 @@ export default function DepositList({ depositData, user }: { depositData: Deposi
         router.push("/dashboard/deposits")
     }
 
+    const handleDownload = async (e: React.MouseEvent) => {
+        try {
+            const heading = [`S/N`, `Member Details`, `Amount`, `Date`, `Status`, `Verdict`];
+            const fileName = `Deposit Record - ${moment(new Date()).format("DD-MM-YYYY")}`
+            const data = tableData.map((deposit, i) => ([`${i + 1}`, `${deposit?.depositor?.firstname} ${deposit?.depositor?.middlename} ${deposit?.depositor?.lastname}`, deposit?.amount, moment(deposit?.createdAt).format("MM-DD-YYYY"), deposit?.status, deposit?.verdict]))
+            await handleExport(heading, data, fileName)
+        } catch (error) {
+            toast.error(`Unable to export selected record. Please, try again`, { id: "8290", duration: 6000})
+        }
+    }
+
     return (
         <>
             <section className="relative flex flex-col gap-2 p-4 bg-white dark:bg-[#dbf0f724] dark:shadow-black shadow-slate-200 shadow-md rounded-lg">
@@ -149,6 +161,7 @@ export default function DepositList({ depositData, user }: { depositData: Deposi
                                     <TableSearch title='DEPOSIT' key={'72088234'} handleSearch={handleSearch} inputRef={inputRef}>
                                         <div className="md:ml-[5rem] flex gap-2">
                                             <button onClick={() => modalRef.current?.showModal()} className="text-white bg-sky-500 px-4 py-2 rounded-md cursor-pointer text-xs font-light">Make Deposit</button>
+                                            <button onClick={handleDownload} className="bg-default hover:bg-default/90 text-white text-xs font-light rounded-md py-2 px-4 cursor-pointer hover:shadow-default">Download Record</button>
                                         </div>
                                     </TableSearch>
                                 </th>
@@ -257,7 +270,7 @@ export default function DepositList({ depositData, user }: { depositData: Deposi
             }
             <Modal modalRef={modalRef}>
                 <div className='p-5 flex flex-col gap-4'>
-                    <span className="text-[.6rem] sm:text-[.75rem] text-sky-700 bg-sky-200/50 dark:bg-sky-200 py-2 px-[.3rem] rounded-xs uppercase text-center">Savings Form </span>
+                    <span className="text-[.6rem] sm:text-[.75rem] text-sky-700 bg-sky-200/50 dark:bg-sky-200 py-2 px-[.3rem] rounded-xs uppercase text-center">Deposit Form </span>
                     <div className="w-full flex items-center gap-2">
                         <div className={`h-7 sm:h-8 w-7 sm:w-8 flex-shrink-0 flex justify-center items-center rounded-full overflow-hidden relative bg-sky-400 dark:bg-slate-100 text-slate-100 dark:text-slate-600`}>
                             <MdAccountBalanceWallet className='text-sm sm:text-base' />
@@ -271,6 +284,12 @@ export default function DepositList({ depositData, user }: { depositData: Deposi
                                 <div className="flex justify-center items-center gap-[.2rem] align-middle dark:text-slate-100 text-[.6rem]">
                                     <FaCalendarAlt className="text-inherit opacity-60" /> <p className="">{moment(new Date().getTime()).format("DD-MM-YYYY")}</p>
                                 </div>
+                            </div>
+                            <div className="py-2 text-center text-xs md:text-sm text-sky-500 bg-sky-100 rounded-md md:col-span-2 flex flex-col divider-y divider-slate-200">
+                                <h3 className="font-bold text-center">Please Make your Deposit into this Account BEFORE filling out the form</h3>
+                                <div className="flex justify-between py-1"><span>Bank Name:</span> <span>Premium Trust</span></div>
+                                <div className="flex justify-between py-1"><span>Account Number:</span> 0040102612</span></div>
+                                <div className="flex justify-between py-1"><span>Account Name:</span> <span>Enlightenment Drive Initiative Multipurpose Cooperative Society</span></div>
                             </div>
                         </div>
                     </div>

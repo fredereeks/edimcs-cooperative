@@ -4,18 +4,18 @@ import React, { Dispatch, SetStateAction, useEffect } from 'react'
 import { usePathname } from 'next/navigation'
 import Link from 'next/link'
 import { navLinks } from '@/data'
-import { ColorSchemeProp } from '@/types'
+import { ColorSchemeProp, MemberProps } from '@/types'
 import Image from 'next/image'
 import { edimcs_logo } from '@/assets/images'
 import { GlobalContext } from './GlobalProvider'
 
 
-export default function DashSideBar({ navShow, setNavShow }: { navShow: boolean; setNavShow: Dispatch<SetStateAction<boolean>>; }) {
+export default function DashSideBar({ navShow, setNavShow, user }: { navShow: boolean; setNavShow: Dispatch<SetStateAction<boolean>>; user: MemberProps }) {
     const location = usePathname();
     const pathname = location === "/" || location === "/dashboard" ? "Dashboard" : location.replace("/dashboard/", "");
     const page = pathname[0].toUpperCase() + pathname.slice(1);
-    // const session: UserType | undefined = useSession()?.data?.user ? useSession()?.data?.user : {id: '8234', email: 'string', type: 'string', fullname: 'string', image: null}
-   const user  = React.useContext(GlobalContext)
+    const userImage = user?.image || edimcs_logo, fullname = `${user?.firstname} ${user?.middlename} ${user?.lastname}`
+
 
     const colorScheme: ColorSchemeProp[] = [
         {
@@ -79,8 +79,8 @@ export default function DashSideBar({ navShow, setNavShow }: { navShow: boolean;
                                 <div className="absolute w-[.6rem] h-2 rounded-sm bg-orange-200 top-1/2 -translate-y-1/2 left-1"></div>
                             </div>
                             <div className="flex flex-col justify-center">
-                                 <h4 className="text-primary font-semibold text-xs text-[.7rem] dark:opacity-80">{user?.fullname || 'EDIMCS Member'}</h4>
-                                <p className="text-slate-900 dark:text-slate-900 text-xs opacity-60 dark:opacity-100 font-light">{user?.balance?.toLocaleString()}</p> 
+                                 <h4 className="text-primary font-semibold text-xs text-[.7rem] dark:opacity-80">{fullname || 'EDIMCS Member'}</h4>
+                                <p className="text-slate-900 dark:text-slate-900 text-xs opacity-60 dark:opacity-100 font-light">&#8358;{user?.balance?.toLocaleString()}</p> 
                             </div>
                         </aside>
                     </div>

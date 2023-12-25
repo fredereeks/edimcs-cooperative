@@ -137,6 +137,17 @@ export default function WithdrawalList({ withdrawalData, user }: { withdrawalDat
         router.refresh()
     }
 
+    const handleDownload = async (e: React.MouseEvent) => {
+        try {
+            const heading = [`S/N`, `Member Details`, `Amount Saved`, `Date`, `Status`, `Verdict`];
+            const fileName = `Withdrawal Record - ${moment(new Date()).format("DD-MM-YYYY")}`
+            const data = tableData.map((withdrawal, i) => ([`${i + 1}`, `${withdrawal?.withdrawer?.firstname} ${withdrawal?.withdrawer?.middlename} ${withdrawal?.withdrawer?.lastname}`, withdrawal?.amount, moment(withdrawal?.createdAt).format("MM-DD-YYYY"), withdrawal?.status, withdrawal?.verdict]))
+            await handleExport(heading, data, fileName)
+        } catch (error) {
+            toast.error(`Unable to export selected record. Please, try again`, { id: "8290", duration: 6000})
+        }
+    }
+
     return (
         <>
             <section className="relative flex flex-col gap-2 p-4 bg-white  dark:bg-[#dbf0f724] dark:shadow-black shadow-slate-200 shadow-md rounded-lg">
@@ -147,6 +158,7 @@ export default function WithdrawalList({ withdrawalData, user }: { withdrawalDat
                                 <th colSpan={user?.type === "Admin" ? 6 : 5}>
                                     <TableSearch title={`WITHDRAWAL ${user?.type === "Admin" ? 'LIST' : 'RECORDS'}`} key={'72088234'} handleSearch={handleSearch} inputRef={inputRef}>
                                         <button onClick={() => modalRef.current?.showModal()} className="text-white bg-danger px-4 py-2 rounded-md cursor-pointer text-xs font-light">Request Withdrawal</button>
+                                        <button onClick={handleDownload} className="bg-default hover:bg-default/90 text-white text-xs font-light rounded-md py-2 px-4 cursor-pointer hover:shadow-default">Download Record</button>
                                     </TableSearch>
                                 </th>
                             </tr>

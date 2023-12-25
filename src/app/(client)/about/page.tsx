@@ -32,7 +32,7 @@ export default function page() {
     "A cooperative society that will encourage members to self-actualization and human development.",
     "Agro-based businesses.",
     "Educational (nursery, primary, secondary, tertiary, or their equivalence) businesses.",
-    "Oil and gas businesses.",
+    "Provide support for the purchase of house hold and food items.",
     "Microfinance bank businesses."
   ]
 

@@ -5,15 +5,8 @@ import { TextInput } from '@/components'
 import Link from 'next/link'
 import { FaMoneyCheck } from 'react-icons/fa'
 import toast from 'react-hot-toast'
-// import { redirect } from 'next/navigation';
 import { useRouter } from 'next/navigation'
-// import { LoginFormDataProps } from '@/types'
-// import { signIn, useSession } from 'next-auth/react'
-import axios from "axios"
 import { signIn, useSession } from 'next-auth/react'
-// import { authOptions } from '@/api/route'
-
-
 
 
 
@@ -36,28 +29,11 @@ export default function LoginForm() {
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         setLoading(true)
-        // console.log({baseURL: process.env.BASE_URL})
         toast.loading(`Please wait while we attempt to log you in`, { id: "39274" })
         try {
-            console.log("Attempting a Login")
-            // toast.success(`Welcome Back, ${memberId}`, { id: "39274" })
-            // const res = await fetch("http://localhost:6669/api/member/login", {
-            //     method: "POST",
-            //     headers: {
-            //         "Content-Type": "application/json"
-            //     },
-            //     body: JSON.stringify({memberId, password})
-            // })
-            // const data = await res.json();
-            // const data = await signIn("credentials", {memberId,password})
-            // console.log({data})
-            // if (data?.error) toast.error(data?.message, { id: "39274" })
-            // else {
-            //     toast.success(data?.message, { id: "39274" })
-            //     router.push("/dashboard")
-            // }
             const res = await signIn('credentials', { memberId, password, redirect: false })
-            if (res?.ok) toast.success(`Welcome Back ${memberId}`, { id: "39274" })
+            console.log({res})
+            if (res?.ok) toast.success(`Welcome Back Esteem Member`, { id: "39274" })
             else {
                 if(res?.error === "CredentialsSignin") toast.error("Invalid credentials supplied, please, try again", { id: "39274", duration: 4000 })
                 else toast.error(res?.error || "Invalid credentials supplied, please, try again", { id: "39274" })
@@ -66,7 +42,6 @@ export default function LoginForm() {
             // SQL Server configuration Manager (from the start menu), click on 'SQL Server Services', the first one, not the one in the middle, the one in the left-navigation mgr.
             // Check that ms sql server, ensure it is saying 'running', if not, right-click and click 'start'
             // For importation, 'under task', use import wizard
-
         } catch (error) {
             toast.error(`Something went wrong. Due to ${error}`, { id: "39274" })
         } finally {

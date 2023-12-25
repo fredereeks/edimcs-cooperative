@@ -5,6 +5,7 @@ import { revalidatePath } from "next/cache";
 import nodeMailer from 'nodemailer'
 import bcryptjs from 'bcryptjs'
 import { MemberRating, MemberType, Status, TransStatus, TransVerdict } from "@prisma/client";
+import { signOut } from "next-auth/react";
 // import db from "@/lib/db"
 
 export const makeSaving = async (data: FormData) => {
@@ -242,7 +243,7 @@ export const updateProfile = async (data: FormData) => {
     const matchPassword = bcryptjs.compareSync(confirmPassword, currentPassword)
     if (!matchPassword) return { error: true, message: "Invalid user confirmation password supplied. This must match your current password" }
     else {
-      const findSimilarUser = await prisma.member.findUnique({
+      const findSimilarUser = await prisma.member.findFirst({
         where: { email: email.toLowerCase(), phone, NOT: { id } },
       })
       if (findSimilarUser) return { error: true, message: "Sorry. There is a member with that email or phone number. Please, try another" }
@@ -264,7 +265,7 @@ export const updateProfile = async (data: FormData) => {
 export const updateMemberProfile = async (data: FormData) => {
   try {
     const id = data.get("id")?.valueOf() as string
-    const loanRating = data.get("loanRating")?.valueOf() as string
+    const rating = data.get("loanRating")?.valueOf() as string
     const status = data.get("status")?.valueOf() as string
     const type = data.get("type")?.valueOf() as string
     const firstname = data.get("firstname")?.valueOf() as string
@@ -275,6 +276,7 @@ export const updateMemberProfile = async (data: FormData) => {
     const email = data.get("email")?.valueOf() as string
     const confirmPassword = data.get("confirm-password")?.valueOf() as string
     const currentPassword = data.get("extra")?.valueOf() as string
+    const loanRating = rating.replace(" Plus", "Plus")
     // Confirm Password
     const matchPassword = bcryptjs.compareSync(confirmPassword, currentPassword)
     if (!matchPassword) return { error: true, message: "Invalid Admin confirmation password supplied. This must match your current password" }
@@ -463,6 +465,7 @@ export const verdictAction = async (table: string, id: string, verdict: string, 
 // DELETE ACTIONS
 export const deleteAction = async (data: FormData) => {
   const id = data.get("deleteId")?.valueOf() as string
+  const type = data.get("type")?.valueOf() as string
   try {
     await prisma.$transaction([
       prisma.member.delete({ where: {id} }),
@@ -472,12 +475,14 @@ export const deleteAction = async (data: FormData) => {
       prisma.saving.deleteMany({ where: {saverId: id} }),
       prisma.message.deleteMany({where: {OR: [{receiverId: id, senderId: id}]}})
     ])
-    return { error: false, message: `Member has been successfully` }
+    return { error: false, message: `Member has been successfully Deleted` }
   }
   catch (err) {
     return { error: true, message: `Something went wrong while attempting to make your request, please, try again. ${err}` }
   }
   finally{
     revalidatePath("/dashboard/members")
+    revalidatePath("/dashboard/profile")
+    if(type === "Member") signOut();
   }
 }

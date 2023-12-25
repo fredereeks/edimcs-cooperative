@@ -1,7 +1,7 @@
 
 import { authOptions } from '@/lib/authOptions';
 import prisma from '@/lib/prisma';
-import { AccountDetailsProps, MemberProps } from '@/types';
+import { MemberProps } from '@/types';
 import { getServerSession } from 'next-auth';
 import { signOut } from 'next-auth/react';
 import { redirect } from 'next/navigation';
@@ -12,7 +12,7 @@ import { Metadata } from 'next';
 
 const fetchUser = async (email: string) => {
   "use server"
-  const user = await prisma.member.findUnique({
+  const user = await prisma.member.findFirst({
     where: { email },
     include: { accountDetails: true }
   })
@@ -22,6 +22,19 @@ const fetchUser = async (email: string) => {
   }
   // console.log({user})
   return user as MemberProps
+}
+
+const handleUpload = async(data: FormData) => {
+  "use server"
+  try {
+    const file = data.get("file") as string
+    const id = data.get("id") as string
+    // console.log({file, id})
+    await prisma.member.update({ where: { id },  data: { image: file } })
+    return {error: false, message: `Image Uploaded successfully`}
+  } catch (error) {
+    return {error: true, message: `Something went wrong. We are unable to process handle your upload, please try again.`}
+  }
 }
 
 
@@ -38,7 +51,7 @@ export default async function Profile() {
 
   return (
     <main className="flex flex-col px-2">
-      <ProfileForm user={user} />
+      <ProfileForm handleUpload={handleUpload} user={user} />
     </main>
   )
 }

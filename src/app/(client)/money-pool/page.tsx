@@ -37,7 +37,7 @@ export default function page() {
         <div className="container mx-auto grid sm:grid-cols-2 md:grid-cols-3 gap-5 justify-center">
           {
             [
-              [772506230, <Image src={edimcs_coins} alt='Savings Plan' fill={true} key={772506231} className="object-cover" />, "Basic Plan", "Never get penalized when decidiing it's not for you. We let you change your mind at any time", 10000, 5000000],
+              [772506230, <Image src={edimcs_coins} alt='Savings Plan' fill={true} key={772506231} className="object-cover" />, "Basic Plan", "Never get penalized when deciding it's not for you. We let you take your time and go at your own pace.", 10000, 5000000],
               [772506232, <Image src={edimcs_piggyvest} alt='Savings Plan' fill={true} key={772506233} className="object-cover" />, "Premium Plan", "We provide you with different options of savings and let you choose the one that best suites your needs.", 50000, 5000000],
               [772506234, <Image src={edimcs_moneybox} alt='Savings Plan' fill={true} key={772506235} className="object-cover" />, "Platinum Plan", "Our priority is keeping your money safe from multi-factor authentication to FDIC-insured accounts.", 100000, 10000000],
             ].map(([id, image, title, text, starting, goal]) => (
@@ -48,7 +48,7 @@ export default function page() {
                     <h4 data-aos-duration="1000" data-aos-delay="2000" data-aos="fade-down" className="font-bold text-lg sm:text-xl text-primary">{title}</h4>
                     <p data-aos-duration="1000" data-aos-delay="1000" data-aos="zoom-in-left" className="font-medium leading-loose opacity-90 text-xs">{text}</p>
                   </div>
-                  <div className="flex justify-between items-center">
+                  {/* <div className="flex justify-between items-center">
                     <div className="flex flex-col">
                       <p data-aos-duration="1000" data-aos-delay="1000" data-aos="zoom-out-up" className="text-xs font-light max-w-xs text-sky-500">Save Monthly</p>
                       <p data-aos-duration="1000" data-aos-delay="1000" data-aos="fade-down-right" className="leading-loose text-slate-600 text-sm font-bold">&#8358;{starting.toLocaleString()}</p>
@@ -57,7 +57,7 @@ export default function page() {
                       <p className="text-xs font-light max-w-xs text-primary">To Take</p>
                       <p className="leading-loose text-slate-600 text-sm font-bold">&#8358;{goal.toLocaleString()}</p>
                     </div>
-                  </div>
+                  </div> */}
                 </div>
               </Link>
             ))

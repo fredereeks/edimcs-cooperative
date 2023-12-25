@@ -8,7 +8,7 @@ export const footerLinks : FootLinkProps[] = [
     {
         id: 82347231,
         title: "EDIMCS",
-        label: "EDIMCS is the largest cooperative organization among cooperatives in Nigeria and in the world; with the goal of achieving a first-world Nigeria with empowerment and housing for low-income and small and medium enterprises as our primary goal.",
+        label: "EDIMCS is one of the largest cooperative organizations in Nigeria and in the world, with the goal of achieving a first-world Nigeria with empowerment and housing for low-income and small and medium enterprises as our primary goal.",
         sublinks: []
     },
     {

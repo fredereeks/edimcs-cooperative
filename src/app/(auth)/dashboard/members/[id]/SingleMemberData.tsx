@@ -19,30 +19,13 @@ export default function SingleMemberData({ member, user }: { member: MemberProps
     const formRef = useRef<HTMLFormElement | null>(null)
     const [loading, setLoading] = useState<boolean>(false)
     const router = useRouter()
-    const [targetId, setTargetId] = useState<string>("")
-    // const [payback, setPayback] = useState<number>(500)
-    // const amountRef = useRef<HTMLInputElement | null>(null)
-    // const inputRef = useRef<HTMLInputElement | null>(null)
-    // const user: MemberProps | null = member;
-
-    // useEffect(() => {
-    //     (async () => {
-    //         const { Stepper, initTE } = await require("tw-elements");
-
-    //         initTE({ Stepper });
-    //     })()
-    // }, [])
-
-    const handleConfirmation = () => {
-        setTargetId(member?.id!)
-        modalRef.current?.showModal()
-    }
 
     const handleDelete = async() => {
         setLoading(true)
         try {
             const formData = new FormData()
             formData.append("deleteId", member?.id!)
+            formData.append("type", user?.type as unknown as string)
             const res = await deleteAction(formData)
             if (res?.error) toast.error(res.message, { id: "86249", duration: 5000 })
             else {
@@ -165,7 +148,7 @@ export default function SingleMemberData({ member, user }: { member: MemberProps
                         </div>
                         <div className="flex gap-4">
                             <button disabled={loading} type="submit" className="py-2 px-4 sm:px-8 bg-primary text-white text-[.6rem] text-xs rounded-md hover:bg-blue-600 cursor-pointer">{loading ? "Updating Profile..." : "Update Member Record"}</button>
-                            <button onClick={handleConfirmation} disabled={loading} type="button" className="py-2 px-4 sm:px-8 bg-danger text-white text-[.6rem] text-xs rounded-md hover:bg-[#ed3869] hover:text-white cursor-pointer">Delete User</button>
+                            <button onClick={() => modalRef.current?.showModal()} disabled={loading} type="button" className="py-2 px-4 sm:px-8 bg-danger text-white text-[.6rem] text-xs rounded-md hover:bg-[#ed3869] hover:text-white cursor-pointer">Delete User</button>
                         </div>
                     </form>
                 </div>

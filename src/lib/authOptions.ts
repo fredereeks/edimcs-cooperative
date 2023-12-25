@@ -23,13 +23,14 @@ export const authOptions: NextAuthOptions = {
             },
             async authorize(credentials) {
                 if (!credentials) return null;
-                const { memberId, password } = credentials;
+                const { memberId, password }: {memberId: string, password: string} = credentials;
+                const phone = typeof memberId === "string" && memberId[0] === "0" ? memberId.replace("0", "+234") : memberId;
 
-                let member = await prisma.member.findUnique({ where: { memberId: memberId.toUpperCase() } }) || await prisma.member.findUnique({ where: { phone: memberId.toString() } })
+                let member = await prisma.member.findFirst({ where: { memberId: memberId.toUpperCase() } }) || await prisma.member.findFirst({ where: { phone } })
                 if (!member) return null
-                // const matchPassword = await bcryptjs.compare(password, member.password)
-                // console.log({ member, password, memberPass: member.password, matchPassword })
-                // if (!matchPassword) return null
+                const matchPassword = await bcryptjs.compare(password, member.password)
+                // console.log({ member, password, memberPass: member.password, matchPassword, phone })
+                if (!matchPassword) return null
 
                 if (member.status === "Pending") {
                     throw new Error("Your account is NOT yet activated. Please, contact the admin for account activation. If not, your account will be automatically deleted after 3days")
@@ -53,6 +54,7 @@ export const authOptions: NextAuthOptions = {
         signIn: "/auth/login",
     },
     secret: process.env.JWT,
+    useSecureCookies: process.env.NODE_ENV === "production",
     jwt: {
         async encode({ secret, token }) {
             if (!token) throw new Error("No token to encode")

@@ -1,16 +1,17 @@
 import Link from 'next/link'
 import React from 'react'
-import { IoGlobeOutline, IoHomeOutline, IoPhoneLandscape } from 'react-icons/io5'
+import { IoGlobeOutline, IoHomeOutline, IoLogoFacebook, IoPhoneLandscape } from 'react-icons/io5'
 import 'aos/dist/aos.css';
 import ContactForm from './ContactForm'
 import { Metadata } from 'next';
 import Image from 'next/image';
 import { edimcs_staff_lineup } from '@/assets/images';
+import { FaFacebook, FaInstagram, FaWhatsapp } from 'react-icons/fa';
 
 
 export const metadata: Metadata = {
   title: "EDIMCS :: Contact", 
-  description: "EDIMCS money pool is a way Whether you are looking for a short-term savings plan, a medium or long-term savings plan. Hell, if you are looking for a money pool, we got you covered on all sides"
+  description: "EDIMCS is one of the largest cooperative organizations in Nigeria and in the world, with the goal of achieving a first-world Nigeria with empowerment and housing for low-income and small and medium enterprises as our primary goal."
 }
 
 export default function page() {
@@ -44,8 +45,8 @@ export default function page() {
                 <div className="py-5 flex flex-col gap-2">
                   <h3 data-aos-duration="1000" data-aos="fade-down-right" data-aos-delay="1000"  className={`text-lg sm:text-xl font-medium sm:font-semibold max-w-lg leading-tight text-slate-800/90`}>Contact Lines</h3>
                   <div className="flex flex-col">
-                    {/* <Link data-aos-duration="1000" data-aos="zoom-in-right"  href={`tel: +2348036137796`} style={{ lineHeight: 2 }} className={`text-xs sm:text-sm font-light leading-tight text-left text-slate-900`}>+2348036137796.</Link> */}
                     <Link data-aos-duration="1000" data-aos="fade-down-right"  href={`tel: +2349068405778`} style={{ lineHeight: 2 }} className={`text-xs sm:text-sm font-light leading-tight text-left text-slate-900`}>+2349068405778.</Link>
+                    <Link data-aos-duration="1000" data-aos="zoom-in-right"  href={`tel: +2349027888965`} style={{ lineHeight: 2 }} className={`text-xs sm:text-sm font-light leading-tight text-left text-slate-900`}>+2349027888965.</Link>
                   </div>
                 </div>
               </aside>
@@ -61,10 +62,13 @@ export default function page() {
                 <div className="py-5 flex flex-col gap-2">
                   <h3 className={`text-lg sm:text-xl font-medium sm:font-semibold max-w-lg leading-tight text-slate-100`}>Socials</h3>
                   <div className="flex flex-col">
-                    <Link href={`https://www.facebook.com/edimcs`} referrerPolicy='no-referrer' target='_blank' style={{ lineHeight: 2 }} className={`text-xs sm:text-sm font-light leading-tight text-left text-slate-100`}>Facebook</Link>
-                    {/* <Link href={`https://www.twitter.com/edimcs`} referrerPolicy='no-referrer' target='_blank' style={{ lineHeight: 2 }} className={`text-xs sm:text-sm font-light leading-tight text-left text-slate-100`}>Twitter</Link> */}
+                    <div className="flex flex-wrap gap-5 pb-3">
+                      <Link href={`https://www.facebook.com/profile.php?id=61553709279648&mibextid=ZbWKwL`} referrerPolicy='no-referrer' target='_blank' style={{ lineHeight: 2 }} className={`text-sm sm:text-base font-light leading-tight text-left text-slate-100`}><FaFacebook className="text-inherit" /></Link>
+                      <Link href={`https://instagram.com/edimcs_ng?igshid=OGQ5ZDc2ODk2ZA`} referrerPolicy='no-referrer' target='_blank' style={{ lineHeight: 2 }} className={`text-sm sm:text-base font-light leading-tight text-left text-slate-100`}><FaInstagram className="text-inherit" /></Link>
+                      <Link href={`https://wa.link/t01thy`} referrerPolicy='no-referrer' target='_blank' style={{ lineHeight: 2 }} className={`text-xs sm:text-sm font-light leading-tight text-left text-slate-100`}><FaWhatsapp className="text-inherit" /></Link>
+                    </div>
                     <Link href={`mailto: admin@edimcs.com`} referrerPolicy='no-referrer' target='_blank' style={{ lineHeight: 2 }} className={`text-xs sm:text-sm font-light leading-tight text-left text-slate-100`}>admin@edimcs.com</Link>
-                    <Link href={`mailto: help@edimcs.com`} referrerPolicy='no-referrer' target='_blank' style={{ lineHeight: 2 }} className={`text-xs sm:text-sm font-light leading-tight text-left text-slate-100`}>help@edimcs.com</Link>
+                    <Link href={`mailto: info@edimcs.com`} referrerPolicy='no-referrer' target='_blank' style={{ lineHeight: 2 }} className={`text-xs sm:text-sm font-light leading-tight text-left text-slate-100`}>help@edimcs.com</Link>
                   </div>
                 </div>
               </aside>

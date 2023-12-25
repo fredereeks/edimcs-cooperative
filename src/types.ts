@@ -37,6 +37,7 @@ export type handleClickProp = {
     handleClick: () => boolean | void
     darkMode: boolean | string
     toggleDarkMode: () => boolean | void,
+    user: MemberProps 
     //   handleLogOut: (data: FormData) => Promise<void>, 
 }
 

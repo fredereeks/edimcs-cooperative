@@ -11,6 +11,7 @@ import { redirect } from 'next/navigation'
 import SessionProvider from "@/components/SessionProvider"
 import { getServerSession } from 'next-auth'
 import { GlobalProvider } from './ui';
+import { fetchUser } from './actions';
 
 
 
@@ -27,6 +28,7 @@ export default async function RootLayout({
 
   const session = await getServerSession(authOptions);
   // console.log({session, user: session?.user, authOptions})
+  const user = await fetchUser()
 
   if (!session || !session.user) {
     redirect("/auth/login")
@@ -37,7 +39,7 @@ export default async function RootLayout({
       <body className={`${inter.className} flex flex-col`}>
         <SessionProvider session={session}>
           <GlobalProvider>
-            <DashLayout>
+            <DashLayout user={user}>
               {children}
             </DashLayout>
           </GlobalProvider>

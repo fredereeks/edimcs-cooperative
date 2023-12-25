@@ -2,19 +2,19 @@
 
 import { LoanProps, MemberProps } from '@/types'
 import React, { useRef, useState } from 'react'
-import Modal from '@/app/(auth)/ui/Modal'
 import { FaCalendarAlt, FaClock } from 'react-icons/fa'
 import Image from 'next/image'
 
 import { FaSackDollar } from 'react-icons/fa6'
 import toast from 'react-hot-toast'
 import { useRouter } from 'next/navigation'
-import { TableSearch } from '../../ui'
+import { TableSearch, Modal } from '@/app/(auth)/ui'
 import { edimcs_dollarbills } from '@/assets/images'
 import Link from 'next/link'
 import moment from 'moment'
 import { MdAttachMoney } from 'react-icons/md'
 import { handleLoanRepayment, handleLoans, verdictAction } from '@/actions'
+import { handleExport } from '@/lib/handleExport'
 
 // import {useForm} from 'react-hook-form'
 
@@ -177,6 +177,18 @@ export default function LoanList({ loansData, user }: { loansData: LoanProps[], 
         }
         setLoading(false)
         router.refresh()
+        router.push('/dashboard/loans', { scroll: false })
+    }
+
+    const handleDownload = async (e: React.MouseEvent) => {
+        try {
+            const heading = [`S/N`, `Member Details`, `Amount`, `Amount Received`, `Amount Repaid`, `Balance`, `Date`, `Status`];
+            const fileName = `Loan Record - ${moment(new Date()).format("DD-MM-YYYY")}`
+            const data = tableData.map((loan, i) => ([`${i + 1}`, `${loan?.loaner?.firstname} ${loan?.loaner?.middlename} ${loan?.loaner?.lastname}`, loan?.amount, `${loan.amount - loan.interest}`, `${loan?.payback!}`, `${loan?.amount - loan?.payback!}`, moment(loan?.createdAt).format("MM-DD-YYYY"), loan?.status]))
+            await handleExport(heading, data, fileName)
+        } catch (error) {
+            toast.error(`Unable to export selected record. Please, try again`, { id: "8290", duration: 6000})
+        }
     }
 
     return (
@@ -190,6 +202,7 @@ export default function LoanList({ loansData, user }: { loansData: LoanProps[], 
                                     <TableSearch title='LOAN' key={'72088234'} handleSearch={handleSearch} inputRef={inputRef}>
                                         <div className="md:ml-[5rem] flex gap-2">
                                             <button onClick={() => modalRef.current?.showModal()} className="text-white bg-primary px-4 py-2 rounded-md cursor-pointer text-xs font-light">Apply for Loan</button>
+                                            <button onClick={handleDownload} className="bg-default hover:bg-default/90 text-white text-xs font-light rounded-md py-2 px-5 cursor-pointer hover:shadow-default">Download Record</button>
                                             <Link href={`/documents/EDIMCS-LOAN-APPLICATION-FORM.pdf`} className="text-white bg-success hover:bg-success/90 px-4 py-2 rounded-md cursor-pointer text-xs font-light">Download Loan Form</Link>
                                         </div>
                                     </TableSearch>

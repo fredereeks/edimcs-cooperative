@@ -19,6 +19,15 @@ export default function SignupForm({ handleSignup }: { handleSignup: (formData: 
     const [password, setPassword] = useState<string>('')
     const [phone, setPhone] = useState<string | undefined>('')
     const [confirmPassword, setConfirmPassword] = useState<string>('')
+    const loanRatingRef = useRef<HTMLSelectElement | null>(null)
+    const loanRatings = {
+        "Basic": "between ₦50,000 to ₦100,000 loan",
+        "BasicPlus": "between ₦150,000 to ₦200,000 loan",
+        "Standard": "between ₦250,000 to ₦300,000 loan",
+        "StandardPlus": "as high as ₦500,000 and above (less than 1 Million) loan",
+        "Premium": "a whooping ₦1,000,000 or more in loan",
+    }
+    const [loanRating, setLoanRating] = useState<string>(loanRatings.Basic)
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault()
@@ -31,15 +40,6 @@ export default function SignupForm({ handleSignup }: { handleSignup: (formData: 
         try {
             const formData = new FormData(formRef?.current!)
             const data = await handleSignup(formData)
-            // const res = await fetch("http://localhost:6669/api/member/signup", {
-            //     method: "POST",
-            //     headers: {
-            //         "Content-Type": "application/json"
-            //     },
-            //     body: formData
-            // })
-            // const data = await res.json();
-            console.log({ data })
             if (data?.error) toast.error(data?.message, { id: "8206" })
             else {
                 toast.success(data?.message!, { id: "8206" })
@@ -53,6 +53,12 @@ export default function SignupForm({ handleSignup }: { handleSignup: (formData: 
             setLoading(false)
         }
     }
+
+    const handleLoanRatingChange = (e: React.ChangeEvent) => {
+        const loan = loanRatingRef?.current?.value!
+        setLoanRating(loanRatings[loan as keyof typeof loanRatings])
+    }
+
     return (
         <>
             <form ref={formRef} onSubmit={handleSubmit} className="py-5 flex flex-col gap-3 px-4 sm:px-0">
@@ -85,15 +91,16 @@ export default function SignupForm({ handleSignup }: { handleSignup: (formData: 
                     <TextInput onChange={e => setPassword(e.currentTarget.value)} value={password} label={'Password'} containerClassName={'text-slate-600'} key={823405} type='password' name='password' id='password' minLength={6} placeholder='Enter Your Password' required={true} />
                     <TextInput onChange={e => setConfirmPassword(e.currentTarget.value)} value={confirmPassword} label={'Confirm Password'} containerClassName={'text-slate-600'} key={823406} type='password' name='password' id='confirm-password' minLength={6} placeholder='Confirm Password' required={true} />
                     <div className={`flex flex-col gap-1`}>
-                        <label htmlFor={"loanRating"} className="text-gray-500 text-sm">Member Type (Loan Entitlement)</label>
-                        <select name="loanRating" id="loanRating" className="relative outline-none py-2 px-4 border border-gray-300 rounded-md text-gray-600 text-sm placeholder-opacity-70 bg-transparent focus-within:bg-transparent focus:bg-transparent">
-                            <option className='normal-text text-sm bg-white font-sans' value={"Basic"}>Basic (&#8358;50,000 - &#8358;100,000)</option>
-                            <option className='normal-text text-sm bg-white font-sans' value={"BasicPlus"}>Basic Plus (&#8358;150,000 - &#8358;200,000)</option>
-                            <option className='normal-text text-sm bg-white font-sans' value={"Standard"}>Standard (&#8358;250,000 - &#8358;300,000)</option>
-                            <option className='normal-text text-sm bg-white font-sans' value={"StandardPlus"}>Standard Plus  (&#8358;500,000 and above)</option>
-                            <option className='normal-text text-sm bg-white font-sans' value={"Premium"}>Premium (&#8358;1,000,000 and above)</option>
+                        <label htmlFor={"loanRating"} className="text-gray-500 text-sm">Member Type (Fee)</label>
+                        <select ref={loanRatingRef} onChange={handleLoanRatingChange} name="loanRating" id="loanRating" className="relative outline-none py-2 px-4 border border-gray-300 rounded-md text-gray-600 text-sm placeholder-opacity-70 bg-transparent focus-within:bg-transparent focus:bg-transparent">
+                            <option className='normal-text text-sm bg-white font-sans' value={"Basic"}>Basic (&#8358;3,000)</option>
+                            <option className='normal-text text-sm bg-white font-sans' value={"BasicPlus"}>Basic Plus (&#8358;5,000)</option>
+                            <option className='normal-text text-sm bg-white font-sans' value={"Standard"}>Standard (&#8358;10,000)</option>
+                            <option className='normal-text text-sm bg-white font-sans' value={"StandardPlus"}>Standard Plus  (&#8358;20,000)</option>
+                            <option className='normal-text text-sm bg-white font-sans' value={"Premium"}>Premium (&#8358;50,000)</option>
                         </select>
                     </div>
+                    <div className="px-5 py-2 text-center text-xs md:text-sm text-sky-500 bg-sky-100 rounded-md md:col-span-2">As a {loanRatingRef?.current?.value} Member, you are entitled to {loanRatings[loanRatingRef?.current?.value! as keyof typeof loanRatings]}</div>
                     <button type="submit" disabled={loading} className="md:col-span-2 rounded-full py-2 px-5 md:px-8 w-full bg-primary shadow-primary shadow-md text-white text-sm text-center flex-1 cursor-pointer flex items-center justify-center gap-2 mt-2"><FaMoneyCheck className="text-sm text-inherit" />{loading ? 'Processing...' : 'Signup'}</button>
                 </div>
             </form>

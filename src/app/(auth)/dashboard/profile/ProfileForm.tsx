@@ -1,21 +1,34 @@
 "use client"
 
-import { updateAccountDetails, updateProfile } from '@/actions';
+import { deleteAction, updateAccountDetails, updateProfile } from '@/actions';
 import { MemberProps } from '@/types';
 import { useRouter } from 'next/navigation';
 import React, { useState, useRef } from 'react'
 import toast from 'react-hot-toast';
-import { edimcs_logo, edimcs_moneybox, edimcs_piggyvest, logo } from '@/assets/images'
+import { edimcs_logo } from '@/assets/images'
 import { TextInput } from '@/components'
 import Image from 'next/image'
+import { imageUploader } from '@/lib/imageUploader';
+import { IoTrashBinOutline } from 'react-icons/io5';
+import { Modal } from '../../ui';
+import { MemberRating, MemberType, Status } from '@prisma/client'
 
 
-export default function ProfileForm({ user }: { user: MemberProps }) {
+export default function ProfileForm({ user, handleUpload }: {
+    user: MemberProps, handleUpload: (data: FormData) => Promise<{
+        error: boolean;
+        message: string;
+    }>
+}) {
     const [loading, setLoading] = useState<boolean>(false)
+    const [uploadLoading, setUploadLoading] = useState<boolean>(false)
     const [showAccountForm, setShowAccountForm] = useState<boolean>(false)
+    const [file, setFile] = useState<string | ArrayBuffer | Blob>(user?.image || '')
     const formRef = useRef<HTMLFormElement | null>(null);
     const uploadFormRef = useRef<HTMLFormElement | null>(null);
     const accountFormRef = useRef<HTMLFormElement | null>(null);
+    const fileInputRef = useRef<HTMLInputElement | null>(null);
+    const modalRef = useRef<HTMLDialogElement | null>(null)
 
     const router = useRouter()
 
@@ -51,12 +64,41 @@ export default function ProfileForm({ user }: { user: MemberProps }) {
         }
         setLoading(false)
     }
-    const handleFormUpload = async (e: React.FormEvent) => {
-        e.preventDefault()
+
+    const handleDelete = async() => {
         setLoading(true)
         try {
-            const formData = new FormData(uploadFormRef?.current!)
-            const res = await updateAccountDetails(formData)
+            const formData = new FormData()
+            formData.append("deleteId", user?.id!)
+            formData.append("type", user?.type as unknown as string)
+            const res = await deleteAction(formData)
+            if (res?.error) toast.error(res.message, { id: "86249", duration: 5000 })
+            else {
+                toast.success(res.message, { id: "86249", duration: 5000 })
+                router.push("/auth/login")
+            }
+        } catch (error) {
+            toast.error('Unable to complete request, please, check your network and try again', { id: "86249", duration: 5000 })
+        }
+        modalRef?.current?.close()
+        setLoading(false)
+    }
+
+    const handleFormUpload = async (e: React.FormEvent) => {
+        e.preventDefault()
+        setUploadLoading(true)
+        const fileInput = (fileInputRef?.current?.files?.[0]!) as File
+        if(fileInput.size > 100000) {
+            toast.error(`Image size is larger than 100kb. Resize or use another image`, { id: "86249", duration: 5000 })
+            setUploadLoading(false)
+            return;
+        }
+        try {
+            const image = await imageUploader(fileInput)
+            const formData = new FormData()
+            formData.append("id", user?.id)
+            formData.append("file", image as string)
+            const res = await handleUpload(formData)
             if (res?.error) toast.error(res.message, { id: "86249", duration: 5000 })
             else {
                 toast.success(res.message, { id: "86249", duration: 5000 })
@@ -65,7 +107,7 @@ export default function ProfileForm({ user }: { user: MemberProps }) {
         } catch (error) {
             toast.error('Unable to complete request, please, check your network and try again ' + error, { id: "86249", duration: 5000 })
         }
-        setLoading(false)
+        setUploadLoading(false)
     }
 
     return (
@@ -78,25 +120,28 @@ export default function ProfileForm({ user }: { user: MemberProps }) {
             </section>
             <section className={`flex-col pt-5 pb-10 ${showAccountForm ? 'hidden' : 'flex'}`}>
                 <div className="flex flex-col gap-6">
-                    {/* <form ref={uploadFormRef} onSubmit={handleFormUpload} className="flex flex-col gap-4 p-4">
+                    <form ref={uploadFormRef} onSubmit={handleFormUpload} className="flex flex-col gap-4 p-4">
+                        <input type="hidden" name="id" defaultValue={user?.id} />
                         <h4 className="text-xs text-slate-500 opacity-80">Your Profile Picture</h4>
                         <div className="flex gap-4 md:gap-6">
                             <label htmlFor="profilePicture" className="relative h-14 w-14 md:h-16 md:w-16 flex-shrink-0 rounded-full overflow-hidden cursor-pointer">
-                                <input type="file" name="" id="profilePicture" className="hidden" />
-                                <Image src={user?.image || edimcs_moneybox} alt={`${user?.firstname} ${user?.middlename} ${user?.lastname}`} fill={true} className='object-cover' />
+                                <input type="file" ref={fileInputRef} name="file" id="profilePicture" className="hidden" />
+                                <Image src={user?.image || edimcs_logo} alt={`${user?.firstname} ${user?.middlename} ${user?.lastname}`} fill={true} className='object-cover' />
                             </label>
                             <div className="flex flex-col gap-1 w-max justify-center sm:items-center">
                                 <div className="flex gap-4">
-                                    <button type="button" className="py-2 px-4 sm:px-8 bg-primary text-white text-[.6rem] text-xs rounded-md hover:bg-blue-600 cursor-pointer">Upload New</button>
-                                    <button type="button" className="py-2 px-4 sm:px-8 bg-slate-300/50 dark:bg-slate-100 dark:hover:text-slate-900 text-slate-700 text-[.6rem] text-xs rounded-md hover:bg-danger hover:text-white cursor-pointer">Delete Picture</button>
+                                    <button disabled={uploadLoading} type="submit" className="py-2 px-4 sm:px-8 bg-primary text-white text-[.6rem] text-xs rounded-md hover:bg-blue-600 cursor-pointer">{ uploadLoading ? 'Uploading...' : 'Upload New'}</button>
+                                    <button disabled={uploadLoading} type="button" className="py-2 px-4 sm:px-8 bg-slate-300/50 dark:bg-slate-100 dark:hover:text-slate-900 text-slate-700 text-[.6rem] text-xs rounded-md hover:bg-danger hover:text-white cursor-pointer">Delete Picture</button>
                                 </div>
                                 <p className="text-[.65rem] text-center text-slate-500">Your profile picture enables users recognize you on EDIMCS</p>
                             </div>
                         </div>
-                    </form> */}
+                    </form>
                     <form ref={formRef} onSubmit={handleSubmit} className="px-4 sm:px-0 w-full sm:w-10/12 sm:scale-90 grid sm:grid-cols-2 gap-4 sm:gap-y-6 sm:justify-center relative after:bg-slate-300 after:-top-4 after:h-[.51px] after:w-11/12 after:left-1/2 after:-translate-x-1/2 after:absolute">
                         <input type="hidden" name="id" defaultValue={user?.id} />
                         <input type="hidden" name="extra" defaultValue={user?.password} />
+                        <TextInput disabled key={6255} id='memberId' name='memberId' label='Member ID' defaultValue={user?.memberId} minLength={10} required={true} containerClassName={'text-xs'} className='bg-slate-200' />
+                        <TextInput disabled key={6255} id='loanRating' name='loanRating' label='Loan Rating' defaultValue={user?.loanRating} minLength={10} required={true} containerClassName={'text-xs'} className='bg-slate-200' />
                         <div className={`flex flex-col gap-1`}>
                             <label htmlFor={'firstname'} className="text-gray-600 text-sm">First Name</label>
                             <input type="text" required name={'firstname'} defaultValue={user?.firstname} placeholder={'Enter First Name'} className='hover:border-primary/90 outline-none placeholder-opacity-70 text-slate-500 text-sm sm:text-md bg-transparent border border-zinc-200 rounded-[.25rem] py-2 px-4' />
@@ -129,7 +174,10 @@ export default function ProfileForm({ user }: { user: MemberProps }) {
                             <label htmlFor={'confirm-password'} className="text-gray-600 text-sm">Confirm Password (to save change)</label>
                             <input type="password" required name={'confirm-password'} id={'confirm-password'} placeholder={'Enter your Current Password'} className='hover:border-primary/90 outline-none placeholder-opacity-70 text-slate-500 text-sm sm:text-md bg-transparent border border-zinc-200 rounded-[.25rem] py-2 px-4' />
                         </div>
-                        <button disabled={loading} type='submit' className="sm:col-span-2 cursor-pointer rounded-md text-thin text-xs text-white bg-primary hover:bg-primary/90 py-2 px-4 sm:py-3 sm:px-6 w-max select-none">{loading ? "Updating Profile..." : "Update Profile"}</button>
+                        <div className="flex gap-4 sm:col-span-2">
+                            <button disabled={loading} type='submit' className="sm:col-span-2 cursor-pointer rounded-md text-thin text-xs text-white bg-primary hover:bg-primary/90 py-2 px-4 sm:py-3 sm:px-6 w-max select-none">{loading ? "Updating Profile..." : "Update Profile"}</button>
+                            <button onClick={() =>  modalRef.current?.showModal()} disabled={loading} type="button" className="py-2 px-4 sm:px-8 bg-danger text-white text-[.6rem] text-xs rounded-md hover:bg-[#ed3869] hover:text-white cursor-pointer">Delete Your Account</button>
+                        </div>
                     </form>
 
                 </div>
@@ -165,15 +213,35 @@ export default function ProfileForm({ user }: { user: MemberProps }) {
                                 <option className='normal-text text-sm bg-white font-sans' defaultValue={"Fixed"}>Fixed </option>
                             </select>
                         </div>
-                        <TextInput key={6267} id='bvn' name='bvn' label='BVN' defaultValue={user?.accountDetails && user?.accountDetails[0]?.bvn} minLength={11} max={11} required={true} containerClassName={'text-xs'} />
+                        <TextInput key={6267} id='bvn' name='bvn' label='BVN' defaultValue={user?.accountDetails && user?.accountDetails[0]?.bvn} minLength={11} max={11} required={false} containerClassName={'text-xs'} />
                         <TextInput key={6268} id='confirm-password' type='password' name='confirm-password' label='Confirm Password' placeholder={'Enter Password to Confirm Changes'} minLength={3} required={true} containerClassName={'text-xs sm:col-span-2'} />
                         {/* <TextInput key={6268} id='address' name='address' label='Address' defaultValue={user?.'6, Sirakoro Street, Adjecent Kilimanjaro Eatery, Wuse II'} minLength={3} required={true} containerClassName={'text-xs sm:col-span-2'} /> */}
                         <button type='submit' className="cursor-pointer rounded-md text-thin text-xs text-white bg-primary hover:bg-blue-600 py-2 px-4 sm:py-3 sm:px-6 w-max select-none">Update Account Details</button>
-
                     </form>
 
                 </div>
             </section>
+            <Modal modalRef={modalRef}>
+                <div className='p-5 flex flex-col gap-4'>
+                    <div className="w-full flex items-center gap-4">
+                        <div className={`h-10 sm:h-14 w-10 sm:w-14 flex-shrink-0 flex justify-center items-center rounded-full overflow-hidden relative bg-danger dark:bg-slate-100 text-slate-100 dark:text-slate-600`}>
+                            <IoTrashBinOutline className='text-lg sm:text-xl' />
+                        </div>
+                        <div className='flex-1 flex flex-col text-center w-full p-4'>
+                            <div className="flex gap-4 text-slate-600 w-full">
+                                <div className="flex flex-col justify-center text-center">
+                                    <h5 className="text-lg sm:text-xl font-semibold leading-tight whitespace-nowrap flex items-center"> {`${user?.firstname} ${user?.middlename} ${user?.lastname}`}&apos;s Account </h5>
+                                    <div className="text-xs bg-slate-200/50 dark:bg-slate-200 p-3 rounded-sm uppercase">Are you sure you want to delete</div>
+                                </div>
+                            </div>
+                            <div className="flex gap-4 py-2 w-full">
+                                <button onClick={() => modalRef?.current?.close()} disabled={loading} type="submit" className="py-2 px-4 sm:px-8 bg-success text-white text-[.6rem] text-xs rounded-md hover:bg-success/90 cursor-pointer">No! Cancel</button>
+                                <button onClick={handleDelete} disabled={loading} type="button" className="py-2 px-4 sm:px-8 bg-danger text-white text-[.6rem] text-xs rounded-md hover:bg-[#ed3869] hover:text-white cursor-pointer">Yes! Delete</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </Modal>
         </>
 
     )

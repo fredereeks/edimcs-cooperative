@@ -8,8 +8,8 @@ import { revalidatePath } from 'next/cache';
 import { MessageProps } from '@/types';
 
 export const metadata: Metadata = {
-  title: 'CTTI e-learning Centre :: Messages',
-  description: 'Contact Us at CTTI. We are an e-Learning Course Centre is an Online Platform devoted to bringing quality, standard and professional courses to your need wherever and whenever you need it',
+  title: "EDIMCS :: Contact", 
+  description: "EDIMCS is one of the largest cooperative organizations in Nigeria and in the world, with the goal of achieving a first-world Nigeria with empowerment and housing for low-income and small and medium enterprises as our primary goal."
 }
 
 const sendMessage = async (data: FormData) => {
@@ -20,8 +20,6 @@ const sendMessage = async (data: FormData) => {
     const lastname = data.get("lastname")?.valueOf()?.toString() || "";
     const email = data.get("email")?.valueOf()?.toString() || "";
     const phone = data.get("phone")?.valueOf()?.toString() || "";
-    const country = data.get("country")?.valueOf()?.toString() || "";
-    const state = data.get("state")?.valueOf()?.toString() || "";
     const message = data.get("message")?.valueOf()?.toString() || "";
 
     // Save to Database

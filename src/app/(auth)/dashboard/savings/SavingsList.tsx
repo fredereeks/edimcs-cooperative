@@ -134,6 +134,17 @@ export default function SavingsList({ savingsData, user }: { savingsData: Saving
         router.refresh()
     }
 
+    const handleDownload = async (e: React.MouseEvent) => {
+        try {
+            const heading = [`S/N`, `Member Details`, `Amount Saved`, `Date`, `Status`, `Verdict`];
+            const fileName = `Savings Record - ${moment(new Date()).format("DD-MM-YYYY")}`
+            const data = tableData.map((saving, i) => ([`${i + 1}`, `${saving?.saver?.firstname} ${saving?.saver?.middlename} ${saving?.saver?.lastname}`, saving?.amount, moment(saving?.createdAt).format("MM-DD-YYYY"), saving?.status, saving?.verdict]))
+            await handleExport(heading, data, fileName)
+        } catch (error) {
+            toast.error(`Unable to export selected record. Please, try again`, { id: "8290", duration: 6000})
+        }
+    }
+
     return (
         <>
             <section className="relative flex flex-col gap-2 p-4 bg-white  dark:bg-[#dbf0f724] dark:shadow-black shadow-slate-200 shadow-md rounded-lg">
@@ -144,6 +155,7 @@ export default function SavingsList({ savingsData, user }: { savingsData: Saving
                                 <th colSpan={user?.type === "Admin" ? 5 : 4}>
                                     <TableSearch title='SAVINGS' key={'72088234'} handleSearch={handleSearch} inputRef={inputRef}>
                                         <button onClick={() => modalRef.current?.showModal()} className="text-white bg-success px-4 py-2 rounded-md cursor-pointer text-xs font-light">Save Money</button>
+                                        <button onClick={handleDownload} className="bg-default hover:bg-default/90 text-white text-xs font-light rounded-md py-2 px-4 cursor-pointer hover:shadow-default">Download Record</button>
                                     </TableSearch>
                                 </th>
                             </tr>
@@ -254,6 +266,12 @@ export default function SavingsList({ savingsData, user }: { savingsData: Saving
                                 <div className="flex justify-center items-center gap-[.2rem] align-middle dark:text-slate-100 text-[.6rem]">
                                     <FaCalendarAlt className="text-inherit opacity-60" /> <p className="">{moment(new Date().getTime()).format("DD-MM-YYYY")}</p>
                                 </div>
+                            </div>
+                            <div className="py-2 text-center text-xs md:text-sm text-sky-500 bg-sky-100 rounded-md md:col-span-2 flex flex-col divider-y divider-slate-200">
+                                <h3 className="font-bold text-center">Please Make your Deposit into this Account BEFORE filling out the form</h3>
+                                <div className="flex justify-between py-1"><span>Bank Name:</span> <span>Premium Trust</span></div>
+                                <div className="flex justify-between py-1"><span>Account Number:</span> 0040102612</span></div>
+                                <div className="flex justify-between py-1"><span>Account Name:</span> <span>Enlightenment Drive Initiative Multipurpose Cooperative Society</span></div>
                             </div>
                         </div>
                     </div>

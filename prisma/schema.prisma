@@ -76,7 +76,7 @@ model Member {
   email            String          @unique @db.VarChar(100)
   memberId         String          @unique @db.VarChar(15)
   password         String          @db.VarChar(100)
-  image            String?         @db.Text()
+  image            String?         @db.LongText()
   phone            String?         @unique @db.VarChar(15)
   address          String?         @db.VarChar(200)
   type             MemberType      @default(Member)
@@ -344,7 +344,7 @@ model User {
   email       String       @unique
   phone       String       @unique
   password    String
-  image       String?
+  image       String?      @db.LongText()
   address     String?      @db.MediumText()
   country     String?
   state       String?

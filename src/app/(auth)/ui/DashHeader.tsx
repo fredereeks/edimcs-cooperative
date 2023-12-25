@@ -4,19 +4,19 @@ import React from 'react'
 import { usePathname } from 'next/navigation'
 import Link from 'next/link'
 import { IoMailUnreadOutline, IoLogOutOutline, IoMenuOutline, IoSunnyOutline, IoClipboardOutline } from "react-icons/io5";
-import { IoMoonOutline, IoCaretDown } from "react-icons/io5";
+import { IoMoonOutline } from "react-icons/io5";
 import { handleClickProp } from '@/types';
 import Image from 'next/image';
-import { edimcs_blackpeople, edimcs_logo } from '@/assets/images';
-import { signOut } from 'next-auth/react';
+import { edimcs_logo } from '@/assets/images';
+import { signOut, useSession } from 'next-auth/react';
 import { GlobalContext } from './GlobalProvider';
 
-export default function DashHeader({ handleClick, darkMode, toggleDarkMode }: handleClickProp) {
+export default function DashHeader({ handleClick, darkMode, toggleDarkMode, user }: handleClickProp) {
     const location = usePathname();
     const pathname = location === "/dashboard" ? "Dashboard" : location.indexOf("/dashboard/members/") > -1 ? "Member Details" : location.indexOf("/dashboard/admin/") > -1 ? "Admin Details" : location.replace("/dashboard/", "");
     const page = pathname[0].toUpperCase() + pathname.slice(1);
-    const user  = React.useContext(GlobalContext)
-    const userImage = user?.image || edimcs_blackpeople, fullname = user?.fullname
+    const session = useSession()
+    const userImage = user?.image || edimcs_logo, fullname = `${user?.firstname} ${user?.middlename} ${user?.lastname}`
     
     return (
         <header className="flex justify-between gap-2 py-2 px-4 items-center w-full flex-1">
@@ -43,8 +43,7 @@ export default function DashHeader({ handleClick, darkMode, toggleDarkMode }: ha
                 </button>
                 <div className="dropdown dropdown-end">
                     <label className='cursor-pointer dark:ring dark:ring-slate-400 ring-offset-base-100 ring-offset-1 h-8 w-8 flex justify-center items-center rounded-full overflow-hidden relative bg-primary dark:bg-slate-600/50' tabIndex={0}>
-                        <Image src={edimcs_logo} alt={`${fullname}`} fill={true} className="absolute left-0 top-0 object-cover w-full h-full" /> <IoCaretDown
-                            className="text-sm font-light opacity-90 text-inherit" />
+                        <Image src={userImage} alt={`${fullname}`} fill={true} className="absolute left-0 top-0 object-cover w-full h-full" />
                     </label>
                     <ul tabIndex={0} className="dropdown-content dark:bg-[#dce7f7] max-w-[10rem] z-[1] menu p-2 shadow bg-base-100 rounded-md w-52">
                         <li className='dark:hover:bg-slate-800 rounded-md'><Link className='dark:hover:text-slate-300 text-sm text-slate-700 p-2 relative flex' href={'/dashboard/profile'}> <IoClipboardOutline size={18} className='text-inherit ' /> Profile</Link></li>
