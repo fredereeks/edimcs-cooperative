@@ -13,6 +13,7 @@ import { TableSearch } from '../../ui'
 import { edimcs_dollarbills } from '@/assets/images'
 import moment from 'moment'
 import { handleWithdrawal, verdictAction } from '@/actions'
+import { handleExport } from '@/lib/handleExport'
 
 export default function WithdrawalList({ withdrawalData, user }: { withdrawalData: WithdrawalProps[], user: MemberProps }) {
     const [allTableData, setAllTableData] = useState<WithdrawalProps[] | []>(withdrawalData)

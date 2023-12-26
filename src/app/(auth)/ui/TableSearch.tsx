@@ -12,7 +12,7 @@ export default function TableSearch({ handleSearch, inputRef, title, children }:
                 {children}
             </div>
             <form onSubmit={handleSearch} className="flex items-center border border-slate-200 dark:border-slate-400/50 rounded-[5px] p-1 w-max max-w-sm text-slate-500 dark:text-slate-200 font-normal ml-auto">
-                <input required type="search" placeholder="Search Table..." id="search" className="px-2 bg-transparent outline-none flex-1 text-slate-500 dark:text-slate-400 font-normal text-xs sm:text-sm placeholder:text-xs  placeholder:text-slate-500 dark:placeholder:text-slate-400" onChange={handleSearch} ref={inputRef} aria-label="Search" aria-roledescription='Search Table' />
+                <input required type="search" placeholder="Search Table..." id="search" className="px-2 bg-transparent outline-none flex-1 text-slate-500 dark:text-slate-400 font-normal text-xs sm:text-sm placeholder:text-xs  placeholder:text-slate-500 dark:placeholder:text-slate-400" onInput={handleSearch} ref={inputRef} aria-label="Search" aria-roledescription='Search Table' />
                 <button className="p-1 cursor-pointer bg-transparent inline">
                     <IoSearchOutline className="text-inherit text-sm cursor-pointer" />
                 </button>

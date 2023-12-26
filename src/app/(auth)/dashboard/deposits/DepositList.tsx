@@ -288,7 +288,7 @@ export default function DepositList({ depositData, user }: { depositData: Deposi
                             <div className="py-2 text-center text-xs md:text-sm text-sky-500 bg-sky-100 rounded-md md:col-span-2 flex flex-col divider-y divider-slate-200">
                                 <h3 className="font-bold text-center">Please Make your Deposit into this Account BEFORE filling out the form</h3>
                                 <div className="flex justify-between py-1"><span>Bank Name:</span> <span>Premium Trust</span></div>
-                                <div className="flex justify-between py-1"><span>Account Number:</span> 0040102612</span></div>
+                                <div className="flex justify-between py-1"><span>Account Number: 0040102612</span></div>
                                 <div className="flex justify-between py-1"><span>Account Name:</span> <span>Enlightenment Drive Initiative Multipurpose Cooperative Society</span></div>
                             </div>
                         </div>

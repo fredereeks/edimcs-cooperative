@@ -6,6 +6,7 @@ import nodeMailer from 'nodemailer'
 import bcryptjs from 'bcryptjs'
 import { MemberRating, MemberType, Status, TransStatus, TransVerdict } from "@prisma/client";
 import { signOut } from "next-auth/react";
+import { randomUUID } from "crypto";
 // import db from "@/lib/db"
 
 export const makeSaving = async (data: FormData) => {
@@ -37,7 +38,7 @@ export const handleContact = async (data: FormData) => {
     const message = data.get("message")?.valueOf()?.toString() || "";
 
     // Save to Database
-    // const contactMessage = await prisma.contact.create({data: {
+    // const contact = await prisma.contact.create({data: {
     //     firstname, lastname, email, phone: phone || null, message
     // }})
     await prisma.contact.create({
@@ -45,7 +46,7 @@ export const handleContact = async (data: FormData) => {
         firstname, lastname, phone, message, email
       }
     })
-    // console.log({contactMessage})
+    // console.log({contact})
     // console.log({ firstname, lastname, email, phone, message })
     const html = `
                 <section className="flex flex-col">
@@ -96,6 +97,214 @@ export const handleContact = async (data: FormData) => {
   } catch (error) {
     console.log({ error })
     return { error: true, message: `Something went wrong. We could not send the mail...Please, try again` };
+  }
+}
+
+
+export const handleReply = async (data: FormData) => {
+  "use server"
+  try {
+    const email = data.get("email")?.valueOf()?.toString() || "";
+    const subject = data.get("subject")?.valueOf()?.toString() || "";
+    const id = data.get("id")?.valueOf()?.toString() || "";
+    const message = data.get("message")?.valueOf()?.toString() || "";
+
+    await prisma.contact.update({
+      where: {id}, data: { status: "Read" }
+  })
+
+    const html = `
+            <section style="max-width: 40rem; width: 100%; margin: 0 auto; padding: 2rem;" className="flex flex-col">
+                <div className="flex gap-1">
+                <div style="background: rgb(33, 150, 243); font-size: 2rem; font-weight: bold; color: white; text-align: center; padding: 2rem 1rem;" className="h-10 w-10 rounded-full bg-primary flex-shrink-0">Reply from EDIMCS</div>
+                    <div style="padding: 1rem;" className="flex flex-col flex-1">
+                      <p style="color: rgb(100,116,139); font-size: 1rem; line-height: 1.8;" className="text-xs text-slate-500">${message}</p>
+                        <a href='https://edimcs.com/courses' target="_blank" style="background: rgb(33, 150, 243); padding: 1rem 2rem; width: max-content; display: block; margin: 1rem auto 0; color: white; font-size: 1.125rem; text-decoration: none; line-height: 1.6;" className="font-bold text-slate-600 text-lg">View our Top Courses</a>
+                    </div>
+                    <p style="color: rgb(100,116,139); font-size: .65rem; padding: 1rem; text-align:center; line-height: 1.25rem;" className="text-xs text-slate-700 text-center py-2">You received this message because you sent one on the <a href='https://edimcs.com/courses' target="_blank" style="color: inherit; text-decoration: underline;" className="text-inherit">EDIMCS Website</a>. If you did NOT initiated this message, kindly ignore this message and you will not get a further message from us.</p>
+                </div>
+            </section>
+          `;
+    const transport = nodeMailer.createTransport({
+      // host: 'smtp.gmail.com',
+      host: process.env.MAIL_HOST,
+      port: 465,
+      secure: true,
+      auth: {
+        user: process.env.MAIL_USERNAME,
+        pass: process.env.MAIL_PASSWORD
+      }
+    })
+
+    // const userMail = typeof(email) === 'string' ? email.toString() || "invalidmail@gmail.com"
+
+    const info = transport.sendMail({
+      // from: `EDIMCS.com <brunomany1@gmail.com>`,
+      from: `EDIMCS.ng <${process.env.MAIL_FROM}>`,
+      to: email,
+      // bcc: 'EDIMCS Admin Response <adedejifrederickr@gmail.com>',
+      replyTo: email?.toString(),
+      subject,
+      html
+    }, (err, info) => {
+      if (err) {
+        return { error: true, message: `Something went wrong. We could not send the mail...Please, try again` };
+      }
+      console.log(`Message sent: ${info?.messageId}`)
+    })
+    // console.log({ info })
+    revalidatePath("/dashboard/messages")
+    return { error: false, message: `Your Reply has been sent to ${email}` };
+
+
+  } catch (error) {
+    return { error: true, message: `Something went wrong. We could not send the mail...Please, try again` };
+  }
+}
+
+export const handleSubscription = async (data: FormData) => {
+  try {
+      const email = data.get("email")?.valueOf()?.toString() || ""
+
+      // console.log({ firstname, middlename, lastname, phone, country, state, message, })
+
+      // Save in the Database
+      // await prisma.subcription.create({
+      //     data: {
+      //          email
+      //     }
+      // })
+      // // console.log({request})
+
+      // const html = `
+      //     <section className="flex flex-col">
+      //         <h2 style="color: rgb(51,65,85); text-align: center; font-weight: bold; font-size: 1.125rem; line-height: 1.6rem; border-bottom: 1px solid #eee; margin: .5rem; padding-bottom: .5rem;" className="text-slate-700 text-center">We got a New Enquiry!</h2>
+      //         <div className="flex gap-1">
+      //         <div style="background: rgb(33, 150, 243); color: white; text-align: center; border-radius: 5px;" className="h-10 w-10 rounded-full bg-primary flex-shrink-0">Enquiry Details</div>
+      //         <div className="flex flex-col flex-1">
+      //             <h4 style="color: #848484; font-weight: bold; font-size: 1.125rem; line-height: 1.6rem;" className="font-bold text-slate-600 text-lg">${firstname} ${middlename} ${lastname}</h4>
+      //             <p style="color: rgb(100,116,139); font-size: 0.75rem; line-height: 1rem;" className="text-xs text-slate-500">Email: ${email}</p>
+      //             <p style="color: rgb(100,116,139); font-size: 0.75rem; line-height: 1rem;" className="text-xs text-slate-500">Phone Number: ${phone}</p>
+      //         </div>
+      //         <p style="color: rgb(100,116,139); font-size: 0.875rem; line-height: 1.25rem;" className="text-sm text-slate-700 text-justify">${message}</p>
+      //         </div>
+      //     </section>
+      // `;
+      // const transport = nodeMailer.createTransport({
+      //     // host: 'smtp.gmail.com',
+      //     host: process.env.MAIL_HOST,
+      //     port: 465,
+      //     secure: true,
+      //     auth: {
+      //         user: process.env.MAIL_USERNAME,
+      //         pass: process.env.MAIL_PASSWORD
+      //     }
+      // })
+
+      // const info = await transport.sendMail({
+      //     // from: `EDIMCS.com <brunomany1@gmail.com>`,
+      //     from: `EDIMCS.ng <${process.env.MAIL_FROM}>`,
+      //     // to: ['EDIMCS Admin <adefredy1@gmail.com>', 'EDIMCS Admin <admin@edimcs.com>'],
+      //     to: ['EDIMCS Admin <adefredy1@gmail.com>'],
+      //     bcc: 'EDIMCS Admin <adedejifrederickr@gmail.com>',
+      //     replyTo: email,
+      //     subject: 'New Contact Message from EDIMCS',
+      //     html
+      // })
+      // revalidatePath("/")
+      return { error: false, message: `Thank you for your enquiry, ${email}. Expect a reply as soon as possible.` }
+  } catch (err) {
+      return { error: true, message: "Something went wrong while attempting to make your request, please, try again." }
+  }
+}
+
+export const handleUpload = async (data: FormData) => {
+  try {
+      const file = data.get("file") as string
+      const id = data.get("id") as string
+      await prisma.member.update({ where: { id }, data: { image: file } })
+      return { error: false, message: `Image Uploaded successfully` }
+  } catch (error) {
+      return { error: true, message: `Something went wrong. We are unable to process handle your upload, please try again.` }
+  }
+}
+
+export const handleReset = async (email: string) => {
+  const validMail = await prisma.member.findFirst({ where: { email } })
+  if (!validMail) return { error: true, message: `We do not have a member with this email...Please, confirm and try again` };
+  try {
+      const token = randomUUID()
+      const html = `
+              <section style="max-width: 40rem; width: 100%; margin: 0 auto; padding: 2rem;" className="flex flex-col">
+                  <div className="flex gap-1">
+                  <div style="background: rgb(33, 150, 243); font-size: 2rem; color: white; text-align: center; padding: 2rem 1rem;" className="h-10 w-10 rounded-full bg-primary flex-shrink-0">Password Reset</div>
+                      <div style="padding: 1rem;" className="flex flex-col flex-1">
+                      <p style="color: rgb(100,116,139); font-size: 1rem; line-height: 1.8;" className="text-xs text-slate-500">We have received your request to reset your password. If you indeed initiated the action, click the link below:</p>
+                          <a href='https://edimcs.com/auth/reset?email=${email}&token=${token}' target="_blank" style="background: rgb(33, 150, 243); padding: 1rem 2rem; width: max-content; margin: 0 auto; color: white; font-weight: bold; font-size: 1.125rem; line-height: 1.6rem;" className="font-bold text-slate-600 text-lg">View our Trending Courses</a>
+                      </div>
+                      <p style="color: rgb(100,116,139); font-size: .65rem; padding: 1rem; text-align:center; line-height: 1.25rem;" className="text-xs text-slate-700 text-center py-2">If you did not initiate this action. Simply ignore this message.</p>
+                  </div>
+              </section>
+          `;
+      const transport = nodeMailer.createTransport({
+          host: process.env.MAIL_HOST,
+          port: 465,
+          secure: true,
+          auth: {
+              user: process.env.MAIL_USERNAME,
+              pass: process.env.MAIL_PASSWORD
+          }
+      })
+
+      transport.sendMail({
+          from: `EDIMCS.ng <${process.env.MAIL_FROM}>`,
+          to: email,
+          // bcc: 'EDIMCS Password Reset <adedejifrederickr@gmail.com>',
+          replyTo: 'EDIMCS No Reply <no-reply@edimcs.com>',
+          subject: 'EDIMCS Password Reset Request',
+          html
+      }, (err, info) => {
+          if (err) {
+              return { error: true, message: `Something went wrong. We could not send the mail...Please, try again` };
+          }
+      })
+      await prisma.member.update({
+          where: { email },
+          data: { token }
+      })
+      revalidatePath("/auth/login")
+      return { error: false, message: `Password Reset Link has been sent to your email...` };
+  } catch (error) {
+      return { error: true, message: `Something went wrong. We could not send the mail...Please, try again` };
+  }
+}
+
+export const handlePasswordReset = async (data: FormData) => {
+  const email = data.get("email")?.valueOf() as string
+  const plainPassword = data.get("password")?.valueOf() as string
+  const salt = await bcryptjs.genSalt(10)
+  const password = await bcryptjs.hash(plainPassword, salt)
+  const validMail = await prisma.member.findFirst({ where: { email } })
+  if (!validMail) return { error: true, message: `We do not have a member with this email...Please, confirm and try again` };
+  try {
+      await prisma.member.update({
+          where: { email },
+          data: { password, token: "" }
+      })
+      revalidatePath("/auth/reset")
+      return { error: false, message: `Password Reset Link was successfully.` };
+  } catch (error) {
+      return { error: true, message: `Something went wrong. We could not complete your request...Please, try again` };
+  }
+}
+
+export const handleTokenVerification = async(email: string, token: string) => {
+  try {
+      const validMail = await prisma.member.findFirst({ where: { email, token } })
+      if (!validMail) return { error: true, message: `We do not have an account with these details...Perhaps, this is an old link` };
+      else return { error: false, message: `Success! Please, complete the process by choosing a new password` };
+  } catch (error) {
+      return { error: true, message: `Something went wrong. We could not complete your request...Please, try again` };
   }
 }
 

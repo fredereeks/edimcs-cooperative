@@ -33,35 +33,6 @@ export default function MemberList({ memberData }: { memberData: MemberProps[] }
         }
     }
 
-    const handleUpgrade = async(id: string, type: string) => {
-        try {
-            const res = await memberUpgradeAction(id, type)
-            if(res.error){
-                toast.error(res?.message, {id: "8290", duration: 5000})
-            }
-            else{
-                toast.success(res?.message, {id: "8290", duration: 5000})
-            }
-            router.refresh()
-        } catch (error) {
-            toast.error(`Unable to process your request. Please, check your connection and try again`)
-        }
-    }
-
-    const handleStatus = async(id: string, type: string) => {
-        try {
-            const res = await memberStatusAction(id, type)
-            if(res.error){
-                toast.error(res?.message, {id: "8290", duration: 5000})
-            }
-            else{
-                toast.success(res?.message, {id: "8290", duration: 5000})
-            }
-            router.refresh()
-        } catch (error) {
-            toast.error(`Unable to process your request. Please, check your connection and try again`)
-        }
-    }
 
     return (
         <>
