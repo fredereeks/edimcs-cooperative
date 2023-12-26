@@ -4,14 +4,15 @@ import React, { useRef, useState } from 'react'
 import { Modal, TableSearch } from '@/app/(auth)/ui'
 import toast from 'react-hot-toast'
 import Link from 'next/link'
-import { MessageProps } from '@/types'
+import { MessageProps } from '@/types';
+import { handleReply } from '@/actions'
+
 
 type MessageListProps = {
     messageData: MessageProps[] | []
-    sendMessage: (data: FormData) => Promise<{ error: boolean; message: string; }>
 }
 
-export default function MessageList({ messageData, sendMessage }: MessageListProps) {
+export default function MessageList({ messageData }: MessageListProps) {
     const [allTableData, setAllTableData] = useState<MessageProps[]>(messageData)
     const [tableData, setTableData] = useState<MessageProps[]>(messageData)
     const modalRef = useRef<HTMLDialogElement | null>(null)
@@ -34,21 +35,21 @@ export default function MessageList({ messageData, sendMessage }: MessageListPro
             modalRef.current?.showModal()
         }
         catch (err) {
-            toast.error(`Could not Show this Message. Check your Internet connection and try again`)
+            toast.error(`Could not Show this Message. Check your Internet connection and try again`, { id: "86249", duration: 5000 }) 
         }
     }
 
-    const handleReply = (id: number | string) => {
+    const handleShowReply = (id: number | string) => {
         try {
             // make request to get user details
             const targetMessage = messageData?.find(message => message.id.toString() === id.toString())
             if (targetMessage) {
                 setSelectedMessage(prev => ({ ...targetMessage }))
             }
-            // replyRef.current?.showModal()
+            replyRef.current?.showModal()
         }
         catch (err) {
-            toast.error(`Could not Send your reply. Check your Internet connection and try again`)
+            toast.error(`Could not Send your reply. Check your Internet connection and try again`, { id: "86249", duration: 5000 }) 
         }
     }
 
@@ -57,13 +58,13 @@ export default function MessageList({ messageData, sendMessage }: MessageListPro
         setLoading(true)
         try {
             const formData = new FormData(formRef?.current!)
-            const res = await sendMessage(formData)
+            const res = await handleReply(formData)
             res.error ? toast.error(res.message) : toast.success(res.message)
             formRef.current?.reset()
             replyRef.current?.close()
         }
         catch (err) {
-            toast.error(`Sorry, we could not send your message. Please, check your network and try again`)
+            toast.error(`Sorry, we could not send your message. Please, check your network and try again`, { id: "86249", duration: 5000 }) 
         }
         setLoading(false)
     }
@@ -117,7 +118,7 @@ export default function MessageList({ messageData, sendMessage }: MessageListPro
                                                             <FaCalendarAlt className="text-inherit opacity-60" /> <p className="">{contact.createdAt?.toLocaleString("en", { dateStyle: "long" })}</p>
                                                         </div>
                                                     </div>
-                                                    <p className="text-[.6rem] sm:text-[.7rem] text-slate-500 dark:text-slate-50 font-extralight opacity-70 leading-tight truncate ellipsis line-clamp-1 whitespace-nowrap max-w-full">{contact.message}</p>
+                                                    <p className="text-[.6rem] sm:text-[.7rem] text-slate-700 dark:text-slate-50 font-normal opacity-70 leading-tight truncate ellipsis line-clamp-1 whitespace-nowrap max-w-full">{contact.message}</p>
                                                 </div>
                                             </div>
                                         </td>
@@ -128,7 +129,8 @@ export default function MessageList({ messageData, sendMessage }: MessageListPro
                                             </div>
                                         </td>
                                         <td className="align-middle">
-                                            <h4 onClick={() => handleReply(contact.id)} className="flex justify-center items-center gap-[.2rem] align-middle text-slate-400 text-[.6rem] py-[.1rem] sm:py-1"><button className="bg-primary text-white text-inherit px-3 rounded-sm cursor-pointer">Reply</button></h4>
+                                            {contact.status === "Unread" ? 
+                                            <h4 onClick={() => handleShowReply(contact.id)} className="flex justify-center items-center gap-[.2rem] align-middle text-slate-400 text-[.6rem] py-[.1rem] sm:py-1"><button className="bg-primary text-white text-inherit px-3 rounded-sm cursor-pointer">Reply</button></h4> : "" }
                                         </td>
                                     </tr>
                                 ))
@@ -165,10 +167,10 @@ export default function MessageList({ messageData, sendMessage }: MessageListPro
             </Modal>
             <Modal modalRef={replyRef}>
                 <div className='p-5 flex flex-col gap-4'>
-                    <span className="text-[.6rem] sm:text-[.75rem] w-full text-success bg-success/20 dark:bg-success p-2 rounded-xs uppercase text-center">Reply Meesage </span>
+                    <span className="text-[.6rem] sm:text-[.75rem] w-full text-primary bg-primary/20 dark:bg-primary p-2 rounded-xs uppercase text-center">Reply Message </span>
                     <div className="w-full flex items-center gap-2">
-                        <h4 className="text-sm bg-slate-200/50 dark:bg-slate-200 text-slate-700 font-bold py-2 px-4 rounded-md uppercase mr-2">REPLY</h4>
-                        <div className={`h-7 sm:h-8 w-7 sm:w-8 flex-shrink-0 flex justify-center items-center rounded-full overflow-hidden relative bg-success dark:bg-slate-100 text-slate-100 dark:text-slate-600`}>
+                        {/* <h4 className="text-sm bg-slate-200/50 dark:bg-slate-200 text-slate-700 font-bold py-2 px-4 rounded-md uppercase mr-2">REPLY</h4> */}
+                        <div className={`h-7 sm:h-8 w-7 sm:w-8 flex-shrink-0 flex justify-center items-center rounded-full overflow-hidden relative bg-primary dark:bg-slate-100 text-slate-100 dark:text-slate-600`}>
                             <FaEnvelope className='text-sm sm:text-base' />
                         </div>
                         <div className='flex-1 flex flex-col justify-center w-full'>
@@ -181,9 +183,12 @@ export default function MessageList({ messageData, sendMessage }: MessageListPro
                         </div>
                     </div>
                     <form ref={formRef} action={'dialog'} onSubmit={handleSubmit} className="relative flex flex-col gap-2">
+                        <input type="hidden" name="id" value={selectedMessage?.id} />
+                        <input type="hidden" name="email" value={selectedMessage?.email} />
+                        <input type="hidden" name="type" value="contact" />
                         <input type="text" ref={subjectRef} name='subject' placeholder='Message Title (Subject)' className="relative outline-none py-2 px-4 border border-gray-300 rounded-md text-gray-600 text-sm placeholder-opacity-70 bg-transparent focus-within:bg-transparent focus:bg-transparent" />
                         <textarea ref={messageRef} cols={30} rows={10} name='message' placeholder='Message Content (Body)' className="relative outline-none py-2 px-4 border border-gray-300 rounded-md text-gray-600 text-sm placeholder-opacity-70 bg-transparent focus-within:bg-transparent focus:bg-transparent" ></textarea>
-                        <button type="submit" disabled={loading} className="py-2 px-4 sm:px-8 bg-primary text-white text-[.6rem] text-xs rounded-md hover:bg-primary/80 cursor-pointer">Send Message</button>
+                        <button type="submit" disabled={loading} className="py-2 px-4 sm:px-8 bg-primary text-white text-[.6rem] text-xs rounded-md hover:bg-primary/80 cursor-pointer">{loading ? "Sending Message..." : "Send Reply"}</button>
                     </form>
                 </div>
             </Modal>

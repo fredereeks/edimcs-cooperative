@@ -52,7 +52,7 @@ export const handleContact = async (data: FormData) => {
                 <section className="flex flex-col">
                     <h2 style="color: rgb(51,65,85); text-align: center; font-weight: bold; font-size: 1.125rem; line-height: 1.6rem; border-bottom: 1px solid #eee; margin: .5rem; padding-bottom: .5rem;" className="text-slate-700 text-center">New Contact Message!</h2>
                     <div className="flex gap-1">
-                    div style="background: rgb(33, 150, 243); color: white; text-align: center; border-radius: 5px;" className="h-10 w-10 rounded-full bg-primary flex-shrink-0">Contact Details</div>
+                    div style="background: rgb(59, 130, 246); color: white; text-align: center; border-radius: 5px;" className="h-10 w-10 rounded-full bg-primary flex-shrink-0">Contact Details</div>
                         <div className="flex flex-col flex-1">
                             <h4 style="color: #848484; font-weight: bold; font-size: 1.125rem; line-height: 1.6rem;" className="font-bold text-slate-600 text-lg">${firstname} ${lastname}</h4>
                             <p style="color: rgb(100,116,139); font-size: 0.75rem; line-height: 1rem;" className="text-xs text-slate-500">Email: ${email}</p>
@@ -116,12 +116,12 @@ export const handleReply = async (data: FormData) => {
     const html = `
             <section style="max-width: 40rem; width: 100%; margin: 0 auto; padding: 2rem;" className="flex flex-col">
                 <div className="flex gap-1">
-                <div style="background: rgb(33, 150, 243); font-size: 2rem; font-weight: bold; color: white; text-align: center; padding: 2rem 1rem;" className="h-10 w-10 rounded-full bg-primary flex-shrink-0">Reply from EDIMCS</div>
+                <div style="background: rgb(59, 130, 246); font-size: 2rem; font-weight: bold; color: white; text-align: center; padding: 2rem 1rem;" className="h-10 w-10 rounded-full bg-primary flex-shrink-0">Reply from EDIMCS</div>
                     <div style="padding: 1rem;" className="flex flex-col flex-1">
                       <p style="color: rgb(100,116,139); font-size: 1rem; line-height: 1.8;" className="text-xs text-slate-500">${message}</p>
-                        <a href='https://edimcs.com/courses' target="_blank" style="background: rgb(33, 150, 243); padding: 1rem 2rem; width: max-content; display: block; margin: 1rem auto 0; color: white; font-size: 1.125rem; text-decoration: none; line-height: 1.6;" className="font-bold text-slate-600 text-lg">View our Top Courses</a>
+                        <a href='https://edimcs.com/money-pool' target="_blank" style="background: rgb(59, 130, 246); padding: 1rem 2rem; width: max-content; display: block; margin: 1rem auto 0; color: white; font-size: 1.125rem; text-decoration: none; line-height: 1.6;" className="font-bold text-slate-600 text-lg">View our Top Courses</a>
                     </div>
-                    <p style="color: rgb(100,116,139); font-size: .65rem; padding: 1rem; text-align:center; line-height: 1.25rem;" className="text-xs text-slate-700 text-center py-2">You received this message because you sent one on the <a href='https://edimcs.com/courses' target="_blank" style="color: inherit; text-decoration: underline;" className="text-inherit">EDIMCS Website</a>. If you did NOT initiated this message, kindly ignore this message and you will not get a further message from us.</p>
+                    <p style="color: rgb(100,116,139); font-size: .65rem; padding: 1rem; text-align:center; line-height: 1.25rem;" className="text-xs text-slate-700 text-center py-2">You received this message because you sent one on the <a href='https://edimcs.com/money-pool' target="_blank" style="color: inherit; text-decoration: underline;" className="text-inherit">EDIMCS Website</a>. If you did NOT initiated this message, kindly ignore this message and you will not get a further message from us.</p>
                 </div>
             </section>
           `;
@@ -180,7 +180,7 @@ export const handleSubscription = async (data: FormData) => {
       //     <section className="flex flex-col">
       //         <h2 style="color: rgb(51,65,85); text-align: center; font-weight: bold; font-size: 1.125rem; line-height: 1.6rem; border-bottom: 1px solid #eee; margin: .5rem; padding-bottom: .5rem;" className="text-slate-700 text-center">We got a New Enquiry!</h2>
       //         <div className="flex gap-1">
-      //         <div style="background: rgb(33, 150, 243); color: white; text-align: center; border-radius: 5px;" className="h-10 w-10 rounded-full bg-primary flex-shrink-0">Enquiry Details</div>
+      //         <div style="background: rgb(59, 130, 246); color: white; text-align: center; border-radius: 5px;" className="h-10 w-10 rounded-full bg-primary flex-shrink-0">Enquiry Details</div>
       //         <div className="flex flex-col flex-1">
       //             <h4 style="color: #848484; font-weight: bold; font-size: 1.125rem; line-height: 1.6rem;" className="font-bold text-slate-600 text-lg">${firstname} ${middlename} ${lastname}</h4>
       //             <p style="color: rgb(100,116,139); font-size: 0.75rem; line-height: 1rem;" className="text-xs text-slate-500">Email: ${email}</p>
@@ -237,10 +237,10 @@ export const handleReset = async (email: string) => {
       const html = `
               <section style="max-width: 40rem; width: 100%; margin: 0 auto; padding: 2rem;" className="flex flex-col">
                   <div className="flex gap-1">
-                  <div style="background: rgb(33, 150, 243); font-size: 2rem; color: white; text-align: center; padding: 2rem 1rem;" className="h-10 w-10 rounded-full bg-primary flex-shrink-0">Password Reset</div>
+                  <div style="background: rgb(59, 130, 246); font-size: 2rem; color: white; text-align: center; padding: 2rem 1rem;" className="h-10 w-10 rounded-full bg-primary flex-shrink-0">Password Reset</div>
                       <div style="padding: 1rem;" className="flex flex-col flex-1">
                       <p style="color: rgb(100,116,139); font-size: 1rem; line-height: 1.8;" className="text-xs text-slate-500">We have received your request to reset your password. If you indeed initiated the action, click the link below:</p>
-                          <a href='https://edimcs.com/auth/reset?email=${email}&token=${token}' target="_blank" style="background: rgb(33, 150, 243); padding: 1rem 2rem; width: max-content; margin: 0 auto; color: white; font-weight: bold; font-size: 1.125rem; line-height: 1.6rem;" className="font-bold text-slate-600 text-lg">View our Trending Courses</a>
+                          <a href='https://edimcs.com/auth/reset?email=${email}&token=${token}' target="_blank" style="background: rgb(59, 130, 246); padding: 1rem 2rem; width: max-content; margin: 0 auto; color: white; font-weight: bold; font-size: 1.125rem; line-height: 1.6rem;" className="font-bold text-slate-600 text-lg">View our Trending Courses</a>
                       </div>
                       <p style="color: rgb(100,116,139); font-size: .65rem; padding: 1rem; text-align:center; line-height: 1.25rem;" className="text-xs text-slate-700 text-center py-2">If you did not initiate this action. Simply ignore this message.</p>
                   </div>

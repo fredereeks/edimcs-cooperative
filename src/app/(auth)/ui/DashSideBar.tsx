@@ -88,7 +88,7 @@ export default function DashSideBar({ navShow, setNavShow, user }: { navShow: bo
                         {
                             navLinks?.map((navLink, i) => {
                                 const active = (navLink.title === page) ? 'bg-slate-200/30 dark:bg-white/10' : 'bg-white dark:bg-transparent dark:hover:bg-white/10'
-                                if(user?.type === "Member" && navLink.title === "Members") {
+                                if(user?.type === "Member" && (navLink.title === "Members")) {
                                      return null
                                 }
                                 return (<Link href={navLink.link} key={navLink.id} className={`flex gap-2 p-2 transition-all duration-300 rounded-md ${active}`}>

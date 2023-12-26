@@ -47,7 +47,9 @@ export default function DashHeader({ handleClick, darkMode, toggleDarkMode, user
                     </label>
                     <ul tabIndex={0} className="dropdown-content dark:bg-[#dce7f7] max-w-[10rem] z-[1] menu p-2 shadow bg-base-100 rounded-md w-52">
                         <li className='dark:hover:bg-slate-800 rounded-md'><Link className='dark:hover:text-slate-300 text-sm text-slate-700 p-2 relative flex' href={'/dashboard/profile'}> <IoClipboardOutline size={18} className='text-inherit ' /> Profile</Link></li>
-                        <li className='dark:hover:bg-slate-800 rounded-md'><Link className='dark:hover:text-slate-300 text-sm text-slate-700 p-2 relative flex' href={'/dashboard/messages'}><IoMailUnreadOutline size={18} className='text-inherit' /> Messages</Link></li>
+                        {
+                            user?.type === "Admin" && <li className='dark:hover:bg-slate-800 rounded-md'><Link className='dark:hover:text-slate-300 text-sm text-slate-700 p-2 relative flex' href={'/dashboard/messages'}><IoMailUnreadOutline size={18} className='text-inherit' /> Messages</Link></li>
+                        }
                         <li className='dark:hover:bg-slate-800 rounded-md'><button onClick={() => signOut()} className='dark:hover:text-slate-300 text-sm text-slate-700 p-2 relative flex'> <IoLogOutOutline size={18} className='text-inherit' /> Logout</button></li>
                     </ul>
                 </div>
