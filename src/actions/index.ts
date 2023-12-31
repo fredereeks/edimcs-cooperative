@@ -4,7 +4,7 @@ import prisma from "@/lib/prisma"
 import { revalidatePath } from "next/cache";
 import nodeMailer from 'nodemailer'
 import bcryptjs from 'bcryptjs'
-import { MemberRating, MemberType, Status, TransStatus, TransVerdict } from "@prisma/client";
+import { AccountType, Gender, MemberRating, MemberType, RelationshipStatus, Status, TransStatus, TransVerdict } from "@prisma/client";
 import { signOut } from "next-auth/react";
 import { randomUUID } from "crypto";
 // import db from "@/lib/db"
@@ -355,7 +355,7 @@ export const handleSignup = async (data: FormData) => {
     if (newUser) {
       return {
         error: false,
-        message: `Welcome, ${firstname} ${middlename} ${lastname}. Glad to have you join our team!`
+        message: `Welcome, ${firstname} ${middlename} ${lastname}. Glad to have you join us! Your Member ID is ${memberId.toUpperCase()}, please, keep it safe.`
       }
     }
     else {
@@ -525,9 +525,61 @@ export const updateAccountDetails = async (data: FormData) => {
           memberId: id
         },
         create: {
-          accountnumber, bvn, memberId: id, type: type === "Savings" ? "Savings" : type === "Current" ? "Current" : "Fixed", banker,
+          accountnumber, bvn, memberId: id, type: AccountType[type as keyof typeof AccountType], banker,
         },
-        update: { accountnumber, bvn, memberId: id, type: type === "Savings" ? "Savings" : type === "Current" ? "Current" : "Fixed", banker, }
+        update: { accountnumber, bvn, memberId: id, type: AccountType[type as keyof typeof AccountType], banker, }
+      })
+      revalidatePath("/dashboard/profile")
+    }
+    return { error: false, message: `Account Updated Successfully.` }
+  } catch (err) {
+    return { error: true, message: "Something went wrong while attempting to make your request, please, try again." }
+  }
+}
+export const updateProfileDetails = async (data: FormData) => {
+  try {
+    /* id
+relationshipStatus
+nameOfSpouse
+nin
+occupation
+jobStatus
+gender
+country
+stateOfOrigin
+stateOfResidence
+lga
+nextOfKin
+nextOfKinRelationship
+nextOfKinPhone */
+    const id = data.get("id")?.valueOf().toString()!
+    const relationshipStatus = data.get("relationshipStatus")?.valueOf() as string
+    const nameOfSpouse = data.get("nameOfSpouse")?.valueOf() as string
+    const nin = data.get("nin")?.valueOf() as unknown as number
+    const occupation = data.get("occupation")?.valueOf() as string 
+    const jobStatus = data.get("jobStatus")?.valueOf() as string 
+    const gender = data.get("gender")?.valueOf() as string 
+    const country = data.get("country")?.valueOf() as string 
+    const stateOfOrigin = data.get("stateOfOrigin")?.valueOf() as string 
+    const stateOfResidence = data.get("stateOfResidence")?.valueOf() as string 
+    const lga = data.get("lga")?.valueOf() as string 
+    const nextOfKin = data.get("nextOfKin")?.valueOf() as string 
+    const nextOfKinRelationship = data.get("nextOfKinRelationship")?.valueOf() as string 
+    const nextOfKinPhone = data.get("nextOfKinPhone")?.valueOf() as string 
+    const confirmPassword = data.get("confirm-password")?.valueOf() as string
+    const currentPassword = data.get("extra")?.valueOf() as string
+    // Confirm Password
+    const matchPassword = bcryptjs.compareSync(confirmPassword, currentPassword)
+    if (!matchPassword) return { error: true, message: "Invalid user confirmation password supplied. This must match your current password" }
+    else {
+      await prisma.memberInfo.upsert({
+        where: {
+          memberId: id
+        },
+        create: {
+          memberId: id, relationshipStatus: RelationshipStatus[relationshipStatus as keyof typeof RelationshipStatus], nameOfSpouse, nin: Number(nin), occupation, jobStatus, gender: Gender[gender as keyof typeof Gender], country, stateOfOrigin, stateOfResidence, lga, nextOfKin, nextOfKinRelationship, nextOfKinPhone, 
+        },
+        update: { relationshipStatus: RelationshipStatus[relationshipStatus as keyof typeof RelationshipStatus], nameOfSpouse, nin: Number(nin), occupation, jobStatus, gender: Gender[gender as keyof typeof Gender], country, stateOfOrigin, stateOfResidence, lga, nextOfKin, nextOfKinRelationship, nextOfKinPhone }
       })
       revalidatePath("/dashboard/profile")
     }

@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import React from 'react'
-import { IoGlobeOutline, IoHomeOutline, IoLogoFacebook, IoPhoneLandscape } from 'react-icons/io5'
+import { IoGlobeOutline, IoHomeOutline, IoMailOpenOutline, IoPhoneLandscape } from 'react-icons/io5'
 import 'aos/dist/aos.css';
 import ContactForm from './ContactForm'
 import { Metadata } from 'next';
@@ -35,11 +35,12 @@ export default function page() {
             <p data-aos-duration="1000" data-aos="zoom-in-right"  className="text-xs font-light max-w-xs text-primary">Contact</p>
             <h3 data-aos-duration="1000" data-aos="fade-down-right" data-aos-delay="1000" className="flex-1 sm:ml-11 text-slate-700 text-4xl sm:text-5xl leading-tight font-bold max-w-md sm:max-w-xl">We provide a <span className="text-primary">variety of ways</span> to contact us.</h3>
           </div>
-          <div className="relative z-20 container mx-auto py-20 grid sm:grid-cols-2 text-white">
+          <div className="relative z-20 container mx-auto py-20 grid lg:grid-cols-2 text-white">
             <div className="flex-1 flex flex-col justify-center md:pr-4">
               <ContactForm  />
             </div>
-            <div className="grid sm:grid-cols-[repeat(auto-fit,minmax(256px,1fr))]">
+            {/* <div className="grid sm:grid-cols-[repeat(auto-fit,minmax(256px,1fr))]"> */}
+            <div className="grid grid-cols-1 xs:grid-cols-1 sm:grid-cols-2">
               <aside className={`bg-neutral-800/10 p-7 flex flex-col gap-2`}>
                 <span className={`text-2xl flex-shrink-0 pt-5 text-slate-800`}><IoPhoneLandscape key={8345802} className="text-inherit" /></span>
                 <div className="py-5 flex flex-col gap-2">
@@ -62,14 +63,20 @@ export default function page() {
                 <div className="py-5 flex flex-col gap-2">
                   <h3 className={`text-lg sm:text-xl font-medium sm:font-semibold max-w-lg leading-tight text-slate-100`}>Socials</h3>
                   <div className="flex flex-col">
-                    <div className="flex flex-wrap gap-5 pb-3">
-                      <Link href={`https://www.facebook.com/profile.php?id=61553709279648&mibextid=ZbWKwL`} referrerPolicy='no-referrer' target='_blank' style={{ lineHeight: 2 }} className={`text-sm sm:text-base font-light leading-tight text-left text-slate-100`}><FaFacebook className="text-inherit" /></Link>
-                      <Link href={`https://instagram.com/edimcs_ng?igshid=OGQ5ZDc2ODk2ZA`} referrerPolicy='no-referrer' target='_blank' style={{ lineHeight: 2 }} className={`text-sm sm:text-base font-light leading-tight text-left text-slate-100`}><FaInstagram className="text-inherit" /></Link>
-                      <Link href={`https://wa.link/t01thy`} referrerPolicy='no-referrer' target='_blank' style={{ lineHeight: 2 }} className={`text-xs sm:text-sm font-light leading-tight text-left text-slate-100`}><FaWhatsapp className="text-inherit" /></Link>
+                    <div className="flex flex-wrap gap-3 pb-3">
+                      <Link href={`https://www.facebook.com/profile.php?id=61553709279648&mibextid=ZbWKwL`} referrerPolicy='no-referrer' target='_blank' style={{ lineHeight: 2 }} className={`-ml-2 p-2 text-base sm:text-lg font-light leading-tight text-left text-slate-100`}><FaFacebook className="text-inherit" /></Link>
+                      <Link href={`https://instagram.com/edimcs_ng?igshid=OGQ5ZDc2ODk2ZA`} referrerPolicy='no-referrer' target='_blank' style={{ lineHeight: 2 }} className={`p-2 text-base sm:text-lg font-light leading-tight text-left text-slate-100`}><FaInstagram className="text-inherit" /></Link>
+                      <Link href={`https://wa.link/t01thy`} referrerPolicy='no-referrer' target='_blank' style={{ lineHeight: 2 }} className={`p-2 text-base sm:text-lg font-light leading-tight text-left text-slate-100`}><FaWhatsapp className="text-inherit" /></Link>
                     </div>
-                    <Link href={`mailto: admin@edimcs.com`} referrerPolicy='no-referrer' target='_blank' style={{ lineHeight: 2 }} className={`text-xs sm:text-sm font-light leading-tight text-left text-slate-100`}>admin@edimcs.com</Link>
-                    <Link href={`mailto: info@edimcs.com`} referrerPolicy='no-referrer' target='_blank' style={{ lineHeight: 2 }} className={`text-xs sm:text-sm font-light leading-tight text-left text-slate-100`}>help@edimcs.com</Link>
                   </div>
+                </div>
+              </aside>
+              <aside className={`bg-slate-50 p-7 flex flex-col gap-2`}>
+                <span className={`text-2xl flex-shrink-0 pt-5 text-slate-800`}><IoMailOpenOutline key={8345800} className="text-inherit" /></span>
+                <div className="py-5 flex flex-col gap-2">
+                  <h3 data-aos-duration="1000" data-aos="fade-left" data-aos-delay="1000"  className={`text-lg sm:text-xl font-medium sm:font-semibold max-w-lg leading-tight text-slate-800`}>Email Address</h3>
+                    <Link href={`mailto: admin@edimcs.com`} referrerPolicy='no-referrer' target='_blank' data-aos-duration="1000" data-aos="zoom-left" data-aos-delay="1000" style={{ lineHeight: 2 }} className={`text-xs sm:text-sm font-light leading-tight text-left text-slate-800`}>admin@edimcs.com</Link>
+                    <Link href={`mailto: info@edimcs.com`} referrerPolicy='no-referrer' target='_blank' data-aos-duration="1000" data-aos="zoom-left" data-aos-delay="1000" style={{ lineHeight: 2 }} className={`text-xs sm:text-sm font-light leading-tight text-left text-slate-800`}>info@edimcs.com</Link>
                 </div>
               </aside>
             </div>

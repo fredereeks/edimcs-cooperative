@@ -37,7 +37,7 @@ export type handleClickProp = {
     handleClick: () => boolean | void
     darkMode: boolean | string
     toggleDarkMode: () => boolean | void,
-    user: MemberProps 
+    user: MemberProps
     //   handleLogOut: (data: FormData) => Promise<void>, 
 }
 
@@ -182,6 +182,7 @@ export type MemberProps = {
     updatedBy?: string | Date
     loanRating?: "Basic" | "BasicPlus" | "Standard" | "StandardPlus" | "Premium"
     accountDetails?: AccountDetailsProps[]
+    MemberInfo?: ProfileInformation | null
     loans?: LoanProps[]
     savings?: SavingsProps[]
     sentMessages?: MessageProps[]
@@ -191,6 +192,25 @@ export type MemberProps = {
     deposits?: DepositProps[]
     withdrawals?: WithdrawalProps[]
     balance?: number
+}
+
+export interface ProfileInformation {
+    id: string
+    relationshipStatus: "Single" | "Married" | "Divorced" | "Widow" | "Widower"
+    nameOfSpouse: string
+    nin: number
+    occupation: string
+    jobStatus: string
+    gender: "Male" | "Female"
+    country: string
+    stateOfOrigin: string
+    stateOfResidence: string
+    lga: string
+    nextOfKin: string
+    nextOfKinRelationship: string
+    nextOfKinPhone: string
+    owner: MemberProps
+    memberId: string
 }
 
 export interface NavLinkProps {

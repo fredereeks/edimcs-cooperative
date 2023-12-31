@@ -14,7 +14,7 @@ const fetchUser = async (email: string) => {
   "use server"
   const user = await prisma.member.findFirst({
     where: { email },
-    include: { accountDetails: true }
+    include: { accountDetails: true, MemberInfo: true }
   })
   if (!user) {
     signOut()
@@ -22,19 +22,6 @@ const fetchUser = async (email: string) => {
   }
   // console.log({user})
   return user as MemberProps
-}
-
-const handleUpload = async(data: FormData) => {
-  "use server"
-  try {
-    const file = data.get("file") as string
-    const id = data.get("id") as string
-    // console.log({file, id})
-    await prisma.member.update({ where: { id },  data: { image: file } })
-    return {error: false, message: `Image Uploaded successfully`}
-  } catch (error) {
-    return {error: true, message: `Something went wrong. We are unable to process handle your upload, please try again.`}
-  }
 }
 
 
@@ -47,11 +34,9 @@ export default async function Profile() {
   const session = await getServerSession(authOptions)
   const user = await fetchUser(session?.user?.email!)
 
-  // const accountDetails: AccountDetailsProps[] = member?.loanRating ? member.loanRating : [{
-
   return (
     <main className="flex flex-col px-2">
-      <ProfileForm handleUpload={handleUpload} user={user} />
+      <ProfileForm user={user} />
     </main>
   )
 }

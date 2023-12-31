@@ -7,12 +7,12 @@ import toast from 'react-hot-toast'
 import PhoneInput from 'react-phone-number-input'
 import flags from 'react-phone-number-input/flags';
 import 'react-phone-number-input/style.css'
-// import { redirect } from 'next/navigation';
+import { handleSignup } from '@/actions'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 
 
-export default function SignupForm({ handleSignup }: { handleSignup: (formData: FormData) => Promise<{ error: boolean, message: string }> }) {
+export default function SignupForm() {
     const [loading, setLoading] = useState<boolean>(false)
     const formRef = useRef<HTMLFormElement | null>(null)
     const router = useRouter()
@@ -92,7 +92,7 @@ export default function SignupForm({ handleSignup }: { handleSignup: (formData: 
                     <TextInput onChange={e => setConfirmPassword(e.currentTarget.value)} value={confirmPassword} label={'Confirm Password'} containerClassName={'text-slate-600'} key={823406} type='password' name='password' id='confirm-password' minLength={6} placeholder='Confirm Password' required={true} />
                     <div className={`flex flex-col gap-1`}>
                         <label htmlFor={"loanRating"} className="text-gray-500 text-sm">Member Type (Fee)</label>
-                        <select ref={loanRatingRef} onChange={handleLoanRatingChange} name="loanRating" id="loanRating" className="relative outline-none py-2 px-4 border border-gray-300 rounded-md text-gray-600 text-sm placeholder-opacity-70 bg-transparent focus-within:bg-transparent focus:bg-transparent">
+                        <select ref={loanRatingRef} defaultValue={loanRatings.Basic} onChange={handleLoanRatingChange} name="loanRating" id="loanRating" className="relative outline-none py-2 px-4 border border-gray-300 rounded-md text-gray-600 text-sm placeholder-opacity-70 bg-transparent focus-within:bg-transparent focus:bg-transparent">
                             <option className='normal-text text-sm bg-white font-sans' value={"Basic"}>Basic (&#8358;3,000)</option>
                             <option className='normal-text text-sm bg-white font-sans' value={"BasicPlus"}>Basic Plus (&#8358;5,000)</option>
                             <option className='normal-text text-sm bg-white font-sans' value={"Standard"}>Standard (&#8358;10,000)</option>

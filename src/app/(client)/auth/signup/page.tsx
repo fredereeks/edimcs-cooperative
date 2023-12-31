@@ -2,7 +2,6 @@ import React from 'react'
 import SignupForm from './SignupForm'
 import Image from 'next/image'
 import { edimcs_bookkeeping } from '@/assets/images'
-import { handleSignup } from '@/actions'
 import { Metadata } from 'next'
 
 export const metadata: Metadata = {
@@ -17,7 +16,7 @@ export default async function page() {
         <div className="container mx-auto flex flex-col-reverse md:flex-row relative z-10">
           <aside className="py-5 sm:py-20 flex flex-2 flex-col justify-center relative overflow-hidden">
             <div className="max-w-xl mx-auto w-full flex flex-col justify-center py-5 sm:px-5">
-              <SignupForm key={8347704} handleSignup={handleSignup} />
+              <SignupForm key={8347704} />
             </div>
           </aside>
           <aside className="relative py-20 pt-36 p-5 flex-1 flex flex-col justify-center gap-4 bg-success/20" style={{textShadow: '0 0 12px #0006'}}>

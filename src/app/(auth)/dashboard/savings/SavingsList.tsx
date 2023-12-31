@@ -61,16 +61,16 @@ export default function SavingsList({ savingsData, user }: { savingsData: Saving
 
     const handleReview = async (id: string, verdict: string) => {
         setLoading(true)
-        const savingsInterest = selectedSavings?.amount! * (interest)/100
+        const savingsInterest = selectedSavings?.amount! * (interest) / 100
         try {
             const res = await verdictAction("saving", id, verdict, savingsInterest, selectedSavings?.amount!)
-            if(res.error){
+            if (res.error) {
                 reviewRef.current?.close()
-                toast.error(res?.message, {id: "8290", duration: 5000})
+                toast.error(res?.message, { id: "8290", duration: 5000 })
             }
-            else{
+            else {
                 reviewRef.current?.close()
-                toast.success(res?.message, {id: "8290", duration: 5000})
+                toast.success(res?.message, { id: "8290", duration: 5000 })
             }
             setLoading(false)
             router.refresh()
@@ -83,7 +83,7 @@ export default function SavingsList({ savingsData, user }: { savingsData: Saving
     const ShowComputedValues = () => {
         return (
             <>
-                {selectedSavings?.status === "Pending" ? <div className="flex justify-between items-center gap-2 py-1">
+                {selectedSavings?.status === "Pending" && user.type === "Admin" ? <div className="flex justify-between items-center gap-2 py-1">
                     <span className="text-xs font-light flex items-center justify-start flex-1">Add Interest (%):</span>
                     <div className="flex overflow-x-hidden relative w-[3rem] max-w-[3rem] border border-gray-300 rounded-md px-2 py-0">
                         <input value={interest} onChange={e => setInterest(Number(e.target.value))} type="number" required min={0} max={10} name='interest' placeholder={`Enter an Interest Rate NOT greater than 10`} className="relative outline-none py-2 pl-2 pr-4  text-gray-600 text-xs placeholder-opacity-70 font-normal flex w-[6rem] bg-transparent focus-within:bg-transparent focus:bg-transparent" />
@@ -98,8 +98,8 @@ export default function SavingsList({ savingsData, user }: { savingsData: Saving
                     {selectedSavings?.status === "Pending" ? <h3 className="text-right text-sm font-medium">&#8358;{(Number(selectedSavings?.amount || 1) * (interest / 100)).toLocaleString()}</h3> : ""}
                 </div>
                 <div className="flex justify-between items-center gap-2 py-1 text-slate-700">
-                    <span className="text-xs font-light flex items-center justify-start">Total Saving Record:</span>
-                    {selectedSavings?.status === "Pending" ? <h3 className="text-right text-lg font-semibold">&#8358;{(Number(selectedSavings?.amount || 1) + (Number(selectedSavings?.amount || 1) * (interest / 100))).toLocaleString()}</h3> : ""}
+                    <span className="text-xs font-light flex items-center justify-start">Total:</span>
+                    {selectedSavings?.status === "Pending" ? <h3 className="text-right text-sm font-semibold">&#8358;{(Number(selectedSavings?.amount || 1) + (Number(selectedSavings?.amount || 1) * (interest / 100))).toLocaleString()}.00</h3> : ""}
                 </div>
             </>
 
@@ -115,7 +115,7 @@ export default function SavingsList({ savingsData, user }: { savingsData: Saving
         else {
             const result = tableData.filter(el => el.updatedBy?.toString().toLowerCase().includes(keyword) || el.status.toString().toLowerCase().includes(keyword) || el.amount.toString().toLowerCase().includes(keyword) || el.createdAt.toString().toLowerCase().includes(keyword) || el.saver?.firstname.toLowerCase().includes(keyword) || el.saver?.middlename.toLowerCase().includes(keyword) || el.saver?.lastname.toLowerCase().includes(keyword) || el.saver?.memberId.toString().toLowerCase().includes(keyword) || el.saver?.email.toLowerCase().includes(keyword) || el.saver?.phone?.toString().toLowerCase().includes(keyword))
             setTableData(result)
-        } 
+        }
     }
 
     const handleSubmit = async (e: React.FormEvent) => {
@@ -123,13 +123,13 @@ export default function SavingsList({ savingsData, user }: { savingsData: Saving
         setLoading(true)
         const formData = new FormData(formRef?.current!)
         const res = await handleSavings(formData)
-        if(res.error){
+        if (res.error) {
             modalRef.current?.close()
-            toast.error(res?.message, {id: "8290", duration: 5000})
+            toast.error(res?.message, { id: "8290", duration: 5000 })
         }
-        else{
+        else {
             modalRef.current?.close()
-            toast.success(res?.message, {id: "8290", duration: 5000})
+            toast.success(res?.message, { id: "8290", duration: 5000 })
         }
         setLoading(false)
         router.refresh()
@@ -142,7 +142,7 @@ export default function SavingsList({ savingsData, user }: { savingsData: Saving
             const data = tableData.map((saving, i) => ([`${i + 1}`, `${saving?.saver?.firstname} ${saving?.saver?.middlename} ${saving?.saver?.lastname}`, saving?.amount, moment(saving?.createdAt).format("MM-DD-YYYY"), saving?.status, saving?.verdict]))
             await handleExport(heading, data, fileName)
         } catch (error) {
-            toast.error(`Unable to export selected record. Please, try again`, { id: "8290", duration: 6000})
+            toast.error(`Unable to export selected record. Please, try again`, { id: "8290", duration: 6000 })
         }
     }
 
@@ -155,8 +155,8 @@ export default function SavingsList({ savingsData, user }: { savingsData: Saving
                             <tr>
                                 <th colSpan={user?.type === "Admin" ? 5 : 4}>
                                     <TableSearch title='SAVINGS' key={'72088234'} handleSearch={handleSearch} inputRef={inputRef}>
-                                        <button onClick={() => modalRef.current?.showModal()} className="text-white bg-success px-4 py-2 rounded-md cursor-pointer text-xs font-light">Save Money</button>
-                                        <button onClick={handleDownload} className="bg-default hover:bg-default/90 text-white text-xs font-light rounded-md py-2 px-4 cursor-pointer hover:shadow-default">Download Record</button>
+                                        <button onClick={() => modalRef.current?.showModal()} className="whitespace-nowrap text-white bg-success px-4 py-2 rounded-md cursor-pointer text-xs font-light">Save Money</button>
+                                        <button onClick={handleDownload} className="bg-default hover:bg-default/90 whitespace-nowrap text-white text-xs font-light rounded-md py-2 px-4 mr-4 cursor-pointer hover:shadow-default">Download Record</button>
                                     </TableSearch>
                                 </th>
                             </tr>
@@ -234,7 +234,7 @@ export default function SavingsList({ savingsData, user }: { savingsData: Saving
                                 </div>
                                 <div className="flex justify-center items-center gap-[.2rem] align-middle dark:text-slate-100 text-[.6rem]">
                                     <FaCalendarAlt className="text-inherit opacity-60" /> <p className="">{moment(selectedSavings?.createdAt.toString()).format("DD-MM-YYYY")}</p>
-                                    
+
                                 </div>
                             </div>
                         </div>
@@ -252,7 +252,13 @@ export default function SavingsList({ savingsData, user }: { savingsData: Saving
                 </div>
             </Modal>
             <Modal modalRef={modalRef}>
-                <div className='p-5 flex flex-col gap-4'>
+                <div className='p-5 flex flex-col gap-2'>
+                    <div className="text-center text-xs md:col-span-2 flex flex-col text-slate-500 bg-slate-100 divide-y">
+                        <h3 className="font-bold text-center p-2 bg-slate-500 text-slate-50">Please Make your Deposit into this Account BEFORE filling out the form</h3>
+                        <div className="flex justify-between py-2 px-4"><span className='flex-shrink-0'>Bank Name:</span> <span>Premium Trust</span></div>
+                        <div className="flex justify-between py-2 px-4"><span className='flex-shrink-0'>Account Number: </span>0040102612</div>
+                        <div className="flex justify-between pt-2 pb-2 px-4"><span className='flex-shrink-0'>Account Name:</span> <span>Enlightenment Drive Initiative Multipurpose Cooperative Society</span></div>
+                    </div>
                     <span className="text-[.6rem] sm:text-[.75rem] text-teal-700 bg-teal-200/50 dark:bg-teal-200 py-2 px-[.3rem] rounded-xs uppercase text-center">Savings Form </span>
                     <div className="w-full flex items-center gap-2">
                         <div className={`h-7 sm:h-8 w-7 sm:w-8 flex-shrink-0 flex justify-center items-center rounded-full overflow-hidden relative bg-success dark:bg-slate-100 text-slate-100 dark:text-slate-600`}>
@@ -267,12 +273,6 @@ export default function SavingsList({ savingsData, user }: { savingsData: Saving
                                 <div className="flex justify-center items-center gap-[.2rem] align-middle dark:text-slate-100 text-[.6rem]">
                                     <FaCalendarAlt className="text-inherit opacity-60" /> <p className="">{moment(new Date().getTime()).format("DD-MM-YYYY")}</p>
                                 </div>
-                            </div>
-                            <div className="py-2 text-center text-xs md:text-sm text-sky-500 bg-sky-100 rounded-md md:col-span-2 flex flex-col divider-y divider-slate-200">
-                                <h3 className="font-bold text-center">Please Make your Deposit into this Account BEFORE filling out the form</h3>
-                                <div className="flex justify-between py-1"><span>Bank Name:</span> <span>Premium Trust</span></div>
-                                <div className="flex justify-between py-1"><span>Account Number: 0040102612</span></div>
-                                <div className="flex justify-between py-1"><span>Account Name:</span> <span>Enlightenment Drive Initiative Multipurpose Cooperative Society</span></div>
                             </div>
                         </div>
                     </div>
@@ -290,9 +290,9 @@ export default function SavingsList({ savingsData, user }: { savingsData: Saving
             </Modal>
             <Modal modalRef={previewRef}>
                 <div className='p-5 flex flex-col gap-4'>
-                    <span className="text-[.6rem] sm:text-[.75rem] text-sky-700 bg-sky-200/50 dark:bg-sky-200 p-2 px-[.3rem] rounded-xs uppercase text-center">Loan Action Form </span>
+                    <span className="text-[.6rem] sm:text-[.75rem] text-teal-700 bg-teal-200/50 dark:bg-teal-200 p-2 px-[.3rem] rounded-xs uppercase text-center">Savings Action Form </span>
                     <div className="w-full flex items-center gap-2">
-                        <div className={`h-7 sm:h-8 w-7 sm:w-8 flex-shrink-0 flex justify-center items-center rounded-full overflow-hidden relative bg-primary dark:bg-slate-100 text-slate-100 dark:text-slate-600`}>
+                        <div className={`h-7 sm:h-8 w-7 sm:w-8 flex-shrink-0 flex justify-center items-center rounded-full overflow-hidden relative bg-teal-500 dark:bg-slate-100 text-slate-100 dark:text-slate-600`}>
                             <FaPiggyBank className='text-sm sm:text-base' />
                         </div>
                         <div className='flex-1 flex flex-col justify-center w-full'>
@@ -303,14 +303,13 @@ export default function SavingsList({ savingsData, user }: { savingsData: Saving
                                     <p className="text-slate-400 text-xs py-[.1rem] sm:py-1">Account Balance: &#8358;{selectedSavings?.saver?.balance?.toLocaleString()}</p>
                                 </div>
                                 <div className="flex justify-center items-center gap-[.2rem] align-middle dark:text-slate-100 text-[.6rem]">
-                                    <FaCalendarAlt className="text-inherit opacity-60" /> <p className="">{selectedSavings?.createdAt.toString()}</p>
+                                    <FaCalendarAlt className="text-inherit opacity-60" /> <p className="">{moment(selectedSavings?.createdAt).format("DD-MM-YYYY")}</p>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div className="flex justify-between items-center border border-slate-200 border-l-0 border-r-0 py-4">
-                        {/* <h3 className="-my-2 text-slate-700 text-center text-lg font-bold"><span className="text-xs font-light flex items-center">Amount Requested:</span> &#8358;{selectedSavings?.amount.toLocaleString()}</h3>
-                        <h3 className="-my-2 text-slate-700 text-center text-lg font-bold"><span className="text-xs font-light flex items-center">Amount Repaid:</span> &#8358;{selectedSavings?.payback?.toLocaleString() || 0}</h3> */}
+                    <div className="text-center text-xs rounded-md md:col-span-2 flex flex-col text-slate-500 divide-y">
+                        {ShowComputedValues()}
                     </div>
                 </div>
             </Modal>

@@ -99,7 +99,7 @@ export default function DepositList({ depositData, user }: { depositData: Deposi
     const ShowComputedValues = () => {
         return (
             <>
-                {selectedDeposit?.status === "Pending" ? <div className="flex justify-between items-center gap-2 py-1">
+                {selectedDeposit?.status === "Pending" && user.type === "Admin" ? <div className="flex justify-between items-center gap-2 py-1">
                     <span className="text-xs font-light flex items-center justify-start flex-1">Add Interest (%):</span>
                     <div className="flex overflow-x-hidden relative w-[3rem] max-w-[3rem] border border-gray-300 rounded-md px-2 py-0">
                         <input value={interest} onChange={e => setInterest(Number(e.target.value))} type="number" required min={0} max={10} name='interest' placeholder={`Enter an Interest Rate NOT greater than 10`} className="relative outline-none py-2 pl-2 pr-4  text-gray-600 text-xs placeholder-opacity-70 font-normal flex w-[6rem] bg-transparent focus-within:bg-transparent focus:bg-transparent" />
@@ -114,7 +114,7 @@ export default function DepositList({ depositData, user }: { depositData: Deposi
                     {selectedDeposit?.status === "Pending" ? <h3 className="text-right text-sm font-medium">&#8358;{(Number(selectedDeposit?.amount || 1) * (interest / 100)).toLocaleString()}</h3> : ""}
                 </div>
                 <div className="flex justify-between items-center gap-2 py-1 text-slate-700">
-                    <span className="text-xs font-light flex items-center justify-start">Total Deposit Record:</span>
+                    <span className="text-xs font-light flex items-center justify-start">Total:</span>
                     {selectedDeposit?.status === "Pending" ? <h3 className="text-right text-lg font-semibold">&#8358;{(Number(selectedDeposit?.amount || 1) + (Number(selectedDeposit?.amount || 1) * (interest / 100))).toLocaleString()}</h3> : ""}
                 </div>
             </>
@@ -270,6 +270,12 @@ export default function DepositList({ depositData, user }: { depositData: Deposi
             }
             <Modal modalRef={modalRef}>
                 <div className='p-5 flex flex-col gap-4'>
+                    <div className="text-center text-xs md:col-span-2 flex flex-col text-slate-500 bg-slate-100 divide-y">
+                        <h3 className="font-bold text-center p-2 bg-slate-500 text-slate-50">Please Make your Deposit into this Account BEFORE filling out the form</h3>
+                        <div className="flex justify-between py-2 px-4"><span className='flex-shrink-0'>Bank Name:</span> <span>Premium Trust</span></div>
+                        <div className="flex justify-between py-2 px-4"><span className='flex-shrink-0'>Account Number: </span>0040102612</div>
+                        <div className="flex justify-between pt-2 pb-2 px-4"><span className='flex-shrink-0'>Account Name:</span> <span>Enlightenment Drive Initiative Multipurpose Cooperative Society</span></div>
+                    </div>
                     <span className="text-[.6rem] sm:text-[.75rem] text-sky-700 bg-sky-200/50 dark:bg-sky-200 py-2 px-[.3rem] rounded-xs uppercase text-center">Deposit Form </span>
                     <div className="w-full flex items-center gap-2">
                         <div className={`h-7 sm:h-8 w-7 sm:w-8 flex-shrink-0 flex justify-center items-center rounded-full overflow-hidden relative bg-sky-400 dark:bg-slate-100 text-slate-100 dark:text-slate-600`}>
@@ -284,12 +290,6 @@ export default function DepositList({ depositData, user }: { depositData: Deposi
                                 <div className="flex justify-center items-center gap-[.2rem] align-middle dark:text-slate-100 text-[.6rem]">
                                     <FaCalendarAlt className="text-inherit opacity-60" /> <p className="">{moment(new Date().getTime()).format("DD-MM-YYYY")}</p>
                                 </div>
-                            </div>
-                            <div className="py-2 text-center text-xs md:text-sm text-sky-500 bg-sky-100 rounded-md md:col-span-2 flex flex-col divider-y divider-slate-200">
-                                <h3 className="font-bold text-center">Please Make your Deposit into this Account BEFORE filling out the form</h3>
-                                <div className="flex justify-between py-1"><span>Bank Name:</span> <span>Premium Trust</span></div>
-                                <div className="flex justify-between py-1"><span>Account Number: 0040102612</span></div>
-                                <div className="flex justify-between py-1"><span>Account Name:</span> <span>Enlightenment Drive Initiative Multipurpose Cooperative Society</span></div>
                             </div>
                         </div>
                     </div>

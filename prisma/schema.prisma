@@ -10,7 +10,7 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-enum accountType {
+enum AccountType {
   Savings
   Current
   Fixed
@@ -21,6 +21,11 @@ enum ActivityStatus {
   Running
   Completed
   Suspended
+}
+
+enum Gender {
+  Male
+  Female
 }
 
 enum InvestmentType {
@@ -45,6 +50,14 @@ enum MemberRating {
   Standard
   StandardPlus
   Premium
+}
+
+enum RelationshipStatus {
+  Single
+  Married
+  Divorced
+  Widow
+  Widower
 }
 
 enum Status {
@@ -79,6 +92,8 @@ model Member {
   image            String?         @db.LongText()
   phone            String?         @unique @db.VarChar(15)
   address          String?         @db.VarChar(200)
+  state            String?         @db.VarChar(200)
+  country          String?         @db.VarChar(200)
   type             MemberType      @default(Member)
   access           MemberRanking   @default(Normal)
   status           Status          @default(Pending)
@@ -98,6 +113,7 @@ model Member {
   beneficiary      Investment[]    @relation("beneficiary")
   balance          Int             @default(0)
   // Transactions     Transactions[]
+  MemberInfo       MemberInfo?
 
   @@index([id, memberId])
 }
@@ -107,9 +123,28 @@ model AccountNumber {
   banker        String      @db.VarChar(100)
   accountnumber String      @db.VarChar(20)
   bvn           Int?        @db.Int
-  type          accountType @default(Savings)
+  type          AccountType @default(Savings)
   owner         Member?     @relation(fields: [memberId], references: [id])
   memberId      String?     @unique
+}
+
+model MemberInfo {
+  id                    String             @id @default(uuid())
+  relationshipStatus    RelationshipStatus @default(Single)
+  nameOfSpouse          String             @db.VarChar(100)
+  nin                   Int?               @db.Int
+  occupation            String             @db.VarChar(100)
+  jobStatus             String             @db.VarChar(100)
+  gender                Gender             @default(Male)
+  country               String             @db.VarChar(100)
+  stateOfOrigin         String             @db.VarChar(100)
+  stateOfResidence      String             @db.VarChar(100)
+  lga                   String             @db.VarChar(100)
+  nextOfKin             String             @db.VarChar(100)
+  nextOfKinRelationship String             @db.VarChar(100)
+  nextOfKinPhone        String             @db.VarChar(15)
+  owner                 Member?            @relation(fields: [memberId], references: [id])
+  memberId              String?            @unique
 }
 
 model Contact {

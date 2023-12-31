@@ -8,14 +8,12 @@ import { IoMoonOutline } from "react-icons/io5";
 import { handleClickProp } from '@/types';
 import Image from 'next/image';
 import { edimcs_logo } from '@/assets/images';
-import { signOut, useSession } from 'next-auth/react';
-import { GlobalContext } from './GlobalProvider';
+import { signOut } from 'next-auth/react';
 
 export default function DashHeader({ handleClick, darkMode, toggleDarkMode, user }: handleClickProp) {
     const location = usePathname();
     const pathname = location === "/dashboard" ? "Dashboard" : location.indexOf("/dashboard/members/") > -1 ? "Member Details" : location.indexOf("/dashboard/admin/") > -1 ? "Admin Details" : location.replace("/dashboard/", "");
     const page = pathname[0].toUpperCase() + pathname.slice(1);
-    const session = useSession()
     const userImage = user?.image || edimcs_logo, fullname = `${user?.firstname} ${user?.middlename} ${user?.lastname}`
     
     return (

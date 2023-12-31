@@ -55,9 +55,9 @@ export default function LoginForm() {
         setLoading(true)
         toast.loading(`Please wait while we attempt to log you in`, { id: "39274" })
         try {
-            const res = await signIn('credentials', { memberId, password, redirect: false })
+            const res = await signIn('credentials', { memberId, password, redirect: false, callbackUrl:  `${window.location.origin}/dashboard/` })
             console.log({ res })
-            if (res?.ok) toast.success(`Welcome Back Esteem Member`, { id: "39274" })
+            if (res?.ok) toast.success(`Welcome Back Esteem Member.\nYou will be redirected in a few seconds`, { id: "39274" })
             else {
                 if (res?.error === "CredentialsSignin") toast.error("Invalid credentials supplied, please, try again", { id: "39274", duration: 4000 })
                 else toast.error(res?.error || "Invalid credentials supplied, please, try again", { id: "39274" })
@@ -67,6 +67,7 @@ export default function LoginForm() {
             // Check that ms sql server, ensure it is saying 'running', if not, right-click and click 'start'
             // For importation, 'under task', use import wizard
         } catch (error) {
+            console.log({error})
             toast.error(`Something went wrong. Due to ${error}`, { id: "39274" })
         } finally {
             setLoading(false)

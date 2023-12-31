@@ -37,7 +37,7 @@ export default async function RootLayout({
   return (
     <html lang="en" data-theme="winter">
       <body className={`${inter.className} flex flex-col`}>
-        <SessionProvider session={session}>
+        <SessionProvider basePath='/' refetchOnWindowFocus={true} refetchWhenOffline={false} session={session}>
           <GlobalProvider>
             <DashLayout user={user}>
               {children}

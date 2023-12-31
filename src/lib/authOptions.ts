@@ -39,19 +39,15 @@ export const authOptions: NextAuthOptions = {
                     throw new Error("Oh No! Your account has been suspended. If you believe this is an error, contact the admin")
                 }
                 else {
-                    // member = {...member, password: ""}
+                    member = {...member, image: ""}
                     return member
                 }
-                // return {
-                //     id: user.id.toString(),
-                //     email: user.email!,
-                //     image: user.image
-                // };
             },
         })
     ],
     pages: {
         signIn: "/auth/login",
+        error: "/auth/login",
     },
     secret: process.env.JWT,
     useSecureCookies: process.env.NODE_ENV === "production",
@@ -99,7 +95,6 @@ export const authOptions: NextAuthOptions = {
                     balance: currentUser.balance
                 } as {id: string, email: string, image: string, fullname: string, type: string}
             }
-
             return token;
         },
     }

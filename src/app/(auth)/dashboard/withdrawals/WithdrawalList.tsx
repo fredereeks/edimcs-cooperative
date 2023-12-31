@@ -94,7 +94,7 @@ export default function WithdrawalList({ withdrawalData, user }: { withdrawalDat
     const ShowComputedValues = () => {
         return (
             <>
-                {selectedWithdrawal?.status === "Pending" ? <div className="flex justify-between items-center gap-2 py-1">
+                {selectedWithdrawal?.status === "Pending" && user.type === "Admin" ? <div className="flex justify-between items-center gap-2 py-1">
                     <span className="text-xs font-light flex items-center justify-start flex-1">Add Charges (%):</span>
                     <div className="flex overflow-x-hidden relative w-[3rem] max-w-[3rem] border border-gray-300 rounded-md px-2 py-0">
                         <input value={charges} onChange={e => setCharges(Number(e.target.value))} type="number" required min={0} max={10} name='charges' placeholder={`Enter an Interest Rate NOT greater than 10`} className="relative outline-none py-2 pl-2 pr-4  text-gray-600 text-xs placeholder-opacity-70 font-normal flex w-[6rem] bg-transparent focus-within:bg-transparent focus:bg-transparent" />
@@ -109,7 +109,7 @@ export default function WithdrawalList({ withdrawalData, user }: { withdrawalDat
                     {selectedWithdrawal?.status === "Pending" ? <h3 className="text-right text-sm font-medium">&#8358;{(Number(selectedWithdrawal?.amount || 1) * (charges / 100)).toLocaleString()}</h3> : ""}
                 </div>
                 <div className="flex justify-between items-center gap-2 py-1 text-slate-700">
-                    <span className="text-xs font-light flex items-center justify-start">Total Withdrawal:</span>
+                    <span className="text-xs font-light flex items-center justify-start">Total:</span>
                     {selectedWithdrawal?.status === "Pending" ? <h3 className="text-right text-lg font-semibold">&#8358;{(Number(selectedWithdrawal?.amount || 1) - (Number(selectedWithdrawal?.amount || 1) * (charges / 100))).toLocaleString()}</h3> : ""}
                 </div>
             </>
@@ -316,6 +316,9 @@ export default function WithdrawalList({ withdrawalData, user }: { withdrawalDat
                                 </div>
                             </div>
                         </div>
+                    </div>
+                    <div className="text-center text-xs rounded-md md:col-span-2 flex flex-col text-slate-500 divide-y">
+                        {ShowComputedValues()}
                     </div>
                 </div>
             </Modal>
