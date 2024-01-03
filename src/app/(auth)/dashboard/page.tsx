@@ -92,22 +92,22 @@ export default async function page() {
           <div className="stat place-items-center px-4">
             <div className="stat-title text-sm dark:text-slate-400">Loans</div>
             <div className="stat-value text-xl sm:text-3xl md:text-2xl lg:text-3xl tracking-tighter dark:text-slate-200">&#8358;{loanSum.toLocaleString()}</div>
-            <div className="stat-desc text-xs dark:text-slate-500 whitespace-pre-wrap text-center">From Last Month</div>
+            <div className="stat-desc text-xs dark:text-slate-500 whitespace-pre-wrap text-center">From {loanTotal._count.loanerId} {user?.type === "Admin" ? "Members" : "Transactions"}</div>
           </div>
           <div className="stat place-items-center px-4">
             <div className="stat-title text-sm dark:text-slate-400">Savings</div>
             <div className="stat-value text-xl sm:text-3xl md:text-2xl lg:text-3xl tracking-tighter dark:text-slate-200">&#8358;{savingsSum.toLocaleString()}</div>
-            <div className="stat-desc text-xs dark:text-slate-500 whitespace-pre-wrap text-center">From {loanTotal._count.loanerId} Members</div>
+            <div className="stat-desc text-xs dark:text-slate-500 whitespace-pre-wrap text-center">From {savingsTotal._count.id} {user?.type === "Admin" ? "Members" : "Transactions"}</div>
           </div>
           <div className="stat place-items-center px-4">
             <div className="stat-title text-sm dark:text-slate-400">Deposits</div>
             <div className="stat-value text-xl sm:text-3xl md:text-2xl lg:text-3xl tracking-tighter dark:text-slate-200">&#8358;{depositSum.toLocaleString()}</div>
-            <div className="stat-desc text-xs dark:text-slate-500 whitespace-pre-wrap text-center">Since last week</div>
+            <div className="stat-desc text-xs dark:text-slate-500 whitespace-pre-wrap text-center">From {depositTotal._count.depositorId} {user?.type === "Admin" ? "Members" : "Transactions"}</div>
           </div>
           <div className="stat place-items-center px-4">
             <div className="stat-title text-sm dark:text-slate-400">Withdrawals</div>
             <div className="stat-value text-xl sm:text-3xl md:text-2xl lg:text-3xl tracking-tighter dark:text-slate-200">&#8358;{withdrawalSum.toLocaleString()}</div>
-            <div className="stat-desc text-xs dark:text-slate-500 whitespace-pre-wrap text-center">5+ since last week</div>
+            <div className="stat-desc text-xs dark:text-slate-500 whitespace-pre-wrap text-center">From {withdrawalTotal._count.withdrawerId} {user?.type === "Admin" ? "Members" : "Transactions"}</div>
           </div>
         </aside>
       </section>
